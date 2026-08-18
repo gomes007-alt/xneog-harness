@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-llm-deepseek",
   "description": "DeepSeek chat-completions adapter for the xneog LLM seam",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

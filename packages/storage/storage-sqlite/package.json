@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-storage-sqlite",
   "description": "SQLite storage backend (kv facet) for the xneog storage hub",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

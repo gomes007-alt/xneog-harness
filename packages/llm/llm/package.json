@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-llm",
   "description": "Provider-neutral LLM service interface for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

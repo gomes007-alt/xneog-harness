@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-message-feedback",
   "description": "Lifecycle-bound per-message rating and note sidecar for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

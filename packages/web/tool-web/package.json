@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-tool-web",
   "description": "Model-facing web tools (web_search, web_fetch) over the xneog web capability seam (ctx.web)",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

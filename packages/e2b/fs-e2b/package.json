@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-fs-e2b",
   "description": "E2B filesystem implementation for xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

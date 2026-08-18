@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-session-stats",
   "description": "Whole-log conversation counts and wall times projection (sessionStats) for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

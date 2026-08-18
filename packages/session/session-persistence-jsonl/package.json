@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-session-persistence-jsonl",
   "description": "JSONL durable session persistence backend for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

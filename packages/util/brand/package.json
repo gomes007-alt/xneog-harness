@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-brand",
   "description": "Type-only Branded<B> nominal-typing primitive for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

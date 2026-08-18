@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-storage-json",
   "description": "JSON file KV storage backend for the xneog storage hub",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-acp",
   "description": "Automation-only Agent Client Protocol server for driving xneog agents over JSON-RPC stdio",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

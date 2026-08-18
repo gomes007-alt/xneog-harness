@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-web-frontend",
   "description": "Web application entry: vite build over the @xneog/dsh-client-web shell library; dist/ served by apps/cli's xneog web",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

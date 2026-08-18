@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-llm-pi-ai",
   "description": "pi-ai-backed DeepSeek adapter for the xneog LLM seam (design-verification twin of dsh-llm-deepseek)",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },

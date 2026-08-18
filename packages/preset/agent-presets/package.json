@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-agent-presets",
   "description": "Per-session agent composition from preset cordis.yml files for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },
