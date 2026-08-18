@@ -120,6 +120,12 @@ interface PackOptions {
   ref: string
   registry: string
   outputDirectory: string
+  /**
+   * Stage the root manifest's `X.Y.Z` itself under the `latest` dist-tag instead of a
+   * commit-addressed prerelease. A stable version is immutable once published, so a
+   * second stable release of the same `X.Y.Z` fails at the registry.
+   */
+  stable: boolean
 }
 
 /** Fixes the identity of one pack attempt before any expensive work begins. */
@@ -519,8 +525,8 @@ class BaselinePackager {
     )
     const baseVersion = expectString(rootManifest, 'version', `${commit}:package.json`)
     validateBaseVersion(baseVersion, `${commit}:package.json`)
-    const version = `${baseVersion}-${timestamp}-${shortCommit}`
-    const distTag = `dev-${baseVersion}`
+    const version = options.stable ? baseVersion : `${baseVersion}-${timestamp}-${shortCommit}`
+    const distTag = options.stable ? LATEST_DIST_TAG : `dev-${baseVersion}`
     validateDistTag(distTag)
     const artifactDirectory = resolve(options.outputDirectory, version)
     if (existsSync(artifactDirectory)) {
@@ -1013,7 +1019,9 @@ Pack/release options:
   --ref <git-ref>       Git commit to stage (default: HEAD)
   --registry <url>      npm registry (default: ${DEFAULT_REGISTRY})
   --output-dir <path>   Artifact root (default: ${DEFAULT_OUTPUT_DIRECTORY})
-  --yes                 pack/release without waiting for Enter`)
+  --yes                 pack/release without waiting for Enter
+  --stable              stage the root X.Y.Z under dist-tag latest instead of a
+                        commit-addressed prerelease under dev-X.Y.Z`)
 }
 
 async function main(): Promise<void> {
@@ -1037,6 +1045,7 @@ async function main(): Promise<void> {
         registry: { type: 'string', default: DEFAULT_REGISTRY },
         'output-dir': { type: 'string', default: resolve(repositoryRoot, DEFAULT_OUTPUT_DIRECTORY) },
         yes: { type: 'boolean', default: false },
+        stable: { type: 'boolean', default: false },
       },
       strict: true,
     })
@@ -1045,6 +1054,7 @@ async function main(): Promise<void> {
       ref: values.ref,
       registry: values.registry,
       outputDirectory: resolve(values['output-dir']),
+      stable: values.stable,
     })
     await plan.confirm(values.yes)
     const bundle = packager.pack(plan)
