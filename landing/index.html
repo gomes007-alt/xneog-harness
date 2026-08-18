@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xneog harness — Everything is a plugin.</title>
+<meta name="description" content="xneog harness is an open-source, plugin-based agent harness. Bring your DeepSeek API key and run a full agentic coding environment from your terminal or browser." />
+<meta name="theme-color" content="#0a0a14" />
+<meta property="og:title" content="xneog harness — Everything is a plugin." />
+<meta property="og:description" content="Open-source, plugin-based agent harness. Web GUI, headless CLI, subagents, workflows, skills — powered by your DeepSeek API key." />
+<meta property="og:type" content="website" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Crect width='50' height='50' rx='12' fill='%234F46E5'/%3E%3Cpath d='M17 17 L33 33 M33 17 L17 33' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #0a0a14;
+    --bg-soft: #10101f;
+    --panel: #14142a;
+    --panel-2: #191932;
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #eef0f8;
+    --text-dim: #a4a7bb;
+    --text-faint: #6d7088;
+    --accent: #6c5ce7;
+    --accent-2: #4f46e5;
+    --accent-soft: rgba(108, 92, 231, 0.16);
+    --green: #34d399;
+    --radius: 14px;
+    --maxw: 1120px;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10, 10, 20, 0.78);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
+  .brand svg { flex: none; }
+  .brand b { color: var(--accent); font-weight: 700; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { color: var(--text-dim); font-size: 14.5px; font-weight: 500; transition: color .15s; }
+  .nav-links a:hover { color: var(--text); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 9px; font-weight: 600; font-size: 14px;
+    border: 1px solid var(--border); background: var(--panel); color: var(--text);
+    cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .btn:hover { border-color: rgba(255,255,255,.2); }
+  .btn.primary { background: linear-gradient(180deg, #7c6cf0, var(--accent-2)); border-color: transparent; color: #fff; box-shadow: 0 6px 22px rgba(79,70,229,.35); }
+  .btn.primary:hover { filter: brightness(1.06); }
+  .btn.ghost { background: transparent; }
+  .nav .btn { display: none; }
+  @media (min-width: 760px) { .nav .btn { display: inline-flex; } }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; padding: 88px 0 56px; text-align: center; }
+  .hero::before {
+    content: ""; position: absolute; inset: -20% -30% auto; height: 560px;
+    background: radial-gradient(ellipse 50% 60% at 50% 0%, rgba(108,92,231,.28), transparent 70%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: var(--accent-soft); border: 1px solid rgba(108,92,231,.35); color: #c9c2ff; font-size: 13px; font-weight: 500; }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  h1 { font-size: clamp(42px, 8vw, 76px); line-height: 1.04; letter-spacing: -0.035em; margin: 26px 0 18px; font-weight: 800; }
+  h1 .grad { background: linear-gradient(92deg, #a5b4fc, #8b5cf6 45%, #6c5ce7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { color: var(--text-dim); font-size: clamp(17px, 2.4vw, 20px); max-width: 640px; margin: 0 auto 32px; }
+  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .cta-row .btn { padding: 13px 22px; font-size: 15px; border-radius: 10px; }
+
+  /* install command card */
+  .install { max-width: 700px; margin: 34px auto 0; text-align: left; }
+  .tabs { display: inline-flex; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 3px; gap: 2px; margin-bottom: 12px; }
+  .tab { padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-dim); cursor: pointer; border: none; background: transparent; }
+  .tab.active { background: var(--panel-2); color: var(--text); }
+  .term { background: #0b0b18; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+  .term .bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+  .term .bar i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .term .bar i:nth-child(1){background:#ff5f57}.term .bar i:nth-child(2){background:#febc2e}.term .bar i:nth-child(3){background:#28c840}
+  .term .bar span { margin-left: 8px; color: var(--text-faint); font-size: 12px; font-family: var(--mono); }
+  .term .body { padding: 16px 18px; font-family: var(--mono); font-size: 13.5px; position: relative; }
+  .term .body .ln { display: flex; align-items: center; gap: 10px; padding: 3px 0; }
+  .term .body .prompt { color: var(--green); user-select: none; }
+  .term .body .cmd { color: var(--text); }
+  .term .body .out { color: var(--text-faint); }
+  .copy { position: absolute; top: 12px; right: 12px; background: var(--panel-2); border: 1px solid var(--border); color: var(--text-dim); padding: 6px 11px; border-radius: 7px; font-size: 12px; cursor: pointer; font-family: inherit; }
+  .copy:hover { color: var(--text); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 76px 0; }
+  .sec-head { max-width: 660px; margin-bottom: 44px; }
+  .sec-head h2 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.02em; line-height: 1.12; margin-bottom: 14px; font-weight: 750; }
+  .sec-head p { color: var(--text-dim); font-size: 16.5px; }
+  .kicker { font-family: var(--mono); font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+
+  .grid { display: grid; gap: 16px; }
+  .cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .cols-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 900px) { .cols-3, .cols-2 { grid-template-columns: 1fr; } }
+
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: border-color .18s, transform .18s; }
+  .card:hover { border-color: rgba(108,92,231,.4); transform: translateY(-2px); }
+  .card .ic { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--accent-soft); margin-bottom: 16px; }
+  .card .ic svg { width: 22px; height: 22px; stroke: #b3a9ff; }
+  .card h3 { font-size: 17px; margin-bottom: 8px; font-weight: 650; }
+  .card p { color: var(--text-dim); font-size: 14.5px; }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 60px; }
+  .stat { text-align: center; padding: 0 26px; }
+  .stat b { display: block; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+  .stat span { color: var(--text-faint); font-size: 13px; }
+  .stat + .stat { border-left: 1px solid var(--border); }
+  @media (max-width: 700px) { .stat + .stat { border-left: none; } }
+
+  /* code block (quick start) */
+  .codeblock { background: #0b0b18; border: 1px solid var(--border); border-radius: 12px; padding: 20px; font-family: var(--mono); font-size: 13.5px; overflow-x: auto; }
+  .codeblock .c { color: var(--text-faint); }
+  .codeblock .k { color: #c9c2ff; }
+  .codeblock .s { color: #7ee2b8; }
+
+  /* deepseek strip */
+  .ds { background: linear-gradient(180deg, var(--panel), transparent); border: 1px solid var(--border); border-radius: 20px; padding: 46px; text-align: center; }
+  .ds h2 { font-size: clamp(24px, 4vw, 34px); margin-bottom: 14px; }
+  .ds p { color: var(--text-dim); max-width: 620px; margin: 0 auto 22px; }
+  .chips { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .chip { font-family: var(--mono); font-size: 13px; padding: 8px 14px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--border); color: var(--text-dim); }
+
+  /* FAQ */
+  .faq details { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .faq summary { padding: 18px 22px; cursor: pointer; font-weight: 600; font-size: 15.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-size: 22px; color: var(--text-faint); transition: transform .2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq .a { padding: 0 22px 20px; color: var(--text-dim); font-size: 14.5px; }
+  .faq .a code { font-family: var(--mono); font-size: 13px; color: #c9c2ff; background: var(--bg-soft); padding: 1px 6px; border-radius: 5px; }
+
+  footer { border-top: 1px solid var(--border); padding: 48px 0 64px; }
+  .foot { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .foot .cols { display: flex; gap: 60px; flex-wrap: wrap; }
+  .foot h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); margin-bottom: 14px; }
+  .foot a { display: block; color: var(--text-dim); font-size: 14px; margin-bottom: 9px; }
+  .foot a:hover { color: var(--text); }
+  .foot .legal { color: var(--text-faint); font-size: 13px; margin-top: 30px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M6 6 L18 18 M18 6 L6 18" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"/></svg>
+      xneog&nbsp;<b>harness</b>
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="#quickstart">Quick start</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn primary" href="#install">Get started</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="pill"><span class="dot"></span> Open source · MIT license</span>
+      <h1>The <span class="grad">agent harness</span>,<br />rebuilt as plugins.</h1>
+      <p class="lede">xneog harness turns a single DeepSeek API key into a complete agentic development environment — browser GUI, headless CLI, subagents, workflows, skills and sandboxed tools. Composable down to the last plugin.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#install">Install &amp; run</a>
+        <a class="btn ghost" href="#features">See features ↓</a>
+      </div>
+
+      <div class="install" id="install">
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-os="mac">macOS</button>
+          <button class="tab" data-os="linux">Linux</button>
+          <button class="tab" data-os="win">Windows</button>
+        </div>
+        <div class="term">
+          <div class="bar"><i></i><i></i><i></i><span>terminal</span></div>
+          <div class="body">
+            <button class="copy" data-copy="#install-lines">Copy</button>
+            <div id="install-lines">
+              <div class="ln"><span class="prompt">$</span><span class="cmd">npm install -g @xneog/dsh</span></div>
+              <div class="ln"><span class="prompt">$</span><span class="cmd">xneog-harness web</span></div>
+              <div class="ln"><span class="out">→ xneog-harness web: http://127.0.0.1:3080</span></div>
+            </div>
+          </div>
+        </div>
+        <p style="color:var(--text-faint);font-size:13px;margin-top:12px;text-align:center;">Requires <b style="color:var(--text-dim)">Node.js 22.19+</b> (or 24+) and a <b style="color:var(--text-dim)">DeepSeek API key</b>. You can also run from source with <code style="font-family:var(--mono)">pnpm install &amp;&amp; pnpm build &amp;&amp; pnpm xneog-harness web</code>.</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><b>1 key</b><span>your DeepSeek API</span></div>
+        <div class="stat"><b>238</b><span>composable plugins</span></div>
+        <div class="stat"><b>3</b><span>surfaces · web · CLI · SDK</span></div>
+        <div class="stat"><b>MIT</b><span>open source</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">Features</div>
+        <h2>One environment, every surface.</h2>
+        <p>The same agent loop powers a polished browser GUI, a headless terminal agent, and an automation SDK — all built from a single plugin graph.</p>
+      </div>
+      <div class="grid cols-3">
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2" y="3" width="20" height="16" rx="2"/><path d="M6 7h4M6 11h8M6 15h5"/></svg></div><h3>Browser GUI</h3><p>A full web workspace with sessions, conversation history, plan mode, goals, deliverables and a plugin inspector — served locally on <code>127.0.0.1</code>.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><h3>Headless CLI</h3><p>Run tasks straight from the terminal: <code>xneog-harness --profile headless "task"</code>. Perfect for CI, scripts and automation.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div><h3>Everything is a plugin</h3><p>Every capability — tools, models, UI panels, skills, sandboxes — is a composable plugin. Add, swap or write your own.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M3 19c0-2 2.5-4 6-4s6 2 6 4M13 19c0-2 2.5-4 6-4"/></svg></div><h3>Subagents</h3><p>Delegate independent work to parallel subagents with fork and spawn models, then collect their reports.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 3v4M6 7v14M6 7H4M6 7h2"/><rect x="12" y="3" width="8" height="6" rx="1.5"/><rect x="12" y="13" width="8" height="6" rx="1.5"/><path d="M6 17v4"/></svg></div><h3>Workflows</h3><p>Fan work out across many agents with phased orchestration, then converge — no turn-by-turn babysitting.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 3h6M9 3v4M9 7h6M9 7l-3 5a4 4 0 008 0l-3-5"/><path d="M12 16v5"/></svg></div><h3>Skills &amp; tools</h3><p>Bash, file editing, web search, image reading, todo, goals, plan mode — a rich tool surface with sandboxing and approval control.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="ds">
+        <div class="kicker" style="margin-bottom:10px;">Powered by your key</div>
+        <h2>Bring your DeepSeek API key.</h2>
+        <p>No lock-in, no separate billing. xneog harness talks directly to the DeepSeek API with your key, so you control cost and usage.</p>
+        <div class="chips">
+          <span class="chip">DeepSeek-V4-Flash</span>
+          <span class="chip">DeepSeek-V4-Pro</span>
+          <span class="chip">DEEPSEEK_API_KEY</span>
+          <span class="chip">deepseek-official provider</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="quickstart">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">Quick start</div>
+        <h2>From zero to agent in seconds.</h2>
+      </div>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>1 · Set your key</h3>
+          <p style="margin-bottom:14px;">Export your key, or enter it in the browser onboarding the first time you launch.</p>
+          <div class="codeblock"><span class="c"># macOS / Linux</span><br><span class="k">export</span> <span class="s">DEEPSEEK_API_KEY</span>=sk-...<br><span class="c"># Windows (PowerShell)</span><br><span class="k">$env:</span><span class="s">DEEPSEEK_API_KEY</span>=<span class="s">"sk-..."</span></div>
+        </div>
+        <div class="card">
+          <h3>2 · Launch</h3>
+          <p style="margin-bottom:14px;">Start the web GUI, or run one task headless.</p>
+          <div class="codeblock"><span class="k">xneog-harness</span> web<br><span class="c"># or one-shot:</span><br><span class="k">xneog-harness</span> --profile headless <span class="s">"run the tests"</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head"><div class="kicker">FAQ</div><h2>Questions, answered.</h2></div>
+      <div class="faq">
+        <details><summary>What do I need to run xneog harness?</summary><div class="a">Node.js <code>22.19+</code> or <code>24+</code>, a DeepSeek API key, and a terminal. The web GUI runs entirely on your machine via <code>127.0.0.1</code> — nothing leaves your box except the model requests to the DeepSeek API.</div></details>
+        <details><summary>Does it work on Windows?</summary><div class="a">Yes. Use <code>npm install -g @xneog/dsh</code> from PowerShell (7+ recommended) and run <code>xneog-harness web</code>. The shell tools use PowerShell, and the sandbox adapts to Windows ACLs and ConPTY. Node 22+ is required.</div></details>
+        <details><summary>Is it really open source?</summary><div class="a">Yes, MIT licensed. You can fork it, rebrand it, vendor it and self-host it. See the repository for the full license and third-party notices.</div></details>
+        <details><summary>Which models does it support?</summary><div class="a">DeepSeek-V4-Flash and DeepSeek-V4-Pro out of the box, configured through the official DeepSeek provider. Additional providers plug in as plugins.</div></details>
+        <details><summary>Can I extend it?</summary><div class="a">Everything is a plugin: tools, models, UI panels, skills, sandboxes and providers are all composable rows. Write your own package and add it to a profile — no fork required.</div></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#" style="margin-bottom:14px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6 L18 18 M18 6 L6 18" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"/></svg>
+        xneog&nbsp;<b>harness</b>
+      </a>
+      <p style="color:var(--text-faint);font-size:14px;max-width:340px;">An open-source, plugin-based agent harness for the DeepSeek API.</p>
+    </div>
+    <div class="cols">
+      <div>
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
+        <a href="#quickstart">Quick start</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#">Documentation</a>
+        <a href="#">GitHub</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><p class="legal">© <span id="yr"></span> xneog. Distributed under the MIT License. "DeepSeek" and model names are trademarks of their respective owners.</p></div>
+</footer>
+
+<script>
+  // year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // install tab switching (mac/linux/win)
+  const tabs = document.querySelectorAll('.tab');
+  const installLines = {
+    mac:  ['npm install -g @xneog/dsh', 'xneog-harness web', '→ xneog-harness web: http://127.0.0.1:3080'],
+    linux:['npm install -g @xneog/dsh', 'xneog-harness web', '→ xneog-harness web: http://127.0.0.1:3080'],
+    win:  ['npm install -g @xneog/dsh', 'xneog-harness web', '→ xneog-harness web: http://127.0.0.1:3080'],
+  };
+  const linesEl = document.getElementById('install-lines');
+  function renderLines(os){
+    linesEl.innerHTML = installLines[os].map((l,i)=> {
+      const isOut = l.startsWith('→');
+      const prompt = isOut ? ' ' : (os==='win' ? 'PS>' : '$');
+      const cls = isOut ? 'out' : 'cmd';
+      return '<div class="ln"><span class="prompt">'+prompt+'</span><span class="'+cls+'">'+l.replace('→ ','')+'</span></div>';
+    }).join('');
+  }
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    renderLines(t.dataset.os);
+  }));
+
+  // copy-to-clipboard
+  document.querySelectorAll('.copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sel = btn.dataset.copy;
+      const text = [...document.querySelectorAll(sel + ' .cmd')].map(e=>e.textContent).join('\n');
+      navigator.clipboard.writeText(text).then(()=>{
+        const o = btn.textContent; btn.textContent = 'Copied ✓';
+        setTimeout(()=> btn.textContent = o, 1400);
+      });
+    });
+  });
+</script>
+</body>
+</html>
