@@ -40,12 +40,12 @@ const publicLandlockPackages = new Set([
 const publicationSourceAllowlist: Readonly<Record<string, readonly string[]>> = {
   '@xneog/node-addon-landlock-run': ['src/main.c'],
 }
-const repositoryUrl = 'git+https://github.com/deepseek-harness/deepseek-harness.git'
 /**
- * Source home the published packages point consumers at. It differs from
- * {@link repositoryUrl}, which the Landlock packages keep because npm resolves
- * their trusted publishing against the repository that runs the workflow.
+ * Repository npm resolves the Landlock packages' trusted publishing against:
+ * the fork whose workflow publishes them.
  */
+const repositoryUrl = 'git+https://github.com/gomes007-alt/xneog-harness.git'
+/** Source home the published packages point consumers at. */
 const publishedRepositoryUrl = 'git+https://github.com/gomes007-alt/xneog-harness.git'
 /** Directories whose packages this repository publishes: one release member each. */
 const releaseMemberDirectory = /^(?:packages\/[^/]+\/[^/]+|apps\/[^/]+|vendor\/[^/]+)$/
