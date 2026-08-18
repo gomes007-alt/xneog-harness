@@ -1,0 +1,23 @@
+{
+  "name": "xneog-harness-landing",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Landing page for xneog harness — an everything-is-a-plugin agent harness.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "typescript": "^6.0.3",
+    "vite": "^6.0.0"
+  }
+}

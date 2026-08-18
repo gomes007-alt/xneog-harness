@@ -1,0 +1,78 @@
+/*
+ * Design tokens — lifted from the xneog harness theme
+ * (@xneog/dsh-client-ui-theme `design-platform.css`), so the landing page
+ * shares the exact brand palette, neutrals, and typography of the product UI.
+ */
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-code: 'SF Mono', 'JetBrains Mono', 'Fira Code', Consolas,
+    'Liberation Mono', Menlo, Courier, 'PingFang SC', 'Microsoft YaHei';
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 0.1s;
+  --dur: 0.2s;
+  --dur-slow: 0.3s;
+
+  /* Brand (deepseek blue) */
+  --brand: #4176e6; /* deepseek-500 */
+  --brand-strong: #5686fe; /* deepseek-450 */
+  --brand-soft: #679efe; /* deepseek-400 */
+  --brand-deep: #4868b2; /* deepseek-600 */
+  --brand-bg: #edf3fe; /* deepseek-50 */
+  --brand-bg-2: #e4edfd; /* deepseek-100 */
+  --brand-border: #d3e2ff; /* deepseek-200 */
+
+  /* Neutrals (bluish) */
+  --bg: #ffffff; /* neutral-bluish-00 */
+  --bg-subtle: #f5f6f7; /* neutral-bluish-60 */
+  --bg-layer: #f9fafb; /* neutral-bluish-50 */
+  --bg-raised: #f1f3f5; /* neutral-bluish-75 */
+
+  --text-primary: #0f1115; /* neutral-bluish-1000 */
+  --text-secondary: #61666b; /* neutral-bluish-700 */
+  --text-tertiary: #81858c; /* neutral-bluish-600 */
+  --text-faint: #979da6; /* neutral-bluish-500 */
+
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --border: rgba(0, 0, 0, 0.1);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+
+  --code-bg: #f5f6f7;
+  --terminal-bg: #151517; /* dark terminal in both themes */
+  --terminal-fg: #e4edfd;
+  --terminal-dim: #81858c;
+
+  --green: #22c55e; /* green-500 */
+  --amber: #f59e0b; /* amber-500 */
+  --red: #ef4444; /* red-500 */
+
+  --maxw: 1120px;
+}
+
+html[data-ds-dark-theme] {
+  --brand: #679efe; /* deepseek-400 */
+  --brand-strong: #5686fe; /* deepseek-450 */
+  --brand-soft: #86aefe; /* deepseek-450 blended toward 300 */
+  --brand-deep: #5686fe;
+  --brand-bg: rgba(65, 118, 230, 0.16);
+  --brand-bg-2: rgba(65, 118, 230, 0.22);
+  --brand-border: rgba(103, 158, 254, 0.32);
+
+  --bg: #151517; /* neutral-bluish-950 */
+  --bg-subtle: #1b1b1c; /* neutral-bluish-900 */
+  --bg-layer: #232324; /* neutral-bluish-875 */
+  --bg-raised: #2c2c2e; /* neutral-bluish-850 */
+
+  --text-primary: #f9fafb; /* neutral-bluish-50 */
+  --text-secondary: #cfd3d6; /* neutral-bluish-300 */
+  --text-tertiary: #adb2b8; /* neutral-bluish-400 */
+  --text-faint: #81858c; /* neutral-bluish-600 */
+
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+
+  --code-bg: #1b1b1c;
+}
