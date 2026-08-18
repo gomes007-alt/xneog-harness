@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="xneog harness — an everything-is-a-plugin agent harness. Compose tools, hooks, models, memory and even the agent loop from swappable Cordis plugins."
+    />
+    <meta name="theme-color" content="#4176e6" />
+    <title>xneog harness — Everything is a plugin</title>
+    <script>
+      // Set the theme before first paint to avoid a light/dark flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('xneog-theme');
+          var dark = saved
+            ? saved === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) document.documentElement.setAttribute('data-ds-dark-theme', '');
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-DU2IUSQv.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B1wjvOih.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
