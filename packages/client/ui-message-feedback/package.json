@@ -1,0 +1,86 @@
+{
+  "name": "@xneog/dsh-client-ui-message-feedback",
+  "description": "Per-message feedback controls contributed to the assistant-message action strip, backed by the messageFeedback Host Remote",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/client/ui-message-feedback"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@xneog/dsh-client-runtime",
+        "@xneog/dsh-api-remotes",
+        "@xneog/dsh-client-locale",
+        "@xneog/dsh-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/dsh-api-remotes": "workspace:^",
+    "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-conversation": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-message-feedback": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@xneog/dsh-api-remotes": "workspace:^",
+    "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-test-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-conversation": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-message-feedback": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "~18.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

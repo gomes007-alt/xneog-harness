@@ -1,0 +1,63 @@
+{
+  "name": "@xneog/dsh-session-log-export",
+  "description": "Web Session-log export command and shared download dialog",
+  "version": "0.1.0-rc.7",
+  "publishConfig": { "access": "public" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/session-query/session-log-export"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": { "types": "./lib/types/index.d.ts", "default": "./lib/index.js" },
+    "./invariant": { "types": "./lib/types/invariant.d.ts", "default": "./lib/invariant.js" },
+    "./client": { "types": "./lib/types/client/index.d.ts", "default": "./lib/client.js" },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": ["lib/index.js", "lib/invariant.js", "lib/client.js", "lib/types/**/*.d.ts"],
+  "scripts": { "bundle": "tsdown", "watch": "tsdown --watch" },
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-commands": "workspace:^",
+    "@xneog/dsh-client-ui-conversation": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-commands": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-commands": "workspace:^",
+    "@xneog/dsh-client-ui-conversation": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-commands": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@types/react": "~18.3.1",
+    "react": "^18.2.0"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@xneog/dsh-client-locale",
+        "@xneog/dsh-client-runtime",
+        "@xneog/dsh-client-ui-commands",
+        "@xneog/dsh-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  }
+}

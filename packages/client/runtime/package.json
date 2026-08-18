@@ -1,0 +1,83 @@
+{
+  "name": "@xneog/dsh-client-runtime",
+  "description": "Client core services: SlotRegistry, SessionRuntime (scope tree + object layer)",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/client/runtime"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@xneog/dsh-client-connection",
+        "@xneog/dsh-typert-registry",
+        "@xneog/dsh-api-remotes"
+      ],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-attachment": "workspace:^",
+    "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-commands": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-host-apiproxy": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-llm-retry": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "immer": "^10.1.1",
+    "react": "^18.2.0",
+    "zustand": "~4.4.7"
+  },
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-api-remotes": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
+    "@xneog/dsh-typert-registry": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-api-remotes": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-timeout": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
+    "@xneog/dsh-typert-registry": "workspace:^",
+    "@types/react": "~18.3.1"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

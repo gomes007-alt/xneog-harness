@@ -1,0 +1,70 @@
+{
+  "name": "@xneog/dsh-headless",
+  "description": "The dsh one-shot bundle: a direct core Agent/Session runner over dsh-base with no Host, HTTP, or browser layer",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/bundle/headless"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./startup": {
+      "types": "./lib/types/startup.d.ts",
+      "default": "./lib/startup.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/startup.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@xneog/dsh-cmdline": "workspace:^",
+    "@xneog/dsh-code-runtime-worker-thread": "workspace:^",
+    "@xneog/schemastery": "workspace:^",
+    "commander": "^15.0.0"
+  },
+  "peerDependencies": {
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-default-model": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-default-model": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}

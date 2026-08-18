@@ -1,0 +1,76 @@
+{
+  "name": "@xneog/dsh-acp-demo",
+  "description": "ACP automation server app: agent spine + JSONL persistence + ACP transport, with a JSON-RPC stdio bin",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/examples/acp-demo"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "bin": {
+    "dsh-acp-demo": "lib/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./bin": {
+      "types": "./lib/types/bin.d.ts",
+      "default": "./lib/bin.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/bin.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/cordis-plugin-include": "workspace:^",
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-acp": "workspace:^",
+    "@xneog/dsh-agent-spine-demo": "workspace:^",
+    "@xneog/dsh-app-boot": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-session-checkpoint-policy": "workspace:^",
+    "@xneog/dsh-session-persistence-jsonl": "workspace:^",
+    "@xneog/dsh-session-query": "workspace:^",
+    "@xneog/dsh-session-query-sqlite": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-agent-instructions": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "@xneog/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-include": "workspace:^",
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-acp": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-spine-demo": "workspace:^",
+    "@xneog/dsh-app-boot": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-session-checkpoint-policy": "workspace:^",
+    "@xneog/dsh-session-persistence-jsonl": "workspace:^",
+    "@xneog/dsh-session-query": "workspace:^",
+    "@xneog/dsh-session-query-sqlite": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-agent-instructions": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "@xneog/schemastery": "workspace:^"
+  }
+}

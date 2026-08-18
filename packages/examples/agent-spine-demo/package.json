@@ -1,0 +1,100 @@
+{
+  "name": "@xneog/dsh-agent-spine-demo",
+  "description": "The default executor-less/UI-less agent spine with fallback session titles, provider-routed retry, and optional persisted goals",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/examples/agent-spine-demo"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/cordis-plugin-timer": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-loop": "workspace:^",
+    "@xneog/dsh-goal": "workspace:^",
+    "@xneog/dsh-goal-round-driver": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-home-paths": "workspace:^",
+    "@xneog/dsh-llm-retry": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-skill": "workspace:^",
+    "@xneog/dsh-skill-filesystem": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-jobs-local": "workspace:^",
+    "@xneog/dsh-shell-env": "workspace:^",
+    "@xneog/dsh-tool-bash": "workspace:^",
+    "@xneog/dsh-tool-goal": "workspace:^",
+    "@xneog/dsh-tool-skill": "workspace:^",
+    "@xneog/dsh-tool-jobs": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-agent-instructions": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-timer": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-loop": "workspace:^",
+    "@xneog/dsh-shell-env": "workspace:^",
+    "@xneog/dsh-bash-local": "workspace:^",
+    "@xneog/dsh-bash-sandbox": "workspace:^",
+    "@xneog/dsh-fs-local": "workspace:^",
+    "@xneog/dsh-fs-observation-policy": "workspace:^",
+    "@xneog/dsh-fs-sandbox": "workspace:^",
+    "@xneog/dsh-goal": "workspace:^",
+    "@xneog/dsh-goal-round-driver": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-home-paths": "workspace:^",
+    "@xneog/dsh-llm-retry": "workspace:^",
+    "@xneog/dsh-subprocess-local": "workspace:^",
+    "@xneog/dsh-sandbox-local": "workspace:^",
+    "@xneog/dsh-sandbox-policy": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-skill": "workspace:^",
+    "@xneog/dsh-skill-filesystem": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-jobs": "workspace:^",
+    "@xneog/dsh-jobs-local": "workspace:^",
+    "@xneog/dsh-tool-bash": "workspace:^",
+    "@xneog/dsh-tool-fs": "workspace:^",
+    "@xneog/dsh-tool-goal": "workspace:^",
+    "@xneog/dsh-tool-skill": "workspace:^",
+    "@xneog/dsh-tool-jobs": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-agent-instructions": "workspace:^",
+    "@xneog/node-addon-landlock-run": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@xneog/schemastery": "workspace:^"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "name": "@xneog/dsh-client-ui-theme",
+  "description": "Theme plugin: Host bootstrap for the pre-plugin palette; DOM-free ThemeRuntime for light/dark/system state; --dsw-* token styles and Appearance settings row",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/client/ui-theme"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./styles/*": "./lib/styles/*",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@xneog/dsh-client-connection",
+        "@xneog/dsh-client-runtime",
+        "@xneog/dsh-client-locale",
+        "@xneog/dsh-client-ui-settings",
+        "@xneog/dsh-api-remotes"
+      ],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-api-remotes": "workspace:^",
+    "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-settings": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-host-webserver": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-api-remotes": "workspace:^",
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-test-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-settings": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-host-webserver": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@types/react": "~18.3.1",
+    "react": "^18.2.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/styles",
+    "lib/types/**/*.d.ts"
+  ],
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "dependencies": {
+    "@xneog/dsh-settings": "workspace:^",
+    "clsx": "^2.0.0",
+    "@xneog/schemastery": "workspace:^"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "name": "@xneog/dsh-repeat-tool-reminder",
+  "description": "Repeat-tool-call guard plugin: advisory reminders when an agent loops on identical tool calls",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/guard/repeat-tool-reminder"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@xneog/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-loop": "workspace:^",
+    "@xneog/dsh-agent-loop-testkit": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}

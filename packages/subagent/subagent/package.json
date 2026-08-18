@@ -1,0 +1,106 @@
+{
+  "name": "@xneog/dsh-subagent",
+  "description": "Abstract subagent seam (ctx.subagents): named-provider registry for delegating to child agents",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/subagent/subagent"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client.d.ts",
+      "default": "./lib/types/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-presets": "workspace:^",
+    "@xneog/dsh-brand": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-sandbox": "workspace:^",
+    "@xneog/dsh-sandbox-policy": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-persistence": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-session-projection-cache": "workspace:^",
+    "@xneog/dsh-jobs": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-user-approval": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@xneog/dsh-agent-presets": {
+      "optional": true
+    },
+    "@xneog/dsh-sandbox": {
+      "optional": true
+    },
+    "@xneog/dsh-sandbox-policy": {
+      "optional": true
+    },
+    "@xneog/dsh-session-persistence": {
+      "optional": true
+    },
+    "@xneog/dsh-session-projection": {
+      "optional": true
+    },
+    "@xneog/dsh-session-projection-cache": {
+      "optional": true
+    },
+    "@xneog/dsh-jobs": {
+      "optional": true
+    },
+    "@xneog/dsh-user-approval": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-presets": "workspace:^",
+    "@xneog/dsh-brand": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-sandbox": "workspace:^",
+    "@xneog/dsh-sandbox-policy": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-persistence": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-session-projection-cache": "workspace:^",
+    "@xneog/dsh-storage": "workspace:^",
+    "@xneog/dsh-storage-domain": "workspace:^",
+    "@xneog/dsh-jobs": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-user-approval": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}

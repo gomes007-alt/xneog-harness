@@ -1,0 +1,60 @@
+{
+  "name": "@xneog/dsh-subagent-spawn-in-process",
+  "description": "In-process spawn subagent backend: runs a fresh child agent on ctx.agents",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/subagent/subagent-spawn-in-process"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-subagent": "workspace:^",
+    "@xneog/dsh-subagent-in-process-driver": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@xneog/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-loop": "workspace:^",
+    "@xneog/dsh-agent-loop-testkit": "workspace:^",
+    "@xneog/dsh-bash-local": "workspace:^",
+    "@xneog/dsh-subprocess-local": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-llm-deepseek": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-subagent": "workspace:^",
+    "@xneog/dsh-subagent-in-process-driver": "workspace:^",
+    "@xneog/dsh-tool-bash": "workspace:^",
+    "@xneog/dsh-tool-subagent": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}

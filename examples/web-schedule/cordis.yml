@@ -1,0 +1,9 @@
+# Opt-in Schedule patch over the shipped Web composition. The owner observes
+# only roots published after this overlay loads.
+
+- insert:
+    - id: time-context
+      name: '@xneog/dsh-time-context'
+
+    - id: schedule
+      name: '@xneog/dsh-schedule'

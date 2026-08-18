@@ -1,0 +1,57 @@
+{
+  "name": "@xneog/dsh-tool-cordis",
+  "description": "Self-referential cordis toolset: inspect the live runtime, mount and dispose model-written plugins",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/extensions/tool-cordis"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-cordis-host-runner": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-cordis-host-runner": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}

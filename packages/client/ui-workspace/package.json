@@ -1,0 +1,79 @@
+{
+  "name": "@xneog/dsh-client-ui-workspace",
+  "description": "Workspace picker plugin: one WorkspacePicker registered into the sidebar and empty-state workspace slots",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/client/ui-workspace"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@xneog/dsh-client-locale",
+        "@xneog/dsh-client-runtime",
+        "@xneog/dsh-client-ui-conversation",
+        "@xneog/dsh-client-ui-sidebar"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "clsx": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-test-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-conversation": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-sidebar": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@xneog/cordis": "workspace:^",
+    "react": "^18.2.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

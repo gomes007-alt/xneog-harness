@@ -1,0 +1,82 @@
+{
+  "name": "@xneog/dsh-client-ui-workflow-run",
+  "description": "Durable workflow-run Conversation Node and nested member disclosure for xneog web",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/client/ui-workflow-run"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@xneog/dsh-client-locale",
+        "@xneog/dsh-client-runtime",
+        "@xneog/dsh-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-conversation": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-tool-workflow": "workspace:^",
+    "@xneog/dsh-workflow": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-test-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-conversation": "workspace:^",
+    "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-slots": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-tool-workflow": "workspace:^",
+    "@xneog/dsh-workflow": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@xneog/cordis": "workspace:^"
+  }
+}

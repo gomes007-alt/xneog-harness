@@ -1,0 +1,128 @@
+{
+  "name": "@xneog/dsh-base",
+  "description": "The shared dsh core as a profile bundle: every profile's first patch layer, inserting the base plugin rows over the empty profile root",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/bundle/base"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@xneog/cordis-plugin-hmr": "workspace:^",
+    "@xneog/cordis-plugin-timer": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-default-model": "workspace:^",
+    "@xneog/dsh-agent-loop": "workspace:^",
+    "@xneog/dsh-attachment-local": "workspace:^",
+    "@xneog/dsh-shell-env": "workspace:^",
+    "@xneog/dsh-bash-sandbox": "workspace:^",
+    "@xneog/dsh-command-compact": "workspace:^",
+    "@xneog/dsh-command-feedback": "workspace:^",
+    "@xneog/dsh-command-goal": "workspace:^",
+    "@xneog/dsh-commands": "workspace:^",
+    "@xneog/dsh-compaction-basic": "workspace:^",
+    "@xneog/dsh-compaction-tool-result-pruner": "workspace:^",
+    "@xneog/dsh-credentials-local": "workspace:^",
+    "@xneog/dsh-fs-local": "workspace:^",
+    "@xneog/dsh-fs-observation-policy": "workspace:^",
+    "@xneog/dsh-fs-sandbox": "workspace:^",
+    "@xneog/dsh-goal": "workspace:^",
+    "@xneog/dsh-goal-round-driver": "workspace:^",
+    "@xneog/dsh-api-gateway": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-llm-deepseek": "workspace:^",
+    "@xneog/dsh-llm-pi-ai": "workspace:^",
+    "@xneog/dsh-llm-retry": "workspace:^",
+    "@xneog/dsh-permission-presets": "workspace:^",
+    "@xneog/dsh-plan-mode": "workspace:^",
+    "@xneog/dsh-pwsh-sandbox": "workspace:^",
+    "@xneog/dsh-repeat-tool-reminder": "workspace:^",
+    "@xneog/dsh-sandbox-local": "workspace:^",
+    "@xneog/dsh-sandbox-policy": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-checkpoint-policy": "workspace:^",
+    "@xneog/dsh-session-persistence-jsonl": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-session-query-sqlite": "workspace:^",
+    "@xneog/dsh-session-telemetry-otel": "workspace:^",
+    "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-session-title-first-prompt-llm": "workspace:^",
+    "@xneog/dsh-settings-file": "workspace:^",
+    "@xneog/dsh-skill": "workspace:^",
+    "@xneog/dsh-skill-badge": "workspace:^",
+    "@xneog/dsh-skill-filesystem": "workspace:^",
+    "@xneog/dsh-spill-local": "workspace:^",
+    "@xneog/dsh-spill-policy": "workspace:^",
+    "@xneog/dsh-subagent": "workspace:^",
+    "@xneog/dsh-subagent-fork-in-process": "workspace:^",
+    "@xneog/dsh-subagent-spawn-in-process": "workspace:^",
+    "@xneog/dsh-subprocess-local": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-jobs-local": "workspace:^",
+    "@xneog/dsh-tool-call-timeout-policy": "workspace:^",
+    "@xneog/dsh-token-meter": "workspace:^",
+    "@xneog/dsh-tool-bash": "workspace:^",
+    "@xneog/dsh-tool-fs": "workspace:^",
+    "@xneog/dsh-tool-fs-search": "workspace:^",
+    "@xneog/dsh-tool-goal": "workspace:^",
+    "@xneog/dsh-tool-pwsh": "workspace:^",
+    "@xneog/dsh-tool-ralph": "workspace:^",
+    "@xneog/dsh-tool-skill": "workspace:^",
+    "@xneog/dsh-tool-str-replace-editor": "workspace:^",
+    "@xneog/dsh-tool-subagent": "workspace:^",
+    "@xneog/dsh-tool-subagent-control": "workspace:^",
+    "@xneog/dsh-tool-subagent-report": "workspace:^",
+    "@xneog/dsh-tool-jobs": "workspace:^",
+    "@xneog/dsh-tool-todo": "workspace:^",
+    "@xneog/dsh-tool-web": "workspace:^",
+    "@xneog/dsh-tool-workflow": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-typert-loader": "workspace:^",
+    "@xneog/dsh-typert-registry": "workspace:^",
+    "@xneog/dsh-user-approval": "workspace:^",
+    "@xneog/dsh-user-questions": "workspace:^",
+    "@xneog/dsh-web": "workspace:^",
+    "@xneog/dsh-web-search-deepseek": "workspace:^",
+    "@xneog/dsh-workflow-worker-thread": "workspace:^",
+    "@xneog/dsh-agent-instructions": "workspace:^"
+  },
+  "peerDependencies": {
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}

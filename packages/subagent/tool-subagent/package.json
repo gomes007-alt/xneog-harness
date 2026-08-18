@@ -1,0 +1,64 @@
+{
+  "name": "@xneog/dsh-tool-subagent",
+  "description": "Model-facing subagent delegation tool over the ctx.subagents seam",
+  "version": "0.1.0-rc.7",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/subagent/tool-subagent"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-subagent": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-jobs": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@xneog/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-persistence": "workspace:^",
+    "@xneog/dsh-session-persistence-jsonl": "workspace:^",
+    "@xneog/dsh-subagent": "workspace:^",
+    "@xneog/dsh-subagent-spawn-in-process": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-jobs": "workspace:^",
+    "@xneog/dsh-jobs-local": "workspace:^",
+    "@xneog/dsh-tool-jobs": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}
