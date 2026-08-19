@@ -22,7 +22,7 @@ Subsystem pages are grouped by concern — overview, core and scopes, sessions a
 
 `projectedPageContent` in [scripts/project-doc-site.ts](../../../../scripts/project-doc-site.ts) drops the language-switcher line and the repository badge. The switcher match is confined to the first eight lines so a tutorial that shows the convention still renders its example.
 
-The navigation-bar title is the DeepSeek wordmark inlined into `siteTitle`, which VitePress renders as HTML. Inlining is what lets the mark's `currentColor` fills follow the active theme; `themeConfig.logo` renders an `<img>`, which freezes the mark at the colors its file declares and would need one asset per theme. The sidebar scrollbar rests invisible and appears while scrolling, marked by a `data-` attribute rather than a class because Vue rewrites `class` wholesale when it patches the element.
+The navigation-bar title is the xneog wordmark inlined into `siteTitle`, which VitePress renders as HTML. Inlining is what lets the mark's `currentColor` fills follow the active theme; `themeConfig.logo` renders an `<img>`, which freezes the mark at the colors its file declares and would need one asset per theme. The sidebar scrollbar rests invisible and appears while scrolling, marked by a `data-` attribute rather than a class because Vue rewrites `class` wholesale when it patches the element.
 
 ## Alternatives considered
 
@@ -38,4 +38,4 @@ The reference sidebar measures 1452px with every subsystem group collapsed, agai
 
 Canonical Markdown is unchanged by the chrome stripping — the switcher and badge still serve GitHub readers. The cost is that the projector now knows two presentation conventions of the source corpus, which a page written with a different switcher wording would not match.
 
-The wordmark is a site-local copy of a mark whose sibling copies live in `apps/web/public/favicon.svg` and `packages/client/ui-primitives/src/BrandMark.tsx`; those two have been rebranded to the xneog placeholder mark, while this copy still carries the inherited DeepSeek artwork until the official xneog wordmark lands. A change to that mark reaches the documentation site only by updating this copy.
+The wordmark is a site-local copy of the placeholder mark whose sibling copies live in `apps/web/public/favicon.svg` and `packages/client/ui-primitives/src/BrandMark.tsx`; it mirrors `BrandWordmark`'s text-rendered "xneog" letterforms, so client font availability varies the exact glyphs. A change to the mark reaches the documentation site only by updating this copy.

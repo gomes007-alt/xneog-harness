@@ -22,7 +22,7 @@ Status: implemented
 
 [scripts/project-doc-site.ts](../../../../scripts/project-doc-site.ts) 中的 `projectedPageContent` 会丢弃语言切换行和仓库徽章。切换行的匹配被限制在前八行内，因此展示该约定的教程仍能渲染出它的示例。
 
-导航栏标题是内联进 `siteTitle` 的 DeepSeek 字标，VitePress 会将其按 HTML 渲染。内联正是让字标的 `currentColor` 填充跟随当前主题的原因；`themeConfig.logo` 渲染为 `<img>`，会把字标固定为文件声明的颜色，并且需要为每套主题各准备一份资源。侧边栏滚动条平时不可见，滚动时出现，通过 `data-` 属性而非 class 标记，因为 Vue 在 patch 该元素时会整体重写 `class`。
+导航栏标题是内联进 `siteTitle` 的 xneog 字标，VitePress 会将其按 HTML 渲染。内联正是让字标的 `currentColor` 填充跟随当前主题的原因；`themeConfig.logo` 渲染为 `<img>`，会把字标固定为文件声明的颜色，并且需要为每套主题各准备一份资源。侧边栏滚动条平时不可见，滚动时出现，通过 `data-` 属性而非 class 标记，因为 Vue 在 patch 该元素时会整体重写 `class`。
 
 ## 考虑过的替代方案
 
@@ -38,4 +38,4 @@ Status: implemented
 
 剥离 chrome 不改动规范 Markdown——切换行与徽章仍服务于 GitHub 读者。代价是投影器现在知晓源语料的两项呈现约定，而采用不同切换行措辞的页面将不会被匹配到。
 
-字标是站内的一份本地副本，其姊妹副本位于 `apps/web/public/favicon.svg` 与 `packages/client/ui-primitives/src/BrandMark.tsx`；后两者已改名为 xneog 占位标志，而本站这份副本仍承载继承的 DeepSeek 图形，直到官方 xneog 字标落地。该标志的变更只有通过更新这份副本才能到达文档站。
+字标是站内的一份本地副本，其姊妹副本位于 `apps/web/public/favicon.svg` 与 `packages/client/ui-primitives/src/BrandMark.tsx`；本站副本镜像 `BrandWordmark` 以文本渲染的 "xneog" 字母形，因此客户端字体可用性会让字形略有差异。该标志的变更只有通过更新这份副本才能到达文档站。
