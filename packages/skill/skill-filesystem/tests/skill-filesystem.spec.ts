@@ -178,7 +178,7 @@ describe('FileSystemSkillProvider', () => {
     await writeSkill(join(home, '.dsh/skills'), 'same', 'user dsh skill')
     await writeSkill(custom, 'same', 'custom skill')
     await writeSkill(join(project, '.agents/skills'), 'same', 'project agents skill')
-    await writeSkill(join(project, '.dsh/skills'), 'same', 'project dsh skill')
+    await writeSkill(join(project, '.xneog-harness/skills'), 'same', 'project dsh skill')
     await writeSkill(custom, 'custom-only', 'custom only')
     await writeSkill(join(home, '.dsh/skills/.system'), 'hidden-system', 'hidden system')
 
@@ -201,7 +201,7 @@ describe('FileSystemSkillProvider', () => {
     expect((await ctx.skills.get('bundled-only'))?.content).toBe('Use the skill.')
 
     const noGit = await tempDir('skill-no-git')
-    await writeSkill(join(noGit, '.dsh/skills'), 'fallback-root', 'Fallback root')
+    await writeSkill(join(noGit, '.xneog-harness/skills'), 'fallback-root', 'Fallback root')
     expect((await ctx.skills.list({ cwd: noGit })).map(skill => skill.name)).toContain('fallback-root')
   })
 
@@ -211,7 +211,7 @@ describe('FileSystemSkillProvider', () => {
     const custom = await tempDir('skill-runtime-custom')
     await mkdir(join(project, '.git'), { recursive: true })
 
-    await writeSkill(join(project, '.dsh/skills'), 'project-name', 'Project wins')
+    await writeSkill(join(project, '.xneog-harness/skills'), 'project-name', 'Project wins')
     await writeSkill(custom, 'runtime-name', 'Custom loses')
     await writeSkill(join(home, '.dsh/skills'), 'runtime-name', 'User loses')
 
