@@ -194,7 +194,7 @@ const sharedTheme: Pick<DefaultTheme.Config, 'search' | 'socialLinks' | 'editLin
       const data: unknown = frontmatter
       const editSource: unknown = typeof data === 'object' && data !== null ? Reflect.get(data, 'editSource') : undefined
       if (typeof editSource !== 'string') throw new Error('Projected documentation page has no editSource frontmatter.')
-      return `https://github.com/gomes007-alt/xneog-harness/edit/master/${editSource}`
+      return `https://github.com/gomes007-alt/xneog-harness/edit/main/${editSource}`
     },
     text: '在 GitHub 上编辑此页',
   },
@@ -210,7 +210,7 @@ const siteIdentity = {
 }
 
 /**
- * The DeepSeek wordmark, inlined so its `currentColor` fills follow the active
+ * The xneog wordmark, inlined so its `currentColor` fills follow the active
  * theme. An `<img>` would freeze the mark at the colors the file declares.
  */
 const wordmark = readFileSync(resolve(import.meta.dirname, '../public/wordmark.svg'), 'utf8')
@@ -357,7 +357,7 @@ export default withMermaid({
             const data: unknown = frontmatter
             const editSource: unknown = typeof data === 'object' && data !== null ? Reflect.get(data, 'editSource') : undefined
             if (typeof editSource !== 'string') throw new Error('Projected documentation page has no editSource frontmatter.')
-            return `https://github.com/gomes007-alt/xneog-harness/edit/master/${editSource}`
+            return `https://github.com/gomes007-alt/xneog-harness/edit/main/${editSource}`
           },
           text: 'Edit this page on GitHub',
         },
