@@ -55,14 +55,15 @@ describe('ic_ds_ icon set', () => {
 })
 
 describe('FishLogo', () => {
-  it('renders the fish path in currentColor at the native ratio', () => {
+  it('renders the xneog mark as a bold x in currentColor in a square 24×24 box', () => {
     const { container } = render(<primitives.FishLogo />)
     const svg = container.querySelector('svg')!
     expect(svg.getAttribute('width')).toBe('24')
-    expect(Number(svg.getAttribute('height'))).toBeCloseTo(17.66, 1)
-    expect(svg.getAttribute('viewBox')).toBe('0 0 23.16 17.04')
+    expect(svg.getAttribute('height')).toBe('24')
+    expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
     expect(container.querySelectorAll('path')).toHaveLength(1)
     expect(container.innerHTML).toContain('currentColor')
+    expect(container.querySelector('path')!.getAttribute('d')).toBe('M6 6 L18 18 M18 6 L6 18')
     expect(container.innerHTML).not.toContain('M0 0L23.16')
   })
 })
