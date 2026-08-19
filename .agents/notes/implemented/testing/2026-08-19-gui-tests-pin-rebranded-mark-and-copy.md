@@ -26,6 +26,6 @@ The three test surfaces now pin what the fork ships, each decided on its own evi
 
 ## Consequences
 
-`npm run test:gui` is green (273 files, 3786 tests). When the official xneog logomark lands, its swap must update the `FishLogo` path pin and the sidebar snapshots together — the same three surfaces this change brought into agreement. Rebrand residue stays tracked separately: the `FishLogo` export name, the `railFish` CSS local, and the README's upstream attribution.
+`npm run test:gui` is green (273 files, 3786 tests). When the official xneog logomark lands, its swap must update the `BrandMark` path pin and the sidebar snapshots together — the same three surfaces this change brought into agreement. The tracked rebrand residue shipped in the follow-up cleanup: the `FishLogo` export became `BrandMark`, the `railFish` CSS local became `railMark` (alongside the empty-state hero's `fish`/`fishHitbox` locals), and the README now states the fork relationship and points at this repository.
 
 [AGENTS.md](../../../../AGENTS.md) requires tests to describe shipped behavior; this change brings the three lagging surfaces back under that rule.
