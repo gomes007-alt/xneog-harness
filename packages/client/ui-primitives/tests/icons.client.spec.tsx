@@ -54,9 +54,9 @@ describe('ic_ds_ icon set', () => {
   })
 })
 
-describe('FishLogo', () => {
+describe('BrandMark', () => {
   it('renders the xneog mark as a bold x in currentColor in a square 24×24 box', () => {
-    const { container } = render(<primitives.FishLogo />)
+    const { container } = render(<primitives.BrandMark />)
     const svg = container.querySelector('svg')!
     expect(svg.getAttribute('width')).toBe('24')
     expect(svg.getAttribute('height')).toBe('24')

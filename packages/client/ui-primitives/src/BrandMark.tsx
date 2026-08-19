@@ -10,7 +10,7 @@ import type { IconProps } from './icons/props.ts'
  * @param props.className - extra class for layout placement.
  * @returns the logo svg (aria-hidden; pair with the wordmark for accessibility).
  */
-export function FishLogo({ size = 24, className }: IconProps) {
+export function BrandMark({ size = 24, className }: IconProps) {
   return (
     <svg
       width={size}

@@ -19,7 +19,7 @@ exports[`sidebar shell snapshots > renders the collapsed rail after the crossfad
       >
         <svg
           aria-hidden="true"
-          class="railFish"
+          class="railMark"
           data-content="1ba0f074"
           fill="none"
           height="24"

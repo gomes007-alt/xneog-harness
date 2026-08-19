@@ -26,6 +26,6 @@ Status: implemented
 
 ## 后果
 
-`npm run test:gui` 全绿（273 个文件、3786 条测试）。当官方 xneog 标志落地时，其替换必须同步更新 `FishLogo` 的路径断言与 sidebar 快照——即本次改动拉齐的同一批测试面。改名的残留另行跟踪：`FishLogo` 导出名、`railFish` CSS 局部名，以及 README 中对上游的归属声明。
+`npm run test:gui` 全绿（273 个文件、3786 条测试）。当官方 xneog 标志落地时，其替换必须同步更新 `BrandMark` 的路径断言与 sidebar 快照——即本次改动拉齐的同一批测试面。所跟踪的改名残留已在后续清理中落地：`FishLogo` 导出改为 `BrandMark`，`railFish` CSS 局部名改为 `railMark`（连同空态 hero 的 `fish`/`fishHitbox` 局部名），README 现说明 fork 关系并指向本仓库。
 
 [AGENTS.md](../../../../AGENTS.md) 要求测试描述已发布的行为；本次改动使三处滞后的测试面重新回到该规则之下。
