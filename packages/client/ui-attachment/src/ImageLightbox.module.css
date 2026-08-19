@@ -42,3 +42,29 @@
   color: var(--dsw-alias-label-primary);
   cursor: pointer;
 }
+
+/* iPhone edge-to-edge (shell viewport-fit=cover): the lightbox hugs the safe
+   frame (12px gutter) instead of the desktop 40px one, and the close control
+   stays clear of the notch corners. */
+@media (max-width: 768px) {
+  .backdrop {
+    padding: calc(12px + env(safe-area-inset-top, 0px))
+      calc(12px + env(safe-area-inset-right, 0px))
+      calc(12px + env(safe-area-inset-bottom, 0px))
+      calc(12px + env(safe-area-inset-left, 0px));
+  }
+
+  .close {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(12px + env(safe-area-inset-right, 0px));
+  }
+}
+
+/* iOS toolbar dynamics: 100vh over-reads while the URL bar is visible. */
+@supports (height: 100dvh) {
+  .image {
+    max-height: calc(
+      100dvh - 48px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
+  }
+}

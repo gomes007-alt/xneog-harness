@@ -190,3 +190,24 @@
 .toBottom:hover {
   background: var(--dsw-alias-button-floating-hover);
 }
+
+/* iPhone edge-to-edge (shell viewport-fit=cover): the transcript starts below
+   the notch and clears both landscape notch sides on top of the shared
+   clearance + 16px rhythm. */
+@media (max-width: 768px) {
+  .scroll {
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
+    padding-right: calc(var(--dsh-composer-side-clearance) + 16px + env(safe-area-inset-right, 0px));
+    padding-left: calc(var(--dsh-composer-side-clearance) + 16px + env(safe-area-inset-left, 0px));
+  }
+}
+
+/* Touch surfaces: back-to-bottom grows to the 44px HIG minimum; the slot's
+   height:0 trick keeps working because the margin-top offset stays in lock. */
+@media (pointer: coarse) {
+  .toBottom {
+    width: 44px;
+    height: 44px;
+    margin-top: -44px;
+  }
+}

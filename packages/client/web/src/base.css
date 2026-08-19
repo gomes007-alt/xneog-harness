@@ -15,6 +15,31 @@ body,
   margin: 0;
 }
 
+/* The 100vh bug: on iOS the URL-bar collapse changes the viewport, so the
+ * classic height:100% chain leaves the composer under the toolbar or the home
+ * indicator. dvh tracks the *current* viewport height (Safari 16+). */
+@supports (height: 100dvh) {
+  html,
+  body,
+  #root {
+    height: 100dvh;
+  }
+}
+
+/* iPhone touch polish: no text inflation on landscape rotation, no grey tap
+ * flash, no body rubber-banding or pull-to-refresh over the app scrolls
+ * (edge-to-edge safe areas are handled per component with env()). */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+}
+
 body {
   font-family: var(--dsw-font-family);
   /* Grayscale antialiasing over subpixel rendering: WebKit/Blink and the
@@ -33,4 +58,30 @@ input,
 select,
 textarea {
   font-family: inherit;
+}
+
+/* Touch input: instant taps (no double-tap zoom delay) and the iOS focus-zoom
+ * floor — Safari zooms the page when a focused field renders under 16px, so
+ * every text entry is pinned at 16px on coarse pointers. `!important` because
+ * component sheets arrive later (runtime-injected plugin CSS). */
+@media (pointer: coarse) {
+  button,
+  [role="button"],
+  a,
+  [tabindex]:not([tabindex="-1"]) {
+    touch-action: manipulation;
+  }
+
+  input:not([type]),
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="url"],
+  input[type="number"],
+  input[type="password"],
+  input[type="tel"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }

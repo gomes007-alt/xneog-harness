@@ -259,3 +259,10 @@
   flex: 0 0 auto;
   color: var(--dsw-alias-label-tertiary);
 }
+
+/* iOS toolbar dynamics: 100vh over-reads while the URL bar is visible. */
+@supports (height: 100dvh) {
+  .menu {
+    max-height: min(360px, calc(100dvh - 96px));
+  }
+}

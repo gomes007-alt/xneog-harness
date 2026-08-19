@@ -282,3 +282,35 @@
     animation: none;
   }
 }
+
+/* iPhone edge-to-edge (shell viewport-fit=cover): the sidebar clears the
+   notch top, the home indicator bottom, and the landscape notch side; the
+   rail state re-bases its own 18px/10px rhythm on the same insets. */
+@media (max-width: 768px) {
+  .root {
+    padding-top: calc(6px + env(safe-area-inset-top, 0px));
+    padding-left: calc(12px + env(safe-area-inset-left, 0px));
+    padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .root.collapsed {
+    padding: calc(18px + env(safe-area-inset-top, 0px))
+      calc(10px + env(safe-area-inset-left, 0px))
+      calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Touch surfaces: 40px controls expanded, and the full 44px HIG minimum on
+   the rail (the 56px column absorbs the wider boxes). */
+@media (pointer: coarse) {
+  .iconButton {
+    width: 40px;
+    height: 40px;
+  }
+
+  .root.collapsed .iconButton,
+  .root.collapsed .newSession {
+    width: 44px;
+    height: 44px;
+  }
+}

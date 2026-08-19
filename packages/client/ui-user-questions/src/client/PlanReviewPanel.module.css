@@ -112,6 +112,15 @@
     border-radius: 16px;
   }
 
+  /* iPhone edge-to-edge (shell viewport-fit=cover): clear the notch, home
+     indicator, and landscape sides on top of the shared frame rhythm. */
+  .frame {
+    padding: calc(6px + env(safe-area-inset-top, 0px))
+      calc(var(--dsh-composer-side-clearance) + 16px + env(safe-area-inset-right, 0px))
+      calc(10px + env(safe-area-inset-bottom, 0px))
+      calc(var(--dsh-composer-side-clearance) + 16px + env(safe-area-inset-left, 0px));
+  }
+
   .body {
     padding: 10px 12px 4px;
   }

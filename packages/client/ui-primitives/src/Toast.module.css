@@ -68,3 +68,15 @@
     animation: dsh-toast-fade 1000ms ease 3000ms forwards;
   }
 }
+
+/* iPhone edge-to-edge (shell viewport-fit=cover): the toast drops below the
+   notch and never straddles the landscape safe sides. */
+@media (max-width: 768px) {
+  .toast {
+    top: calc(120px + env(safe-area-inset-top, 0px));
+    max-width: min(
+      560px,
+      calc(100vw - 48px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))
+    );
+  }
+}

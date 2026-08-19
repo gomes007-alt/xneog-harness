@@ -271,3 +271,10 @@
 .refresh:hover {
   background: var(--dsw-alias-interactive-bg-hover);
 }
+
+/* iOS toolbar dynamics: 100vh over-reads while the URL bar is visible. */
+@supports (height: 100dvh) {
+  .menu {
+    max-height: min(560px, calc(100dvh - 140px));
+  }
+}

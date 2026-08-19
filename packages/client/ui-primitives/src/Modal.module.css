@@ -101,3 +101,10 @@
   gap: 8px;
   padding: 0 24px;
 }
+
+/* Handsets soften the dialog radius to sit flush against the narrow frame. */
+@media (max-width: 560px) {
+  .dialog {
+    border-radius: 20px;
+  }
+}
