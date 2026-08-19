@@ -38,4 +38,4 @@ The reference sidebar measures 1452px with every subsystem group collapsed, agai
 
 Canonical Markdown is unchanged by the chrome stripping — the switcher and badge still serve GitHub readers. The cost is that the projector now knows two presentation conventions of the source corpus, which a page written with a different switcher wording would not match.
 
-The wordmark is a second copy of a mark that also lives in `apps/web/public/favicon.svg` and `packages/client/ui-primitives/src/FishLogo.tsx`, each carrying its own presentation. A change to the DeepSeek wordmark reaches the documentation site only by updating this copy.
+The wordmark is a site-local copy of a mark whose sibling copies live in `apps/web/public/favicon.svg` and `packages/client/ui-primitives/src/BrandMark.tsx`; those two have been rebranded to the xneog placeholder mark, while this copy still carries the inherited DeepSeek artwork until the official xneog wordmark lands. A change to that mark reaches the documentation site only by updating this copy.
