@@ -25,7 +25,8 @@ import { isUserInvocable } from '@xneog/dsh-skill'
 import type { Workspace, WorkspaceRecord } from '@xneog/dsh-workspace'
 import {
   workspaceDomainState, workspaceRecord, WorkspaceId as brandWorkspaceId,
-  WorkspaceMoveInvalidError, WorkspaceOrderInvalidError, WorkspaceUnknownSessionError,
+  WorkspaceMoveInvalidError, WorkspaceOrderInvalidError, WorkspaceSessionNotDeletableError,
+  WorkspaceUnknownSessionError,
 } from '@xneog/dsh-workspace'
 // Type-only: brings the `ctx.tools` Context merge into this program (viewFor reads presenters).
 import {
@@ -2855,6 +2856,33 @@ export function createApiProxy(ctx: Context, defaults: ApiProxyDefaults): ApiPro
             message: error.message,
             details: { sessionId },
           })
+        }
+        return ok(request, { archivedSessionIds: [...ctx.workspaceRegistry.archivedSessionIds] })
+      },
+
+      async deleteSession(request) {
+        const { sessionId } = request.payload
+        try {
+          await ctx.workspaceRegistry.deleteSession(sessionId)
+        } catch (error: unknown) {
+          // Two business codes, everything else internal: an unknown session and
+          // a session this host cannot delete (live, or stored somewhere the
+          // registry cannot remove). Both leave the log and the accounting intact.
+          if (error instanceof WorkspaceUnknownSessionError) {
+            return err(request, {
+              code: 'session-not-found',
+              message: error.message,
+              details: { sessionId },
+            })
+          }
+          if (error instanceof WorkspaceSessionNotDeletableError) {
+            return err(request, {
+              code: 'session-not-deletable',
+              message: error.message,
+              details: { sessionId },
+            })
+          }
+          throw error
         }
         return ok(request, { archivedSessionIds: [...ctx.workspaceRegistry.archivedSessionIds] })
       },

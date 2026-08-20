@@ -6,8 +6,8 @@
  */
 
 import { randomUUID } from 'node:crypto'
-import { stat } from 'node:fs/promises'
-import { basename } from 'node:path'
+import { rm, stat } from 'node:fs/promises'
+import { basename, dirname } from 'node:path'
 import { Context, Service } from '@xneog/cordis'
 import type { SessionHeader, SessionId } from '@xneog/dsh-session'
 import type {} from '@xneog/dsh-session-persistence'
@@ -49,6 +49,20 @@ export class WorkspaceUnknownSessionError extends Error {
   constructor(readonly sessionId: SessionId) {
     super(`cannot archive session '${sessionId}': live sessions and session persistence hold no such session`)
     this.name = 'WorkspaceUnknownSessionError'
+  }
+}
+
+/**
+ * A delete request named a session whose log this backend cannot remove — the
+ * storage location is not a filesystem path this registry owns.
+ */
+export class WorkspaceSessionNotDeletableError extends Error {
+  /**
+   * @param sessionId - The session whose log could not be located on disk.
+   */
+  constructor(readonly sessionId: SessionId) {
+    super(`cannot delete session '${sessionId}': its log is not a filesystem location this registry can remove`)
+    this.name = 'WorkspaceSessionNotDeletableError'
   }
 }
 
@@ -251,6 +265,63 @@ export class WorkspaceRegistry extends Service {
       }
       const state = this.requireState()
       await this.setState({ ...state, archivedSessionIds: [...state.archivedSessionIds, sessionId] })
+    })
+  }
+
+  /**
+   * Delete one session for good: drop its workspace accounting slot, drop it
+   * from the archive set, and remove its stored log from disk. Unlike
+   * `archiveSession` — which only hides the session and keeps everything —
+   * this is irreversible.
+   *
+   * A live session — one this host has loaded since it started — is refused:
+   * the session store has no public removal, so the in-memory object would
+   * outlive its bytes. A session the registry cannot locate on disk
+   * fails with {@link WorkspaceSessionNotDeletableError} rather than silently
+   * removing only the accounting, so the UI never reports a delete that left
+   * the log behind.
+   * @param sessionId - The session to delete.
+   * @returns resolution after durability.
+   */
+  deleteSession(sessionId: SessionId): Promise<void> {
+    return this.enqueueOperation(async () => {
+      // A live session is refused outright: the store has no public removal,
+      // so deleting the log under it would leave an in-memory ghost that
+      // `session.list` keeps serving and the next append would rewrite to disk.
+      // Only sessions touched since the host started are live, so in practice
+      // this refuses the session the user just used, not the backlog.
+      if (this.ctx.get('sessions')?.get(sessionId) !== undefined) {
+        throw new WorkspaceSessionNotDeletableError(sessionId)
+      }
+      if (!(await this.sessionKnown(sessionId))) {
+        throw new WorkspaceUnknownSessionError(sessionId)
+      }
+      const header = this.headers.get(sessionId)
+      if (header === undefined) throw new WorkspaceUnknownSessionError(sessionId)
+      const location = this.ctx.sessionPersistence.locate(header)
+      // The jsonl backend stores one session per directory; removing the file
+      // alone would leave an empty husk that the listing walk still visits.
+      if (location === undefined || location.kind !== 'jsonl') {
+        throw new WorkspaceSessionNotDeletableError(sessionId)
+      }
+      await rm(dirname(location.path), { recursive: true, force: true })
+
+      // Accounting last: the log is the source of truth for the listing, so a
+      // crash between the two leaves a stale slot that the next header index
+      // prunes — the opposite order would orphan the log instead.
+      for (const entity of this.entities.values()) {
+        await entity.detachSession(sessionId)
+      }
+      const state = this.requireState()
+      if (state.archivedSessionIds.includes(sessionId)) {
+        await this.setState({
+          ...state,
+          archivedSessionIds: state.archivedSessionIds.filter(id => id !== sessionId),
+        })
+      }
+      this.headers.delete(sessionId)
+      this.sessionPaths.delete(sessionId)
+      this.invalidSessionPaths.delete(sessionId)
     })
   }
 

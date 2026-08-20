@@ -167,6 +167,11 @@ export class FakeApiClient implements IApiClient {
     archiveSession: (payload: unknown) => this.record('workspace.archiveSession', payload, Promise.resolve(ok({
       archivedSessionIds: [(payload as { sessionId: SessionId }).sessionId],
     }))),
+    // Deleting drops the id from the archive set, so this answers with the
+    // empty set rather than echoing the requested id back.
+    deleteSession: (payload: unknown) => this.record('workspace.deleteSession', payload, Promise.resolve(ok({
+      archivedSessionIds: [],
+    }))),
   }
 
   // Payloads stay `unknown` (lint-lane note above); response rows are the real

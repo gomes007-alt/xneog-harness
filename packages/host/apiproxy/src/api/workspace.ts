@@ -106,4 +106,18 @@ export interface WorkspaceApi {
    */
   archiveSession(request: RpcRequest<{ sessionId: SessionId }>):
   Promise<RpcResponse<{ archivedSessionIds: SessionId[] }>>
+
+  /**
+   * Deletes one session for good: its stored log is removed from disk, its
+   * workspace accounting slot is dropped, and it leaves the archive set. This
+   * is the irreversible counterpart of `archiveSession`.
+   *
+   * A live session fails with `session-not-deletable` — stop the turn first.
+   * A session neither live nor in session persistence fails with
+   * `session-not-found`. A session whose log is not on a filesystem this host
+   * can remove also fails with `session-not-deletable`, leaving the accounting
+   * untouched. Returns the full updated archive set.
+   */
+  deleteSession(request: RpcRequest<{ sessionId: SessionId }>):
+  Promise<RpcResponse<{ archivedSessionIds: SessionId[] }>>
 }
