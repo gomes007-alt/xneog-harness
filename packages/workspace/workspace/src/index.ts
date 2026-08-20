@@ -39,15 +39,18 @@ export function WorkspaceId(id: string): WorkspaceId {
 }
 
 /**
- * An archiveSession request named a session neither live nor in session
- * persistence — a definite miss only; storage faults propagate as themselves.
+ * An archiveSession or deleteSession request named a session neither live nor
+ * in session persistence — a definite miss only; storage faults propagate as
+ * themselves.
  */
 export class WorkspaceUnknownSessionError extends Error {
   /**
    * @param sessionId - The unknown session id.
+   * @param operation - The verb the message names, so a delete does not report
+   *   itself as an archive.
    */
-  constructor(readonly sessionId: SessionId) {
-    super(`cannot archive session '${sessionId}': live sessions and session persistence hold no such session`)
+  constructor(readonly sessionId: SessionId, operation: 'archive' | 'delete' = 'archive') {
+    super(`cannot ${operation} session '${sessionId}': live sessions and session persistence hold no such session`)
     this.name = 'WorkspaceUnknownSessionError'
   }
 }
@@ -294,10 +297,10 @@ export class WorkspaceRegistry extends Service {
         throw new WorkspaceSessionNotDeletableError(sessionId)
       }
       if (!(await this.sessionKnown(sessionId))) {
-        throw new WorkspaceUnknownSessionError(sessionId)
+        throw new WorkspaceUnknownSessionError(sessionId, 'delete')
       }
       const header = this.headers.get(sessionId)
-      if (header === undefined) throw new WorkspaceUnknownSessionError(sessionId)
+      if (header === undefined) throw new WorkspaceUnknownSessionError(sessionId, 'delete')
       const location = this.ctx.sessionPersistence.locate(header)
       // The jsonl backend stores one session per directory; removing the file
       // alone would leave an empty husk that the listing walk still visits.
