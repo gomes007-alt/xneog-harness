@@ -26,6 +26,8 @@ import { installSettingsSection, settingsNamespace } from '@xneog/dsh-settings'
 import type {} from '@xneog/dsh-session-projection'
 import type {} from '@xneog/dsh-commands'
 import type { PermissionSelect, PresetOption } from './types.ts'
+import { DEFAULT_RED_TOOLS, isRedTool as matchRedTool } from './red-tools.ts'
+export { DEFAULT_RED_TOOLS, isRedTool, redToolRequiresAsk } from './red-tools.ts'
 
 // The `permissions` projection-key declaration lives in src/types.ts (its one
 // home); this re-export projects the type face onto the package root AND
@@ -141,7 +143,8 @@ export interface Config {
   /**
    * The preset table: name → knob bundle. Defaults to `workspace-write`
    * (workspace-write + ask) and `danger-full-access` (danger-full-access +
-   * never). The name `custom` is reserved for the derived not-a-preset state.
+   * never), plus Mission Contract aliases `green` / `yellow` / `red`.
+   * The name `custom` is reserved for the derived not-a-preset state.
    */
   presets?: Record<string, PresetSpec>
   /**
@@ -149,6 +152,11 @@ export interface Config {
    * sandbox and approval defaults is used.
    */
   defaultPreset?: string
+  /**
+   * Tool-name matchers that are RED: always `ask`, fail-closed if no answerer.
+   * Defaults to {@link DEFAULT_RED_TOOLS}.
+   */
+  redTools?: string[]
 }
 
 /**
@@ -173,19 +181,34 @@ export class PermissionPresetService extends Service {
         sandbox: 'danger-full-access', approval: 'never',
         name: 'danger-full-access', description: 'Full file access without approval prompts.',
       },
+      green: {
+        sandbox: 'read-only', approval: 'never',
+        name: 'green', description: 'Read-only search/summarize/draft; no card on GREEN tools.',
+      },
+      yellow: {
+        sandbox: 'workspace-write', approval: 'ask',
+        name: 'yellow', description: 'Workspace writes and drafts; ask on unapproved tools (alias of workspace-write).',
+      },
+      red: {
+        sandbox: 'workspace-write', approval: 'ask',
+        name: 'red', description: 'Same knobs as yellow; RED tools always ask (fail-closed). Never default danger-full-access+never.',
+      },
     }),
     defaultPreset: z.string(),
+    redTools: z.array(z.string()),
   })
 
   static inject = ['shell', 'approval', 'sessions']
 
   private readonly presets: Record<string, PresetSpec>
+  private readonly redTools: readonly string[]
   private defaultSettings: () => PermissionSettings
 
   constructor(ctx: Context, config: Config) {
     super(ctx, 'permissionPresets')
     // The schema defaulted the table — the cast records that runtime fact.
     this.presets = config.presets as Record<string, PresetSpec>
+    this.redTools = (config.redTools !== undefined && config.redTools.length > 0) ? config.redTools : [...DEFAULT_RED_TOOLS]
     if (CUSTOM_PRESET in this.presets) {
       throw new Error(`permission: "${CUSTOM_PRESET}" is reserved for the derived not-a-preset state and cannot name a table entry`)
     }
@@ -349,6 +372,13 @@ export class PermissionPresetService extends Service {
       throw new Error(`permission: unknown preset "${name}" (known: ${Object.keys(this.presets).join(', ')})`)
     }
     return spec
+  }
+
+  /**
+   * True when this tool is on the RED list (always ask; fail-closed if no answerer).
+   */
+  isRedTool(toolName: string): boolean {
+    return matchRedTool(toolName, this.redTools)
   }
 
   /**
