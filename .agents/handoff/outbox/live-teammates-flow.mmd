@@ -1,0 +1,31 @@
+---
+title: Fluxo live: teammates → harness (yellow)
+---
+flowchart TD
+    %% Fluxo live: teammates -> harness (yellow)
+    %% Lanes (subgraphs) e arestas top-to-bottom
+
+    subgraph Lane_Research["Lane: Research"]
+        direction TB
+        owner(["owner"]):::actor
+        chief["Chief HANDOFF"]:::laneResearch
+        inbox[("inbox/.md")]:::doc
+        owner --> chief --> inbox
+    end
+
+    subgraph Lane_Harness["Lane: Mac CLI / xneog-harness"]
+        direction TB
+        session["Harness session yellow"]:::laneHarness
+        out[("OUT .md")]:::doc
+        archive[("archive/")]:::doc
+        session --> out --> archive
+    end
+
+    %% Travessia entre lanes: handoff do inbox/.md para a sessao
+    inbox --> session
+
+    %% Defs de estilo
+    classDef actor fill:#fde68a,stroke:#92400e,stroke-width:1px,color:#111;
+    classDef laneResearch fill:#e0f2fe,stroke:#0369a1,stroke-width:1px,color:#0c4a6e;
+    classDef laneHarness fill:#fef3c7,stroke:#b45309,stroke-width:1px,color:#7c2d12;
+    classDef doc fill:#f5f5f4,stroke:#44403c,stroke-width:1px,color:#1c1917;

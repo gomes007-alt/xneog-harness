@@ -65,3 +65,31 @@ Estender `ApprovalRequest` (ver gap OUT P1) com opcionais: `rationale`, `evidenc
 - Code: `packages/interaction/permission-presets/src/red-tools.ts` + Config `redTools` + presets `green`/`yellow`/`red`
 - Tests: 33 passed (`permission-presets` folder)
 - Commit: waiting owner git card (tree also has unrelated dirty files)
+
+
+## Composition (local 24/08 ~18:37 ART) — ação #1 owner
+
+Classifier na **composition base**, não no overlay `/tmp`:
+
+- `packages/bundle/base/cordis.patch.yml` row `id: permission` agora declara `green`/`yellow`/`red` + `redTools` (`Write` **e** `write`).
+- `packages/interaction/permission-presets/src/red-tools.ts` seed inclui `write` (fs-tool).
+- Default continua `workspace-write` (alias yellow). `danger-full-access+never` não é default.
+- **Não é** 1:1 `permissions.json` do Cursor.
+- PID 74693 ainda roda com `--patch /tmp/dsh-permission-gyr.patch.yml`. Composition nova **precisa restart** — não feito sem GO.
+- Sem commit / push / launchd / kill.
+
+
+## Local default 24/08 ~19:22 ART — GO owner Full access
+
+1. Mudou só DSH_HOME user layer: `~/.xneog-harness/settings.yaml` → `permission.defaultPreset: danger-full-access` (RPC `settings.mutate`, applies **live**).
+2. NÃO mudou: env `DSH_PERMISSION_MODE` (continua unset no PID 79836), composition `defaultPreset` (base ainda `workspace-write`), launchd, git.
+3. Restart 3081: **não**. Tailscale 826 vivo.
+4. Voltar pra yellow (live): `settings.mutate` ns=permission ops=`[{op:set,path:[defaultPreset],value:yellow}]` — ou `unset` o campo pra cair no base `workspace-write`.
+5. NÃO commitar `settings.yaml`. NÃO push. NÃO plist.
+
+
+## JSDoc gate fix 30/08 ~17:00 ART — sessão xneog
+
+- Gate `verify-export-jsdoc` falhou em `isRedTool` (faltava `@param`/`@returns`) → JSDoc adicionado em `packages/interaction/permission-presets/src/index.ts`.
+- Catalog regenerado (`pnpm run gen-cordis-catalog`): `docs/subsystems/permission-presets.md` (+ `.i18n.yaml`/`.zh.md`) e `packages/extensions/tool-cordis/src/api-catalog.ts` reescritos.
+- Resultado: spec de catalog `typert/generator` verde; suite full = 805/816 files green. Restam 3 files (10 tests) **não causados pela branch**: `scripts/ci-workflow.spec.ts` (8, ENOENT de 4 workflow YAMLs que nunca foram commitados — só `pages.yml` é tracked), `process-exit.spec.ts` e `hmr-config.spec.ts` (timing flakes sob carga da suite full; passam em run isolado; diff da branch em `app-boot/src/index.ts` é só comentário JSDoc).

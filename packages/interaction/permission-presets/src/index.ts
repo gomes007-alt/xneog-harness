@@ -376,6 +376,8 @@ export class PermissionPresetService extends Service {
 
   /**
    * True when this tool is on the RED list (always ask; fail-closed if no answerer).
+   * @param toolName - the tool name to test against the RED list.
+   * @returns true when the tool is on the RED list.
    */
   isRedTool(toolName: string): boolean {
     return matchRedTool(toolName, this.redTools)

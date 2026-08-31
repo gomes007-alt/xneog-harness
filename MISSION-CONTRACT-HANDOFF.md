@@ -1,6 +1,6 @@
 # Mission Contract + Handoff — time Grok Bot × xNeog
 
-**Status:** draft interno · 23/08/2026 · update superfície Mac CLI 24/08/2026
+**Status:** draft interno · 23/08/2026 · update superfície Mac CLI 24/08 · harness SOP 25/08/2026
 **Fonte de inspiração:** playbook público @0xCodila (adaptado ao time real; sem fan-out)
 **Dono do board:** Chief · **Intelligence:** Research · **App Store:** zeroone
 
@@ -124,3 +124,19 @@ Métricas: completion rate · intervenções humanas · review loops · tempo at
 2. Research usa handoff em todo brief → Chief.
 3. Nova rotina só após Three-Run Proof.
 4. Sem fan-out: 1 pedido → 1 lane (ou Chief decide).
+
+---
+
+## 9. Harness SOP (owner 24–25/08)
+
+Loop: **inbox → 1 session → 1 OUT**. Sem os 7 campos, recusa. Sem DM como fonte de job.
+
+1. **CTWA** — criativo com custo observável (sinal Spence), não stack de viés.
+2. **WA** — 1ª msg = prompt Fogg (MAP no mesmo instante), não nurture.
+3. **HANDOFF** — inbox público (common knowledge). 1 OUT. Archive o inbox.
+4. **Partners** — cap 3 filhos; timeout/card/sleep ≠ defection; parent fecha o OUT.
+5. **Designer** — GO escrito. RED = owner. Sem Anthropic em swarm.
+
+Janelas: 7h30–9h e 17h30–19h weekdays. Watcher Grok Bot nesses horários. Three-Run do loop: 1848 + 1912 + 2357 (24/08) — **liberado**.
+Default local de session nova = Full access (`settings.yaml`); job ainda declara YELLOW/RED no HANDOFF.
+Wrapper launchd: `~/.local/bin/xneog-harness-web` → `~/xneog-harness`. Sem push deste SOP.

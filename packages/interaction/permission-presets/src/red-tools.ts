@@ -11,6 +11,7 @@ export const DEFAULT_RED_TOOLS: readonly string[] = [
   'Bash',
   'bash',
   'Write',
+  'write',
   'Edit',
   'MultiEdit',
   'NotebookEdit',

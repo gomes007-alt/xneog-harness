@@ -19,9 +19,9 @@ afterEach(() => {
 
 describe('dsh path helpers', () => {
   it('owns the shared default DSH home directory name', () => {
-    expect(DSH_HOME_DIR_NAME).toBe('.dsh')
-    expect(DEFAULT_DSH_HOME_DISPLAY).toBe('~/.dsh')
-    expect(defaultDshHome()).toBe(join(homedir(), '.dsh'))
+    expect(DSH_HOME_DIR_NAME).toBe('.xneog-harness')
+    expect(DEFAULT_DSH_HOME_DISPLAY).toBe('~/.xneog-harness')
+    expect(defaultDshHome()).toBe(join(homedir(), '.xneog-harness'))
   })
 
   it('expands tilde paths without changing non-tilde paths', () => {
@@ -52,7 +52,7 @@ describe('dsh path helpers', () => {
   })
 
   it('labels a resolved home by whether it is the default root', () => {
-    expect(dshHomeDisplay(resolve(defaultDshHome()))).toBe('~/.dsh')
+    expect(dshHomeDisplay(resolve(defaultDshHome()))).toBe('~/.xneog-harness')
     expect(dshHomeDisplay('/some/other/root')).toBe('$DSH_HOME')
   })
 
