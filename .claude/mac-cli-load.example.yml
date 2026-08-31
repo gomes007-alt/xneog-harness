@@ -1,0 +1,7 @@
+# Example only — do not launchd / do not make default without second GO.
+# Test load: point dsh-hooks-claude-code at .claude/hooks-mac-cli.json
+- dsh-hooks-claude-code:
+    configPath: .claude/hooks-mac-cli.json
+    projectDir: /Users/erck/xneog-harness
+- dsh-permission-presets:
+    defaultPreset: workspace-write

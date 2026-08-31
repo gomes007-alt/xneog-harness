@@ -108,6 +108,13 @@ selectFor(state: KnobState): PermissionSelect
 resolve(name: string): PresetSpec
 
 /**
+ * True when this tool is on the RED list (always ask; fail-closed if no answerer).
+ * @param toolName - the tool name to test against the RED list.
+ * @returns true when the tool is on the RED list.
+ */
+isRedTool(toolName: string): boolean
+
+/**
  * Build the client option for a table entry or {@link CUSTOM_PRESET}. A
  * missing label falls back to the table key.
  * @param name - a table key, or `custom`.
@@ -127,5 +134,5 @@ set(session: Session, name: string): void
 
 Types: [Session](session.md) · [SessionEvent](session.md)
 
-Source: [`packages/interaction/permission-presets/src/index.ts:159`](../../packages/interaction/permission-presets/src/index.ts)
+Source: [`packages/interaction/permission-presets/src/index.ts:167`](../../packages/interaction/permission-presets/src/index.ts)
 <!-- END GENERATED cordis-surface -->

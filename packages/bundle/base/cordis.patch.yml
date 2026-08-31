@@ -192,7 +192,19 @@
 
     - id: permission
       name: '@xneog/dsh-permission-presets'
+      # G/Y/R classifier lives here (composition), not --patch /tmp.
+      # Not a 1:1 of Cursor permissions.json: named Mission presets + redTools.
       config:
+        defaultPreset: workspace-write
+        redTools:
+          - Bash
+          - bash
+          - Write
+          - write
+          - Edit
+          - MultiEdit
+          - NotebookEdit
+          - WebFetch
         presets:
           read-only:
             sandbox: read-only
@@ -203,6 +215,21 @@
           danger-full-access:
             sandbox: danger-full-access
             approval: never
+          green:
+            sandbox: read-only
+            approval: never
+            name: green
+            description: Read-only search/summarize/draft; no card on GREEN tools.
+          yellow:
+            sandbox: workspace-write
+            approval: ask
+            name: yellow
+            description: Workspace writes and drafts; ask on unapproved tools.
+          red:
+            sandbox: workspace-write
+            approval: ask
+            name: red
+            description: Same knobs as yellow; RED tools always ask. Never default danger-full-access+never.
 
     - id: shell-env
       name: '@xneog/dsh-shell-env'

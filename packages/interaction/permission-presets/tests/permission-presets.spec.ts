@@ -80,7 +80,7 @@ describe('effectivePermissionPreset', () => {
 describe('PermissionPresetService', () => {
   it('advertises the preset table in declaration order and resolves bundles', async () => {
     const ctx = await mounted()
-    expect(ctx.permissionPresets.names).toEqual(['workspace-write', 'danger-full-access'])
+    expect(ctx.permissionPresets.names).toEqual(['workspace-write', 'danger-full-access', 'green', 'yellow', 'red'])
     expect(ctx.permissionPresets.resolve('danger-full-access')).toMatchObject({ sandbox: 'danger-full-access', approval: 'never' })
     expect(() => ctx.permissionPresets.resolve('plan')).toThrow(/unknown preset "plan"/)
   })
@@ -276,8 +276,11 @@ describe('new-session default', () => {
     custom.append('sandbox/mode', { mode: 'read-only' })
     custom.append('approval/policy', { policy: 'never' })
     const unmatched = ctx.sessions.create(SessionId('custom-resumed'), { seed: custom.events })
-    expect(ctx.permissionPresets.current(unmatched.events)).toBe(CUSTOM_PRESET)
-    expect(unmatched.events.at(-1)?.type).toBe('session/end-seed')
+    expect(ctx.permissionPresets.current(unmatched.events)).toBe('green')
+    expect(unmatched.events.at(-1)).toMatchObject({
+      type: 'permission/preset',
+      data: { preset: 'green' },
+    })
   })
 
   it('materializes ask when a legacy seed and approval stand-in omit the policy', async () => {
@@ -297,5 +300,30 @@ describe('new-session default', () => {
       defaultPreset: 'missing',
     })).rejects.toThrow()
     expect(ctx.permissionPresets.defaultPreset).toBe('workspace-write')
+  })
+})
+
+
+describe('green/yellow/red + RED tools', () => {
+  it('resolves Mission Contract aliases without replacing workspace-write default', async () => {
+    const ctx = await mounted()
+    expect(ctx.permissionPresets.resolve('green')).toMatchObject({ sandbox: 'read-only', approval: 'never' })
+    expect(ctx.permissionPresets.resolve('yellow')).toMatchObject({ sandbox: 'workspace-write', approval: 'ask' })
+    expect(ctx.permissionPresets.resolve('red')).toMatchObject({ sandbox: 'workspace-write', approval: 'ask' })
+    const session = freshSession('sess-gyr-default')
+    expect(ctx.permissionPresets.current(session.events)).toBe('workspace-write')
+    ctx.permissionPresets.set(session, 'green')
+    expect(ctx.permissionPresets.current(session.events)).toBe('green')
+    ctx.permissionPresets.set(session, 'red')
+    expect(ctx.permissionPresets.current(session.events)).toBe('red')
+  })
+
+  it('marks seed RED tools and honors an override list', async () => {
+    const ctx = await mounted()
+    expect(ctx.permissionPresets.isRedTool('Bash')).toBe(true)
+    expect(ctx.permissionPresets.isRedTool('Read')).toBe(false)
+    const tight = await mounted({ config: { redTools: ['DangerMutate'] } })
+    expect(tight.permissionPresets.isRedTool('Bash')).toBe(false)
+    expect(tight.permissionPresets.isRedTool('DangerMutate')).toBe(true)
   })
 })

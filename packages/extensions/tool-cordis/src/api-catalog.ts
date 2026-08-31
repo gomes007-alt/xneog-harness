@@ -937,6 +937,12 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
         throws: ['when `name` is not in the table.'],
       },
       {
+        signature: 'isRedTool(toolName: string): boolean',
+        description: 'True when this tool is on the RED list (always ask; fail-closed if no answerer).',
+        parameters: [{ name: 'toolName', description: 'the tool name to test against the RED list.' }],
+        returns: 'true when the tool is on the RED list.',
+      },
+      {
         signature: 'optionOf(name: string): PresetOption',
         description: 'Build the client option for a table entry or CUSTOM_PRESET. A missing label falls back to the table key.',
         parameters: [{ name: 'name', description: 'a table key, or `custom`.' }],

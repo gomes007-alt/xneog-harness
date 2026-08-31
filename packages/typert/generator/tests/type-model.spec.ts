@@ -195,6 +195,53 @@ describe('WorkspaceAnalyzer', { timeout: 60_000 }, () => {
     expect(model).toMatchSnapshot()
   })
 
+  it('keeps member ids stable across source-offset and overload insertion churn', () => {
+    const baselineRoot = copyFixture('typert-member-id-baseline-')
+    const changedRoot = copyFixture('typert-member-id-changed-')
+    const addOverloads = (root: string, inserted: boolean): void => {
+      const modelsPath = join(root, 'packages/host/src/models.ts')
+      writeFileSync(modelsPath, [
+        readFileSync(modelsPath, 'utf8'),
+        '/** @typert object */',
+        'export interface StableOverloads {',
+        ...(inserted ? ['  resolve(value: number): number'] : []),
+        '  resolve(value: string): string',
+        '  resolve(value: boolean): boolean',
+        '}',
+        '',
+      ].join('\n'))
+      const indexPath = join(root, 'packages/host/src/index.ts')
+      writeFileSync(indexPath, [
+        readFileSync(indexPath, 'utf8'),
+        "export type { StableOverloads } from './models.ts'",
+        '',
+      ].join('\n'))
+    }
+    addOverloads(baselineRoot, false)
+    addOverloads(changedRoot, true)
+    const sourcePath = join(changedRoot, 'packages/host/src/index.ts')
+    const source = readFileSync(sourcePath, 'utf8')
+    expect(source).toContain('  static {}\n')
+    writeFileSync(sourcePath, source.replace('  static {}\n', '  static { void 0 }\n'))
+
+    const memberIds = (root: string): [string, string][] => {
+      const model = new WorkspaceAnalyzer({ root }).analyze()
+      return model.faces
+        .flatMap(face => face.graph.declarations.flatMap(declaration =>
+          declaration.members.map(member => [
+            `${declaration.id}|${member.kind}|${member.name}|${member.text}`,
+            member.id,
+          ] as [string, string])))
+        .sort(([left], [right]) => left.localeCompare(right))
+    }
+
+    const baseline = new Map(memberIds(baselineRoot))
+    const changed = new Map(memberIds(changedRoot))
+    for (const [contract, id] of baseline) expect(changed.get(contract), contract).toBe(id)
+    expect(changed.size).toBe(baseline.size + 1)
+    expect([...changed.values()].every(id => !/@\d+$/.test(id))).toBe(true)
+  })
+
   it('merges bounded package programs into the same face model', () => {
     const options = {
       root: fixtureRoot,

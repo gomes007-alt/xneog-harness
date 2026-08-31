@@ -26,3 +26,7 @@ No direct invalidation; the named consumer owns any request-prefix changes.
 - **`custom` is derived-only** — callers can switch away from an unmatched knob combination but cannot target or persist a named custom preset through this service.
 - **The preset table is process-level** — configuration is fixed for the plugin lifetime; changing available presets requires reloading the plugin.
 - **Stored defaults must remain in the preset table** — removing the referenced preset makes Permission settings registration fail until the `permissionPresets` section in `settings.yaml` is updated or reset.
+
+## Mission Contract aliases (24/08/2026)
+
+Default table also advertises `green` (`read-only` + `never`), `yellow` / `red` (same knobs as `workspace-write` + `ask`). `redTools` (default: Bash/Write/Edit/…) always require ask; empty/unavailable answerer = fail-closed. Mac CLI default remains `workspace-write`. Do not compose `danger-full-access`+`never` as this lane's default.

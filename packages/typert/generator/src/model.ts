@@ -229,6 +229,7 @@ export interface SignatureModel {
 
 /** Shared flags of a class/interface/type-literal member. */
 export interface MemberBase extends DocumentationModel {
+  /** Stable semantic member identity; source offsets are deliberately excluded. */
   readonly id: string
   readonly name: string
   /** JSON property name when a literal computed key differs from source text. */

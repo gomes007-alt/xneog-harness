@@ -27,7 +27,7 @@ export const inject: string[] = []
 
 /** Plugin config (all optional — the built-in facts resolve without defaults). */
 export interface Config {
-  /** xneog home directory exposed as `DSH_HOME`; defaults to `$DSH_HOME` or `~/.dsh`. */
+  /** xneog home directory exposed as `DSH_HOME`; defaults to `$DSH_HOME` or `~/.xneog-harness`. */
   dshHome?: string
 }
 

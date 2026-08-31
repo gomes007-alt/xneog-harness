@@ -5,6 +5,7 @@
  * @module @xneog/dsh-typert-generator/analyzer
  */
 
+import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { dirname, extname, join, relative, resolve, sep } from 'node:path'
 import ts from 'typescript'
@@ -607,6 +608,8 @@ class FaceAnalyzer {
   private readonly nodes = new Map<TypeNodeId, TypeNodeModel>()
   private readonly exportsByPackage = new Map<string, ExportRecord[]>()
   private readonly nodeOrdinals = new Map<string, number>()
+  /** Counts only identical normalized member fingerprints; distinct overloads do not shift one another. */
+  private readonly memberOrdinals = new Map<string, number>()
   private staticLookups: readonly StaticLookupDeclaration[] | undefined
   private staticContexts: ReadonlyMap<string, StaticContextDeclaration> | undefined
 
@@ -2007,6 +2010,10 @@ class FaceAnalyzer {
   ): MemberModel[] {
     const result: MemberModel[] = []
     for (const member of members) {
+      // Static blocks and empty semicolon class elements are executable/source
+      // syntax, not public type members. They must not enter the member model
+      // or affect the identity of the members that follow them.
+      if (ts.isClassStaticBlockDeclaration(member) || ts.isSemicolonClassElement(member)) continue
       if (ts.isPropertyDeclaration(member)
         && memberName(member.name) === 'typertRemote'
         && member.initializer !== undefined
@@ -2020,7 +2027,9 @@ class FaceAnalyzer {
       const visibility = visibilityOf(member)
       const isStatic = hasModifier(member, ts.SyntaxKind.StaticKeyword)
       if (visibility !== 'public' || isStatic || ts.isConstructorDeclaration(member)) continue
-      const base = this.memberBase(member, ownerId, visibility, isStatic)
+      const kind = memberKind(member)
+      if (kind === undefined) continue
+      const base = this.memberBase(member, ownerId, visibility, isStatic, kind)
       if (ts.isPropertySignature(member) || ts.isPropertyDeclaration(member)) {
         const type = this.requiredType(member, member.type, 'property')
         result.push({ ...base, kind: 'property', type: this.convertType(type) })
@@ -2046,6 +2055,7 @@ class FaceAnalyzer {
     ownerId: string,
     visibility: MemberVisibility,
     isStatic: boolean,
+    kind: MemberModel['kind'],
   ): MemberBase {
     const identity = member.name !== undefined
       ? this.memberIdentity(member.name)
@@ -2056,9 +2066,14 @@ class FaceAnalyzer {
             ? '(construct)'
             : '(index)',
       }
+    const identityKey = `${ownerId}#${identity.name}:${kind}`
+    const fingerprint = memberFingerprint(member)
+    const duplicateKey = `${identityKey}\0${fingerprint}`
+    const ordinal = (this.memberOrdinals.get(duplicateKey) ?? 0) + 1
+    this.memberOrdinals.set(duplicateKey, ordinal)
     return {
       ...documentationOf(member),
-      id: `${ownerId}#${identity.name}@${String(member.getStart())}`,
+      id: `${identityKey}~${memberFingerprintHash(fingerprint)}${ordinal === 1 ? '' : `.${String(ordinal)}`}`,
       ...identity,
       optional: 'questionToken' in member && member.questionToken !== undefined,
       readonly: hasModifier(member, ts.SyntaxKind.ReadonlyKeyword),
@@ -2871,6 +2886,31 @@ function typertMode(node: ts.Node): 'object' | 'schema' | undefined {
 function typertServiceTag(node: ts.Node): ts.JSDocTag | undefined {
   return ts.getJSDocTags(node).find(tag => tag.tagName.text === 'typert'
     && (ts.getTextOfJSDocComment(tag.comment) ?? '').trim().split(/\s+/, 1)[0] === 'service')
+}
+
+function memberKind(member: ts.TypeElement | ts.ClassElement): MemberModel['kind'] | undefined {
+  if (ts.isPropertySignature(member) || ts.isPropertyDeclaration(member)) return 'property'
+  if (ts.isMethodSignature(member) || ts.isMethodDeclaration(member)) return 'method'
+  if (ts.isGetAccessorDeclaration(member)) return 'getter'
+  if (ts.isSetAccessorDeclaration(member)) return 'setter'
+  if (ts.isCallSignatureDeclaration(member)) return 'call'
+  if (ts.isConstructSignatureDeclaration(member)) return 'construct'
+  if (ts.isIndexSignatureDeclaration(member)) return 'index'
+  return undefined
+}
+
+/**
+ * Return the source-level contract used for a member identity.
+ * `memberText()` removes method/accessor bodies and normalizes whitespace, so
+ * implementation edits and source offsets cannot churn a graph id.
+ */
+function memberFingerprint(member: ts.TypeElement | ts.ClassElement): string {
+  return memberText(member)
+}
+
+/** Compact deterministic digest for a member contract (never a source offset). */
+function memberFingerprintHash(fingerprint: string): string {
+  return createHash('sha256').update(fingerprint).digest('hex').slice(0, 16)
 }
 
 function memberName(name: ts.PropertyName | ts.BindingName): string {
