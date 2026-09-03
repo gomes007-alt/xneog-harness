@@ -15,7 +15,7 @@
 
 import { Context } from '@xneog/cordis'
 import type { DynamicCordisPackage } from '@xneog/dsh-api-remotes/client'
-import type { SlotRegistry } from '@xneog/dsh-client-runtime/client'
+import type { SlotRegistry } from '@xneog/dsh-client-ui-renderer/client'
 import type { ThemeRuntime } from '@xneog/dsh-client-ui-theme/client'
 
 /** Facade verbs beyond declared services (host CTX_VERBS twin). */

@@ -1,0 +1,147 @@
+{
+  "name": "@xneog/dsh-api-session-controller",
+  "description": "Session Remote commands, cold reads, and live control transport",
+  "version": "0.1.2-rc.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
+    "directory": "packages/api/session-controller"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./remote-events": {
+      "types": "./lib/types/remote-events.d.ts",
+      "default": "./lib/types/remote-events.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "external": [
+        "@xneog/dsh-api-gateway/client"
+      ],
+      "inject": [
+        "@xneog/dsh-api-gateway"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@xneog/dsh-brand": "workspace:^",
+    "@xneog/dsh-deque": "workspace:^",
+    "@xneog/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-default-model": "workspace:^",
+    "@xneog/dsh-agent-presets": "workspace:^",
+    "@xneog/dsh-api-gateway": "workspace:^",
+    "@xneog/dsh-attachment": "workspace:^",
+    "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-file-reference": "workspace:^",
+    "@xneog/dsh-jobs": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-native-command": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-persistence": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-session-projection-cache": "workspace:^",
+    "@xneog/dsh-session-query": "workspace:^",
+    "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-skill": "workspace:^",
+    "@xneog/dsh-subagent": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
+    "@xneog/dsh-typert-registry": "workspace:^",
+    "@xneog/dsh-util-time": "workspace:^",
+    "@xneog/dsh-util-workspace-path": "workspace:^",
+    "@xneog/dsh-workspace": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@xneog/dsh-jobs": {
+      "optional": true
+    },
+    "@xneog/dsh-session-persistence": {
+      "optional": true
+    },
+    "@xneog/dsh-session-projection-cache": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-default-model": "workspace:^",
+    "@xneog/dsh-agent-presets": "workspace:^",
+    "@xneog/dsh-api-gateway": "workspace:^",
+    "@xneog/dsh-attachment": "workspace:^",
+    "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-client-store": "workspace:^",
+    "@xneog/dsh-file-reference": "workspace:^",
+    "@xneog/dsh-jobs": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-native-command": "workspace:^",
+    "@xneog/dsh-permission-presets": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-persistence": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-session-projection-cache": "workspace:^",
+    "@xneog/dsh-session-query": "workspace:^",
+    "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-skill": "workspace:^",
+    "@xneog/dsh-storage": "workspace:^",
+    "@xneog/dsh-storage-domain": "workspace:^",
+    "@xneog/dsh-storage-json": "workspace:^",
+    "@xneog/dsh-subagent": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
+    "@xneog/dsh-typert-registry": "workspace:^",
+    "@xneog/dsh-util-crypto": "workspace:^",
+    "@xneog/dsh-util-time": "workspace:^",
+    "@xneog/dsh-util-workspace-path": "workspace:^",
+    "@xneog/dsh-workspace": "workspace:^"
+  }
+}

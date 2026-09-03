@@ -15,7 +15,6 @@ import { defineTool, TOOL_ABORTED } from '@xneog/dsh-tools'
 import type { GenericCallView, TerminalCallView, ToolExecution, ToolResult, ToolResultView } from '@xneog/dsh-tools'
 import { HarnessError } from '@xneog/dsh-llm'
 import type { Agent } from '@xneog/dsh-agent'
-import type {} from '@xneog/dsh-system-prompt'
 import type {} from '@xneog/dsh-jobs'
 import type {} from '@xneog/dsh-user-approval'
 import type {} from '@xneog/dsh-shell-env'
@@ -235,7 +234,7 @@ export function apply(ctx: Context, config: Config = {}): void {
   // Cross-call guidance belongs in the prompt rather than one-call schema prose.
   ctx.systemPrompt.section({
     name: 'tool:bash',
-    order: 105,
+    order: ctx.systemPrompt.getSectionOrder('TOOL_BASH'),
     text: 'Check the [exit code: N] marker on every bash result; investigate failures before moving on.',
   })
 

@@ -4,9 +4,11 @@
  * through the `jobsBySession` list mirror, so the plugin issues no RPC and
  * holds no state of its own beyond popover visibility.
  */
-import type { ClientContext } from '@xneog/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@xneog/cordis'
 import { JobListAction } from './JobListAction.tsx'
 import type {} from '@xneog/dsh-client-locale/client'
+import type {} from '@xneog/dsh-client-ui-renderer/client'
+import type {} from '@xneog/dsh-client-ui-session/client'
 import { en, NS, zh, type JobKey } from './locales.ts'
 
 declare module '@xneog/dsh-client-ui-slots' {

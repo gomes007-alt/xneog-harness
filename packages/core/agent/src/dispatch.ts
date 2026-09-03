@@ -10,7 +10,7 @@ import type { Context, Events } from '@xneog/cordis'
 import { scopeTarget } from '@xneog/dsh-scope'
 import type { Scoped } from '@xneog/dsh-scope'
 import type { AssembleContext } from '@xneog/dsh-system-prompt'
-import type { Agent } from './runtime-types.ts'
+import type { Agent } from './types.ts'
 
 /** Extract the parameter tuple from an event handler type (its `this` is not part of the tuple). */
 type Params<F> = F extends (...args: infer P) => unknown ? P : never

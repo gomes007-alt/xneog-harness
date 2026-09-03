@@ -13,8 +13,9 @@
  */
 
 import * as vm from 'node:vm'
+import { brandString } from '@xneog/dsh-brand'
 import type { ContentBlock } from '@xneog/dsh-llm'
-import { SessionId } from '@xneog/dsh-session'
+import type { SessionId } from '@xneog/dsh-session'
 import { assertObjectJsonSchema, JsonSchemaError } from '@xneog/dsh-tools'
 import type { ObjectJsonSchema } from '@xneog/dsh-tools'
 import { isFatalWorkflowError, WorkflowError } from '@xneog/dsh-workflow'
@@ -295,7 +296,7 @@ export class WorkflowExecution {
         await run.dispose()
         throw this.cancelledError()
       }
-      const info: WorkflowAgentInfo = { seq, label, ...phase !== undefined ? { phase } : {}, childId: SessionId(run.id) }
+      const info: WorkflowAgentInfo = { seq, label, ...phase !== undefined ? { phase } : {}, childId: brandString<SessionId>(run.id) }
       this.observer.agentStart(info)
       try {
         let result

@@ -15,7 +15,7 @@ import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
 import z from '@xneog/schemastery'
-import { settingsNamespace, type SettingsScope } from '@xneog/dsh-settings'
+import { type SettingsScope } from '@xneog/dsh-settings'
 import FileSettingsProvider from '../src/index.ts'
 
 interface ThemeConfig {
@@ -63,7 +63,7 @@ async function loadComposition(
       const base: Partial<ThemeConfig> = { fontSize: 16 }
       state.applied = ThemeSchema(base as ThemeConfig)
       ctx.inject(['settings'], (child: Context) => {
-        const scope = child.settings.register(settingsNamespace('ui-theme'), ThemeSchema, { base })
+        const scope = child.settings.register('ui-theme', ThemeSchema, { base })
         state.scope = scope
         state.applied = scope.get()
         scope.watch((next) => {

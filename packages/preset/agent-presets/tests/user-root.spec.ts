@@ -18,6 +18,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import AgentPresets, { COMPOSITION_FILE, type Config } from '@xneog/dsh-agent-presets'
 
@@ -47,9 +48,12 @@ async function roster(config: Partial<Config> = {}): Promise<Context> {
   ctx.baseUrl = pathToFileURL(FIXTURES).href + '/'
   await ctx.plugin(Loader)
   ctx.loader.builtins.include = Include
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(AgentPresets, {
     default: 'standard',
     roots: [{ path: SYSTEM_ROOT, trust: 'system' as const }],
+    // The package's shipped presets would shadow this file's fixture ids.
+    includeShippedRoot: false,
     includeUserRoot: true,
     ...config,
   })

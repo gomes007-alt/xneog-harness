@@ -9,7 +9,7 @@ import {
 import type { InjectFace, PropsLocale, PropsRuntime } from '@xneog/dsh-client-ui-slots'
 import type {} from '@xneog/dsh-client-ui-sidebar/client'
 import type { CordisRunActivity } from '@xneog/dsh-cordis-client-runner/client'
-import type { SessionId } from '@xneog/dsh-client-connection/client'
+import type { SessionId } from '@xneog/dsh-api-remotes/client'
 import type { CordisInventoryRow } from './dynamic-port.ts'
 import type { CordisPanelFace } from './slots.ts'
 import type { CordisKey } from './locales.ts'

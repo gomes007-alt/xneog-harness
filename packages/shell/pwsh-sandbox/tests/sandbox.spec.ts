@@ -15,6 +15,7 @@ import { Context, Service } from '@xneog/cordis'
 import { SandboxProvider, SandboxUnavailableError } from '@xneog/dsh-sandbox'
 import type { ConfinedArgv, RunnerFailureRule, SandboxExecutionPolicy, SandboxPolicy } from '@xneog/dsh-sandbox'
 import { resolvePwshPath } from '@xneog/dsh-pwsh-local'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { SandboxPolicyService } from '@xneog/dsh-sandbox-policy'
 import LocalSubprocessRuntime from '@xneog/dsh-subprocess-local'
 import { SandboxPwshExecutor } from '../src/index.ts'
@@ -64,6 +65,7 @@ async function setup(
     }
   }
   const ctx = new Context()
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(FakeSandboxProvider)
   await ctx.plugin(SandboxPolicyService, { mode: 'workspace-write', workspaceRoot: spillDir })
   await ctx.plugin(subprocess)

@@ -8,6 +8,7 @@ import { Context } from '@xneog/cordis'
 import { launcherPath } from '@xneog/node-addon-landlock-run'
 import { LocalSandboxProvider } from '@xneog/dsh-sandbox-local'
 import { SandboxPolicyService } from '@xneog/dsh-sandbox-policy'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { SandboxBashExecutor } from '@xneog/dsh-bash-sandbox'
 import LocalSubprocessRuntime from '@xneog/dsh-subprocess-local'
 
@@ -47,6 +48,7 @@ async function sandboxedBash(workspace: string, mode: 'read-only' | 'workspace-w
   ctx = new Context()
   await ctx.plugin(LocalSandboxProvider, {})
   ;(ctx.sandbox as LocalSandboxProvider).internals = { probeBwrap: () => false }
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(SandboxPolicyService, { mode, workspaceRoot: workspace })
   await ctx.plugin(LocalSubprocessRuntime)
   await ctx.plugin(SandboxBashExecutor, { cwd: workspace, timeoutMs: 30_000 })

@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-client-ui-primitives",
-  "description": "Pure React atoms for the xneog web UI: controls, icons, markdown, and JSON inspectors (zero cordis)",
-  "version": "0.1.0-rc.7",
+  "description": "Pure React atoms for the dsh web UI: controls, icons, markdown, and JSON inspectors (zero cordis)",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/client/ui-primitives"
   },
   "type": "module",
@@ -17,10 +17,6 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
-    },
-    "./invariant": {
-      "types": "./lib/types/invariant.d.ts",
-      "default": "./lib/invariant.js"
     },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
@@ -49,18 +45,16 @@
     "shiki": "^4.3.1"
   },
   "devDependencies": {
-    "@xneog/dsh-invariants": "workspace:^",
     "@types/react": "~18.3.1",
     "@types/react-dom": "~18.3.0",
     "@xneog/cordis": "workspace:^"
   },
   "files": [
     "lib/index.js",
-    "lib/invariant.js",
+    "lib/**/*.css",
     "lib/types/**/*.d.ts"
   ],
   "peerDependencies": {
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/cordis": "workspace:^"
   }
 }

@@ -9,9 +9,10 @@ import z from '@xneog/schemastery'
 import { CompactionEngine, ManualCompactionError } from '@xneog/dsh-compaction'
 import type { CompactionResult, CompactionTrigger } from '@xneog/dsh-compaction'
 import type { TokenMeter } from '@xneog/dsh-token-meter'
-import type { Session } from '@xneog/dsh-session'
-import { CONTEXT_WINDOW_EXCEEDED_CODE, assertNever } from '@xneog/dsh-llm'
+import type { Session, SessionSeq } from '@xneog/dsh-session'
+import { CONTEXT_WINDOW_EXCEEDED_CODE } from '@xneog/dsh-llm'
 import type { LlmCallConfig } from '@xneog/dsh-llm'
+import { assertNever } from '@xneog/dsh-util-values'
 import type { Agent, PreStepDecision } from '@xneog/dsh-agent'
 import type { CommandId } from '@xneog/dsh-commands/brand'
 // Type-only: makes the optional sibling service available to `ctx.get()`.
@@ -341,8 +342,8 @@ export class BasicCompactionEngine extends CompactionEngine {
    * @returns the successful durable compaction result.
    */
   override async compactRegion(
-    start: number,
-    end: number,
+    start: SessionSeq,
+    end: SessionSeq,
     agent: Agent,
     signal?: AbortSignal,
   ): Promise<CompactionResult> {

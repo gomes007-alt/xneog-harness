@@ -7,7 +7,7 @@
 
 import { describe, expect, it } from 'vitest'
 import fc from 'fast-check'
-import { isJsonValue } from '@xneog/dsh-session'
+import { isJsonValue } from '@xneog/dsh-util-values'
 import { parameterSchemaSpecToJsonSchema, validateArgs } from '@xneog/dsh-tools'
 import type { ParameterPropertySpec, ParameterSchemaSpec, ValueSchemaSpec } from '@xneog/dsh-tools'
 

@@ -8,7 +8,7 @@ import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { Context } from '@xneog/cordis'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
-import { CallId } from '@xneog/dsh-llm'
+import { ToolCallId } from '@xneog/dsh-llm'
 import type { Config } from '@xneog/dsh-mcp-client'
 
 // ---- Mock MCP SDK ----
@@ -115,8 +115,8 @@ function listing(...names: string[]): { tools: { name: string; inputSchema: { ty
 }
 
 let callSeq = 0
-function nextCallId(): CallId {
-  return CallId(`reconnect-${++callSeq}`)
+function nextCallId(): ToolCallId {
+  return ToolCallId(`reconnect-${++callSeq}`)
 }
 
 // ---- Tests ----

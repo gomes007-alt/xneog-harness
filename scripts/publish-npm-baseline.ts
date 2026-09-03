@@ -24,7 +24,7 @@ const DEFAULT_REGISTRY = 'https://registry.npm.harnessment.com'
 const DEFAULT_OUTPUT_DIRECTORY = '.artifacts/npm-baseline'
 const PACKAGE_PATTERNS = [
   'vendor/*/package.json',
-  'packages/*/*/package.json',
+  'packages/!(experimental)/*/package.json',
   'apps/*/package.json',
 ] as const
 const DEPENDENCY_SECTIONS = [
@@ -42,7 +42,7 @@ node, bin_path, cwd, timeout_seconds = sys.argv[1:]
 pid, fd = pty.fork()
 if pid == 0:
     os.chdir(cwd)
-    os.execvpe(node, [node, bin_path, "web", "--host", "127.0.0.1", "--port", "0"], os.environ.copy())
+    os.execvpe(node, [node, bin_path, "web", "--no-open", "--host", "127.0.0.1", "--port", "0"], os.environ.copy())
 
 output = bytearray()
 ready_seen = False
@@ -62,7 +62,7 @@ while time.monotonic() < deadline:
             output.extend(chunk)
 
     snapshot = bytes(output)
-    if not termination_sent and b"xneog web: http://127.0.0.1:" in snapshot:
+    if not termination_sent and b"dsh web: http://127.0.0.1:" in snapshot:
         ready_seen = True
         os.kill(pid, signal.SIGTERM)
         termination_sent = True
@@ -77,11 +77,11 @@ if status is None:
     _, status = os.waitpid(pid, 0)
 sys.stdout.buffer.write(output)
 if not ready_seen:
-    sys.stderr.write("installed xneog web did not reach its ready URL\n")
+    sys.stderr.write("installed dsh web did not reach its ready URL\n")
     sys.exit(124)
 actual_exit = os.waitstatus_to_exitcode(status)
 if actual_exit != 0:
-    sys.stderr.write(f"installed xneog web exited {actual_exit}, expected 0\n")
+    sys.stderr.write(f"installed dsh web exited {actual_exit}, expected 0\n")
     sys.exit(125)
 `
 

@@ -12,8 +12,7 @@ import type { WorkerOptions } from 'node:worker_threads'
 import { fileURLToPath } from 'node:url'
 import type { Context } from '@xneog/cordis'
 import type { Agent } from '@xneog/dsh-agent'
-import { assertNever } from '@xneog/dsh-llm'
-import { snapshotJsonValue } from '@xneog/dsh-session'
+import { assertNever, snapshotJsonValue } from '@xneog/dsh-util-values'
 import type SubagentRuntime from '@xneog/dsh-subagent'
 import type { SubagentRun } from '@xneog/dsh-subagent'
 import type { WorkflowAgentEndInfo, WorkflowAgentInfo, WorkflowMeta, WorkflowResult, WorkflowRun, WorkflowRunId } from '@xneog/dsh-workflow'
@@ -30,7 +29,11 @@ interface ChildRecord {
 }
 
 /**
- * The scrubbed worker environment: no ambient credentials, no loader flags.
+ * The scrubbed worker environment: no ambient credentials, no loader flags, and deliberately no
+ * proxy policy. A worker thread does not inherit the host's global dispatcher, so a workflow's own
+ * requests go direct — the alternative is handing the worker a proxy URL that may carry
+ * `user:password`, and this worker executes the model-authored script body. That is the same
+ * containment the code runtime keeps, and `docs/defensive-patterns.md` requires it.
  * Windows derives `os.tmpdir()` from `TMP`/`TEMP` and falls back to the
  * literal relative path `undefined\temp` when the environment is empty, so
  * tsx's transform cache would land in a cwd-relative `undefined/temp`

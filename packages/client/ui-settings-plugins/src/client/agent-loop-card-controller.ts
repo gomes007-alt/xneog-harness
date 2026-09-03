@@ -1,6 +1,7 @@
 /** The agent-loop card's staged form over the `agent-loop` settings namespace. */
 
-import type { SettingsScope, SnapshotStore } from '@xneog/dsh-client-runtime/client'
+import type { SnapshotStore } from '@xneog/dsh-client-store'
+import type { SettingsScope } from '@xneog/dsh-client-ui-settings/client'
 import { CardForm, numberField, type CardActions, type CardFieldState, type CardShell } from './card-form.ts'
 
 /**

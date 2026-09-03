@@ -1,0 +1,56 @@
+{
+  "name": "@xneog/dsh-tool-pwsh-persistent",
+  "description": "Model-facing owner-scoped persistent PowerShell tool backed by the Harness PTY service",
+  "version": "0.1.2-rc.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
+    "directory": "packages/shell/tool-pwsh-persistent"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-terminal": "workspace:^",
+    "@xneog/dsh-timeout": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@xneog/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-include": "workspace:^",
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-terminal": "workspace:^",
+    "@xneog/dsh-terminal-bash": "workspace:^",
+    "@xneog/dsh-pwsh-local": "workspace:^",
+    "@xneog/dsh-sandbox": "workspace:^",
+    "@xneog/dsh-sandbox-policy": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-subprocess-local": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-timeout": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/cordis": "workspace:^"
+  }
+}

@@ -6,6 +6,7 @@ import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { Context } from '@xneog/cordis'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
+import { createScope } from '@xneog/dsh-scope'
 import type { Config } from '@xneog/dsh-mcp-client'
 
 // ---- Mock MCP SDK ----
@@ -206,6 +207,16 @@ describe('apply (plugin lifecycle)', () => {
 
     await expect(apply(ctx, stdioConfig)).rejects.toThrow(/serverName "srv" is already in use/)
     expect(ctx.tools.get('mcp__srv__remote')).toBeDefined()
+  })
+
+  it('allows one serverName in each independent registration scope', async () => {
+    const first = createScope(ctx, {})
+    const second = createScope(ctx, {})
+
+    await Promise.all([apply(first.ctx, stdioConfig), apply(second.ctx, stdioConfig)])
+
+    expect(mockConnect).toHaveBeenCalledTimes(2)
+    await Promise.all([first.dispose(), second.dispose()])
   })
 
   it('releases the serverName reservation on dispose', async () => {

@@ -1,0 +1,62 @@
+{
+  "name": "@xneog/dsh-plugin-package-inventory-deepseek",
+  "description": "Active Loader-backed plugin package inventory for official DeepSeek LLM API requests",
+  "version": "0.1.2-rc.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
+    "directory": "packages/llm/plugin-package-inventory-deepseek"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@xneog/dsh-brand": "workspace:^",
+    "@xneog/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-presets": "workspace:^",
+    "@xneog/dsh-deepseek-llm-api-extensions": "workspace:^",
+    "@xneog/dsh-session": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@xneog/dsh-agent-presets": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/cordis-plugin-include": "workspace:^",
+    "@xneog/cordis-plugin-loader": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-presets": "workspace:^",
+    "@xneog/dsh-deepseek-llm-api-extensions": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^"
+  }
+}

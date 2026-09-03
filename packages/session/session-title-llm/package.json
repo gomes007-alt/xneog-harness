@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-session-title-llm",
   "description": "Shared LLM generation policy for xneog session-title providers",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/session/session-title-llm"
   },
   "type": "module",
@@ -18,36 +18,30 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
     },
-    "./invariant": {
-      "types": "./lib/types/invariant.d.ts",
-      "default": "./lib/invariant.js"
-    },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
   "files": [
     "lib/index.js",
-    "lib/invariant.js",
     "lib/types/**/*.d.ts"
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/cordis": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-session-title": "workspace:^",
-    "@xneog/dsh-timeout": "workspace:^",
-    "@xneog/cordis": "workspace:^"
+    "@xneog/dsh-timeout": "workspace:^"
   },
   "dependencies": {
+    "@xneog/dsh-util-values": "workspace:^",
     "@xneog/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/cordis": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-session-title": "workspace:^",
-    "@xneog/dsh-timeout": "workspace:^",
-    "@xneog/cordis": "workspace:^"
+    "@xneog/dsh-timeout": "workspace:^"
   }
 }

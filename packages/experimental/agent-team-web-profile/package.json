@@ -1,0 +1,45 @@
+{
+  "name": "@xneog/dsh-experimental-agent-team-web-profile",
+  "description": "Private Web profile layer for Agent Teams Remote and UI plugins",
+  "version": "0.1.2-rc.1",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
+    "directory": "packages/experimental/agent-team-web-profile"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@xneog/dsh-experimental-client-ui-agent-team": "workspace:^"
+  },
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis-plugin-include": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "js-yaml": "^4.2.0"
+  }
+}

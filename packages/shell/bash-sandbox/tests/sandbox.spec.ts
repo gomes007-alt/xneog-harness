@@ -11,6 +11,7 @@ import { join, resolve } from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
 import type { ShellRunResult, CollectedOutput } from '@xneog/dsh-shell'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { SANDBOX_UNAVAILABLE, SandboxProvider, SandboxUnavailableError } from '@xneog/dsh-sandbox'
 import type { ConfinedArgv, SandboxExecutionPolicy, SandboxMode, SandboxPolicy } from '@xneog/dsh-sandbox'
 import { SandboxPolicyService } from '@xneog/dsh-sandbox-policy'
@@ -62,6 +63,7 @@ async function setup(
     }
   }
   const ctx = new Context()
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(FakeSandboxProvider)
   await ctx.plugin(SandboxPolicyService, {
     ...mode !== undefined ? { mode } : {},

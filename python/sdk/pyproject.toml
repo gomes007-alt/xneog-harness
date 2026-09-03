@@ -16,10 +16,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/deepseek-ai/deepseek-harness"
-Documentation = "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/python-sdk.md"
-Issues = "https://github.com/deepseek-ai/deepseek-harness/issues"
-Source = "https://github.com/deepseek-ai/deepseek-harness"
+Homepage = "https://github.com/gomes007-alt/xneog-harness"
+Documentation = "https://github.com/gomes007-alt/xneog-harness/blob/master/docs/user/guide/python-sdk.md"
+Issues = "https://github.com/gomes007-alt/xneog-harness/issues"
+Source = "https://github.com/gomes007-alt/xneog-harness"
 
 [dependency-groups]
 test = ["pytest>=8.0"]

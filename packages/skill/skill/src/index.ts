@@ -11,7 +11,8 @@
  */
 
 import { Context, Service } from '@xneog/cordis'
-import { assertNever } from '@xneog/dsh-llm'
+import type {} from '@xneog/dsh-llm'
+import { assertNever } from '@xneog/dsh-util-values'
 import { NamedEntries, ScopedLayers, scopeChainOf, scopeOf } from '@xneog/dsh-scope'
 import type { ScopeKey, ScopeLayer } from '@xneog/dsh-scope'
 import z from '@xneog/schemastery'

@@ -1,5 +1,5 @@
 /**
- * `xneog-harness plugin --profile <name> <args...>` — profile plugin management as a
+ * `dsh plugin --profile <name> <args...>` — profile plugin management as a
  * thin pnpm forwarder: initialize the profile on first use, run
  * `pnpm <args...>` in the profile directory, then reconcile the
  * `dsh.profile.bundles` layer list against the installed state (a dependency
@@ -112,7 +112,7 @@ function anchorPathSpec(argument: string, cwd: string): string {
 }
 
 /**
- * Run one `xneog-harness plugin` invocation: init if needed, forward to pnpm, reconcile.
+ * Run one `dsh plugin` invocation: init if needed, forward to pnpm, reconcile.
  * @param profile - the profile name.
  * @param args - pnpm arguments with relative path specs anchored to the invoking directory.
  * @returns the pnpm exit code.
@@ -120,7 +120,12 @@ function anchorPathSpec(argument: string, cwd: string): string {
 export function runPlugin(profile: string, args: readonly string[]): number {
   const dir = resolveProfileDir(profile)
   if (!existsSync(join(dir, 'package.json'))) {
-    initProfile(dir, PROFILE_TEMPLATES[profile] ?? DEFAULT_PROFILE_BUNDLES)
+    const template = PROFILE_TEMPLATES[profile]
+    initProfile(
+      dir,
+      template?.bundles ?? DEFAULT_PROFILE_BUNDLES,
+      template?.patchReload,
+    )
     process.stderr.write(`${NAME}: initialized profile ${profile} at ${dir}\n`)
   }
   const before = readProfileManifest(NAME, dir)

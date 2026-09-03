@@ -1,4 +1,5 @@
-import type { ObservableSnapshot, SessionId } from '@xneog/dsh-client-runtime/client'
+import type { ObservableSnapshot } from '@xneog/dsh-client-store'
+import type { SessionId } from '@xneog/dsh-session/types'
 import { Button, Modal } from '@xneog/dsh-client-ui-primitives'
 import type { InjectFace, PropsLocale, PropsRuntime } from '@xneog/dsh-client-ui-slots'
 import type { SessionLogDownloadState } from './controller.ts'

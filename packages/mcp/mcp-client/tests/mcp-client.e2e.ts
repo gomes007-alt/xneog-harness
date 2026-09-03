@@ -22,7 +22,7 @@ import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js'
 import LocalAttachmentStore from '@xneog/dsh-attachment-local'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
-import { CallId, LlmAdapter, LlmRuntime } from '@xneog/dsh-llm'
+import { ToolCallId, LlmAdapter, LlmRuntime } from '@xneog/dsh-llm'
 import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@xneog/dsh-llm'
 import { apply } from '@xneog/dsh-mcp-client/src/index.ts'
 import { publicToolName } from '@xneog/dsh-mcp-client/src/tools.ts'
@@ -87,8 +87,8 @@ function textOf(block: unknown): string {
 }
 
 let callSeq = 0
-function nextCallId(): CallId {
-  return CallId(`e2e-${++callSeq}`)
+function nextCallId(): ToolCallId {
+  return ToolCallId(`e2e-${++callSeq}`)
 }
 
 // ---- Fixture server tests ----

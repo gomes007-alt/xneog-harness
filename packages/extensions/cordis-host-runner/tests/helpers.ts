@@ -1,6 +1,6 @@
 import { Context } from '@xneog/cordis'
 import Timer from '@xneog/cordis-plugin-timer'
-import { CallId } from '@xneog/dsh-llm'
+import { ToolCallId } from '@xneog/dsh-llm'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRegistry from '@xneog/dsh-tools'
 import type { ToolDefinition, ToolExecutionResult } from '@xneog/dsh-tools'
@@ -147,7 +147,7 @@ let callCounter = 0
 export function call(ctx: Context, name: string, args: unknown): Promise<ToolExecutionResult> {
   return ctx.tools.execute({
     signal: new AbortController().signal,
-    callId: CallId(`call-${++callCounter}`),
+    callId: ToolCallId(`call-${++callCounter}`),
     name,
     arguments: args,
   })

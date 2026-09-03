@@ -9,12 +9,13 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
-import { CallId } from '@xneog/dsh-llm'
+import { ToolCallId } from '@xneog/dsh-llm'
 import { Session, SessionId } from '@xneog/dsh-session'
 import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import * as ToolTodo from '@xneog/dsh-tool-todo'
 
 let root: string | undefined
@@ -58,6 +59,7 @@ async function boot(configLines: readonly string[]): Promise<Context> {
     "- name: '@xneog/dsh-agent'",
     "- name: '@xneog/dsh-system-prompt'",
     "- name: '@xneog/dsh-tools'",
+    "- name: '@xneog/dsh-session-projection'",
     "- name: '@xneog/dsh-tool-todo'",
     ...configLines.length > 0 ? ['  config:', ...configLines] : [],
     '',
@@ -72,6 +74,7 @@ async function boot(configLines: readonly string[]): Promise<Context> {
     ['@xneog/dsh-agent', AgentRegistry],
     ['@xneog/dsh-system-prompt', SystemPrompt],
     ['@xneog/dsh-tools', ToolRuntime],
+    ['@xneog/dsh-session-projection', SessionProjectionRegistry],
     ['@xneog/dsh-tool-todo', ToolTodo],
   ])
   ctx.loader.internal = {
@@ -101,14 +104,14 @@ describe('tool-todo real Loader composition through cordis.yml', () => {
     const owner = agent(ctx)
     const result = await ctx.tools.execute({
       signal: new AbortController().signal,
-      callId: CallId('parallel'),
+      callId: ToolCallId('parallel'),
       name: 'todo_write',
       arguments: { todos: PARALLEL_TODOS },
       agent: owner,
     })
     expect(result.isError).toBe(true)
     expect(resultText(result)).toContain('at most one task may be in_progress')
-    expect(owner.session.events.some(e => e.type === 'todo/write')).toBe(false)
+    expect(owner.session.snapshotEvents().some(e => e.type === 'todo/write')).toBe(false)
   }, 30_000)
 
   it('allowParallelInProgress: true permits a parallel write end to end', async () => {
@@ -119,13 +122,13 @@ describe('tool-todo real Loader composition through cordis.yml', () => {
     const owner = agent(ctx)
     const result = await ctx.tools.execute({
       signal: new AbortController().signal,
-      callId: CallId('parallel-enabled'),
+      callId: ToolCallId('parallel-enabled'),
       name: 'todo_write',
       arguments: { todos: PARALLEL_TODOS },
       agent: owner,
     })
     expect(result.isError).toBe(false)
-    expect(owner.session.events.findLast(e => e.type === 'todo/write')?.data.todos).toEqual(PARALLEL_TODOS)
+    expect(owner.session.snapshotEvents().findLast(e => e.type === 'todo/write')?.data.todos).toEqual(PARALLEL_TODOS)
   }, 30_000)
 
   it.each([

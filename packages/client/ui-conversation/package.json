@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-client-ui-conversation",
-  "description": "Conversation domain: skeleton, ordered chat flow, composer with the Host-backed busy-Enter preference, and details host",
-  "version": "0.1.0-rc.7",
+  "description": "Target-neutral Conversation assembly, shell, composer, queue, and view navigation",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/client/ui-conversation"
   },
   "type": "module",
@@ -17,10 +17,6 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
-    },
-    "./invariant": {
-      "types": "./lib/types/invariant.d.ts",
-      "default": "./lib/invariant.js"
     },
     "./client": {
       "types": "./lib/types/client/index.d.ts",
@@ -32,12 +28,13 @@
   "dsh": {
     "client": {
       "inject": [
-        "@xneog/dsh-client-connection",
+        "@xneog/dsh-api-session-controller",
         "@xneog/dsh-client-locale",
-        "@xneog/dsh-client-runtime",
+        "@xneog/dsh-client-ui-layout",
+        "@xneog/dsh-client-ui-renderer",
+        "@xneog/dsh-client-ui-session",
         "@xneog/dsh-client-ui-settings",
-        "@xneog/dsh-api-remotes",
-        "@xneog/dsh-client-ui-layout"
+        "@xneog/dsh-client-ui-workspace"
       ],
       "platform": "web"
     }
@@ -48,67 +45,56 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@xneog/dsh-settings": "workspace:^",
     "clsx": "^2.0.0",
-    "@xneog/schemastery": "workspace:^"
+    "@xneog/schemastery": "workspace:^",
+    "@lexical/history": "^0.49.0",
+    "@lexical/plain-text": "^0.49.0",
+    "@lexical/text": "^0.49.0",
+    "@lexical/utils": "^0.49.0",
+    "lexical": "^0.49.0"
   },
   "peerDependencies": {
-    "@xneog/cordis": "workspace:^",
-    "@xneog/dsh-agent": "workspace:^",
-    "@xneog/dsh-api-remotes": "workspace:^",
-    "@xneog/dsh-attachment": "workspace:^",
-    "@xneog/dsh-brand": "workspace:^",
-    "@xneog/dsh-client-connection": "workspace:^",
-    "@xneog/dsh-client-locale": "workspace:^",
-    "@xneog/dsh-client-runtime": "workspace:^",
-    "@xneog/dsh-client-ui-attachment": "workspace:^",
-    "@xneog/dsh-client-ui-primitives": "workspace:^",
-    "@xneog/dsh-client-ui-settings": "workspace:^",
-    "@xneog/dsh-client-ui-input-trigger": "workspace:^",
-    "@xneog/dsh-client-ui-slots": "workspace:^",
-    "@xneog/dsh-commands": "workspace:^",
-    "@xneog/dsh-compaction": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
-    "@xneog/dsh-llm-retry": "workspace:^",
-    "@xneog/dsh-session-stats": "workspace:^",
-    "@xneog/dsh-token-meter": "workspace:^",
-    "@xneog/dsh-tools": "workspace:^",
-    "react": "^18.2.0"
+    "@xneog/cordis": "workspace:^"
   },
   "devDependencies": {
     "@xneog/cordis": "workspace:^",
-    "@xneog/dsh-agent": "workspace:^",
     "@xneog/dsh-api-remotes": "workspace:^",
+    "@xneog/dsh-api-session-controller": "workspace:^",
+    "@xneog/dsh-api-workspace-controller": "workspace:^",
     "@xneog/dsh-attachment": "workspace:^",
     "@xneog/dsh-brand": "workspace:^",
-    "@xneog/dsh-client-connection": "workspace:^",
     "@xneog/dsh-client-locale": "workspace:^",
-    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-store": "workspace:^",
     "@xneog/dsh-client-test-runtime": "workspace:^",
     "@xneog/dsh-client-ui-layout": "workspace:^",
-    "@xneog/dsh-client-ui-attachment": "workspace:^",
     "@xneog/dsh-client-ui-primitives": "workspace:^",
+    "@xneog/dsh-client-ui-renderer": "workspace:^",
+    "@xneog/dsh-client-ui-session": "workspace:^",
     "@xneog/dsh-client-ui-settings": "workspace:^",
-    "@xneog/dsh-client-ui-input-trigger": "workspace:^",
+    "@xneog/dsh-client-ui-workspace": "workspace:^",
     "@xneog/dsh-client-ui-slots": "workspace:^",
     "@xneog/dsh-commands": "workspace:^",
-    "@xneog/dsh-compaction": "workspace:^",
     "@xneog/dsh-goal": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-llm-retry": "workspace:^",
     "@xneog/dsh-permission-presets": "workspace:^",
     "@xneog/dsh-plan-mode": "workspace:^",
-    "@xneog/dsh-session-projection": "workspace:^",
-    "@xneog/dsh-session-stats": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-token-meter": "workspace:^",
     "@xneog/dsh-tool-todo": "workspace:^",
-    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-util-crypto": "workspace:^",
+    "@xneog/dsh-workspace": "workspace:^",
+    "@xneog/dsh-util-workspace-path": "workspace:^",
     "@types/react": "~18.3.1",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "@lexical/headless": "^0.49.0",
+    "react-dom": "^18.2.0",
+    "@types/react-dom": "~18.3.0",
+    "zod": "^4.4.3",
+    "@xneog/dsh-settings": "workspace:^"
   },
   "files": [
     "lib/index.js",
-    "lib/invariant.js",
     "lib/client.js",
     "lib/types/**/*.d.ts"
   ]

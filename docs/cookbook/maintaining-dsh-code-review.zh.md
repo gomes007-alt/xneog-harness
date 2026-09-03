@@ -2,7 +2,7 @@
 
 [English](maintaining-dsh-code-review.md) | 中文
 
-[`dsh-code-review`](../../.agents/skills/dsh-code-review/SKILL.md) skill（技能）由一名指定操作员通过私有的周期维护工具持续更新。本实操手册既是该操作员和接任者的入口，也帮助仓库贡献者理解为何 skill 更新会以小型周期 PR（Pull Request）的形式出现，而不是一次性审计。工作流本身由[人工评审 skill 维护 Agent Note](../../.agents/notes/proposed/process/2026-07-13-human-review-skill-maintenance.md)规定。
+[`dsh-code-review`](../../.agents/skills/dsh-code-review/SKILL.md) skill（技能）由一名指定操作员通过私有的周期维护工具持续更新。本实操手册既是该操作员和接任者的入口，也帮助仓库贡献者理解为何 skill 更新会以小型周期 PR（Pull Request）的形式出现，而不是一次性审计。工作流本身由[人工评审 skill 维护 Agent Note](../../.agents/notes/proposed/process/2026-07-13-human-review-skill-maintenance.zh.md)规定。
 
 ## 维护者会收到什么
 
@@ -41,7 +41,7 @@
    - **提升。** 在仓库的干净 `master` checkout 中运行提升辅助工具。它会刷新 `master`、验证当前 skill 与记录的源 blob 一致、应用保存的 diff，并创建一份 draft PR，其正文列出原始反馈的 URL 或 ID、已落地的 commit 范围、发起这次更改的运行、检查以及操作员编辑。如果 skill 已发生漂移，它会停止而不是覆盖更新后的指导；操作员仍需在 GitHub 上评审 PR，并选择合并或关闭。
 
      ```sh
-     cd ~/path/to/deepseek-harness   # clean master
+     cd ~/path/to/xneog-harness   # clean master
      dsh-code-review-promote 2026-07-16T02-00-00Z
      ```
 

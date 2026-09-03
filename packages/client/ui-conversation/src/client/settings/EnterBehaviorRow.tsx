@@ -1,6 +1,6 @@
 /** General Settings row for the Composer's busy-state Enter preference. */
 import { useState } from 'react'
-import type { SnapshotStore } from '@xneog/dsh-client-runtime/client'
+import type { SnapshotStore } from '@xneog/dsh-client-store'
 import type { InjectFace, PropsLocale, PropsRuntime } from '@xneog/dsh-client-ui-slots'
 import { IconChevronDownOutline14, Menu } from '@xneog/dsh-client-ui-primitives'
 import type { BusyEnterBehavior } from '../contract/composer-submission.ts'

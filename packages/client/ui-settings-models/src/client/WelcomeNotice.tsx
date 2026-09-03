@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
-import type { SnapshotStore } from '@xneog/dsh-client-runtime/client'
+import type { SnapshotStore } from '@xneog/dsh-client-store'
 import type { InjectFace, PropsRuntime } from '@xneog/dsh-client-ui-slots'
 import { Button } from '@xneog/dsh-client-ui-primitives'
 import type { WelcomeNoticeState, WelcomeNoticeStore } from './welcome-store.ts'

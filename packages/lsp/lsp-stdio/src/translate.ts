@@ -12,7 +12,7 @@ import type {
   LspRange,
 } from '@xneog/dsh-lsp'
 import { LspError } from '@xneog/dsh-lsp'
-import { assertNever } from '@xneog/dsh-llm'
+import { assertNever } from '@xneog/dsh-util-values'
 import type {
   WireHover,
   WireLocation,

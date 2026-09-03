@@ -16,7 +16,7 @@ import type {
   CordisDynamicPluginRunId,
   DynamicCordisPackage,
 } from '@xneog/dsh-api-remotes/client'
-import { SlotRegistry } from '@xneog/dsh-client-runtime/client'
+import { SlotRegistry } from '@xneog/dsh-client-ui-renderer/client'
 import { dynamicCordisContext } from '../src/client/guard.ts'
 import type { DynamicCordisSlotLedgerRow } from '../src/client/guard.ts'
 

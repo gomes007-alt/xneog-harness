@@ -6,9 +6,11 @@
 
 import type { Context } from '@xneog/cordis'
 import z from '@xneog/schemastery'
-import { createUserMessage, BlockAssembler, deepFreeze } from '@xneog/dsh-llm'
+import { createUserMessage, BlockAssembler } from '@xneog/dsh-llm'
 import type { FinishReason, GenerateOptions, Message } from '@xneog/dsh-llm'
 import { deadline, MAX_TIMER_DELAY_MS } from '@xneog/dsh-timeout'
+import { deepFreeze } from '@xneog/dsh-util-values'
+import type { SessionSeq } from '@xneog/dsh-session'
 import {
   normalizeSessionTitle,
   SessionTitleProviderId,
@@ -26,7 +28,7 @@ export interface SessionTitleLlmRequestEventData {
   /** Registered title-provider identity responsible for the request. */
   readonly titleProvider: SessionTitleProviderId
   /** Exact human `user/message` seqs represented in `messages`. */
-  readonly messageSeqs: number[]
+  readonly messageSeqs: SessionSeq[]
   /** Exact auxiliary LLM route. */
   readonly route: SessionTitleModelProvenance
   /** Exact auxiliary system prompt. */

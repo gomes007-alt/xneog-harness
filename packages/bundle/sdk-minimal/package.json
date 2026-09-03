@@ -1,0 +1,73 @@
+{
+  "name": "@xneog/dsh-sdk-minimal",
+  "description": "The standalone minimal SDK profile bundle: JSON-RPC, one DeepSeek adapter, persistent shell, editor, and JSONL sessions",
+  "version": "0.1.2-rc.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
+    "directory": "packages/bundle/sdk-minimal"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@xneog/cordis-plugin-timer": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-loop": "workspace:^",
+    "@xneog/dsh-deepseek-llm-api-extensions": "workspace:^",
+    "@xneog/dsh-fs-local": "workspace:^",
+    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-jobs-local": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-llm-deepseek": "workspace:^",
+    "@xneog/dsh-llm-retry": "workspace:^",
+    "@xneog/dsh-plugin-package-inventory-deepseek": "workspace:^",
+    "@xneog/dsh-sandbox-local": "workspace:^",
+    "@xneog/dsh-sandbox-policy": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-sdk-app": "workspace:^",
+    "@xneog/dsh-sdk-jsonrpc-server": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-log-deepseek": "workspace:^",
+    "@xneog/dsh-session-persistence-jsonl": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-subprocess-local": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-terminal": "workspace:^",
+    "@xneog/dsh-terminal-bash": "workspace:^",
+    "@xneog/dsh-tool-bash-persistent": "workspace:^",
+    "@xneog/dsh-tool-pwsh-persistent": "workspace:^",
+    "@xneog/dsh-tool-str-replace-editor": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^"
+  },
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis": "workspace:^"
+  }
+}

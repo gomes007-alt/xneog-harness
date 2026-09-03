@@ -11,6 +11,7 @@ import AgentLoop from '@xneog/dsh-agent-loop'
 import LlmRuntime, { createUserMessage, LlmAdapter, LlmError, resolveRetryPolicy  } from '@xneog/dsh-llm'
 import type { GenerateOptions, ResolvedRetryPolicy, StreamChunk } from '@xneog/dsh-llm'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
 import * as retry from '../src/index.ts'
@@ -60,6 +61,7 @@ async function loadYaml(lines: readonly string[]): Promise<Context> {
   const modules = new Map<string, unknown>([
     ['@xneog/dsh-llm', LlmRuntime],
     ['@xneog/dsh-session', SessionStore],
+    ['@xneog/dsh-session-projection', SessionProjectionRegistry],
     ['@xneog/dsh-system-prompt', SystemPrompt],
     ['@xneog/dsh-tools', ToolRuntime],
     ['@xneog/dsh-agent', AgentRegistry],
@@ -89,6 +91,7 @@ describe('real Loader composition', () => {
     const loaded = await loadYaml([
       "- name: '@xneog/dsh-llm'",
       "- name: '@xneog/dsh-session'",
+      "- name: '@xneog/dsh-session-projection'",
       "- name: '@xneog/dsh-system-prompt'",
       "- name: '@xneog/dsh-tools'",
       "- name: '@xneog/dsh-agent'",
@@ -104,12 +107,12 @@ describe('real Loader composition', () => {
 
     const adapter = new TransientOnceAdapter()
     loaded.llm.registerAdapter(['mock'], adapter)
-    const agent = loaded.agentLoop.create(SessionId('loader-retry'), { provider: 'mock', model: 'mock' })
+    const agent = await loaded.agentLoop.create(SessionId('loader-retry'), { provider: 'mock', model: 'mock' })
     agent.followup(createUserMessage({ content: [{ type: 'text', text: 'recover' }], source: { kind: 'user' } }))
     await agent.whenIdle()
 
     expect(adapter.requests).toBe(2)
-    expect(agent.session.events.filter(event => event.type === 'llm/retry')).toHaveLength(1)
+    expect(agent.session.snapshotEvents().filter(event => event.type === 'llm/retry')).toHaveLength(1)
     expect(agent.session.deriveMessages().at(-1)).toMatchObject({
       role: 'assistant',
       content: [{ type: 'text', text: 'recovered' }],

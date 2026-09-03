@@ -11,7 +11,6 @@ import type { GoalRef, GoalView } from '@xneog/dsh-goal'
 import { boundContextSummary, createUserMessage, HarnessError } from '@xneog/dsh-llm'
 import { defineTool } from '@xneog/dsh-tools'
 import type { GenericCallView } from '@xneog/dsh-tools'
-import type {} from '@xneog/dsh-system-prompt'
 import {
   completionAuthority,
   goalToolExecution,
@@ -20,7 +19,7 @@ import {
 import { renderWrapupContext } from './wrapup.ts'
 
 export const name = 'tool-goal'
-export const inject = ['agents', 'goals', 'tools', 'systemPrompt']
+export const inject = ['agents', 'goals', 'tools', 'systemPrompt', 'sessionProjections']
 
 /** Model policy and hard lower bounds for goal-state updates. */
 export interface Config {
@@ -188,7 +187,7 @@ export function apply(ctx: Context, config: Config): void {
   const resolved = resolveConfig(config)
   ctx.systemPrompt.section({
     name: 'tool:goal',
-    order: 114,
+    order: ctx.systemPrompt.getSectionOrder('TOOL_GOAL'),
     text: guidance(resolved.blockedAfterConsecutiveRounds),
   })
 

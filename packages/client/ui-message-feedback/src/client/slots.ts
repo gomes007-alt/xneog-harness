@@ -12,7 +12,7 @@ import type {
   HostObservable, InjectFace, PropsLocale, PropsRuntime,
 } from '@xneog/dsh-client-ui-slots'
 import type {} from '@xneog/dsh-client-ui-conversation/client'
-import type { MessageId } from '@xneog/dsh-client-connection/client'
+import type { MessageId } from '@xneog/dsh-api-remotes/client'
 import type { MessageFeedbackRating } from '@xneog/dsh-message-feedback/types'
 // Type-only: pulls this package's LocaleNamespaceMap merge (the 'feedback' seat).
 import type {} from './locales.ts'

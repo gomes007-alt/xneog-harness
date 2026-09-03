@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import TokenMeter from '@xneog/dsh-token-meter'
 import ToolResultPruner from '@xneog/dsh-compaction-tool-result-pruner'
 
@@ -24,6 +25,7 @@ describe('compaction-tool-result-pruner real Loader composition', () => {
     root = await mkdtemp(join(tmpdir(), 'dsh-compact-tool-result-prune-loader-'))
     const configPath = join(root, 'cordis.yml')
     await writeFile(configPath, [
+      "- name: '@xneog/dsh-session-projection'",
       "- name: '@xneog/dsh-token-meter'",
       "- name: '@xneog/dsh-compaction-tool-result-pruner'",
       '  config:',
@@ -40,6 +42,7 @@ describe('compaction-tool-result-pruner real Loader composition', () => {
     context.loader.internal = {
       version: 'v2',
       async import(specifier: string) {
+        if (specifier === '@xneog/dsh-session-projection') return SessionProjectionRegistry
         if (specifier === '@xneog/dsh-token-meter') return TokenMeter
         if (specifier === '@xneog/dsh-compaction-tool-result-pruner') return ToolResultPruner
         throw new Error(`unexpected Loader import: ${specifier}`)
@@ -61,8 +64,9 @@ describe('compaction-tool-result-pruner real Loader composition', () => {
 
   it('rejects stale config after plugin schema normalization', async () => {
     context = new Context()
-    // Satisfy the declared injection first: config normalization runs in the
+    // Satisfy the declared injections first: config normalization runs in the
     // service constructor, which a pending fiber never reaches.
+    await context.plugin(SessionProjectionRegistry)
     await context.plugin(TokenMeter)
     await expect(context.plugin(ToolResultPruner, {
       maxChars: 100,

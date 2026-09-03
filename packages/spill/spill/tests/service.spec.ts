@@ -7,7 +7,7 @@
 
 import { describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
-import { CallId } from '@xneog/dsh-llm'
+import { ToolCallId } from '@xneog/dsh-llm'
 import { SessionId } from '@xneog/dsh-session'
 import { SpillLocator, SpillStore } from '@xneog/dsh-spill'
 import type { SaveTextSpill, SpillRef } from '@xneog/dsh-spill'
@@ -29,7 +29,7 @@ class StubStore extends SpillStore {
 function request(content: string): SaveTextSpill {
   return {
     owner: { sessionId: SessionId('s1') },
-    source: { toolName: 'web_fetch', callId: CallId('c1'), label: 'result' },
+    source: { toolName: 'web_fetch', callId: ToolCallId('c1'), label: 'result' },
     suggestedName: 'web_fetch.txt',
     content,
   }

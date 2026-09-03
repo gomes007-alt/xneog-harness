@@ -4,7 +4,8 @@
  */
 
 import type { Branded } from '@xneog/dsh-brand'
-import type { JsonValue, SessionId } from '@xneog/dsh-session/types'
+import type { SessionId } from '@xneog/dsh-session/types'
+import type { JsonValue } from '@xneog/dsh-util-values'
 
 /** Stable identity of one dynamic plugin instance. */
 export type CordisDynamicPluginId = Branded<'CordisDynamicPluginId'>

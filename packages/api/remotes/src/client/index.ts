@@ -1,19 +1,37 @@
 /** Platform-neutral assembly of generated Host Remote contributions. */
 
 import type { Context } from '@xneog/cordis'
+import agentPresetsRemote from '@xneog/dsh-agent-presets/remote'
 import commandsRemote from '@xneog/dsh-commands/remote'
+import settingsControllerRemote from '@xneog/dsh-api-settings-controller/remote'
 import goalsRemote from '@xneog/dsh-goal/remote'
+import llmRemote from '@xneog/dsh-llm/remote'
 import dynamicRemote from '@xneog/dsh-cordis-host-runner/remote'
 import pluginInventoryRemote from '@xneog/dsh-host-plugin-inventory/remote'
 import messageFeedbackRemote from '@xneog/dsh-message-feedback/remote'
-import type { TypertClientRemote } from '@xneog/dsh-typert-protocol'
+import sessionReferencesRemote from '@xneog/dsh-session-reference/remote'
+import subagentsRemote from '@xneog/dsh-subagent/remote'
+import sessionRemote from '@xneog/dsh-api-session-controller/remote'
+import workspaceRemote from '@xneog/dsh-api-workspace-controller/remote'
+import type { ClientRemote } from '@xneog/dsh-api-gateway/client'
 
-export type { TypertClientRemote as ClientRemote } from '@xneog/dsh-typert-protocol'
+export type { ClientRemote } from '@xneog/dsh-api-gateway/client'
 export type { PluginInventorySnapshot } from '@xneog/dsh-host-plugin-inventory/types'
+export type {} from '@xneog/dsh-agent-presets/remote'
 export type {} from '@xneog/dsh-commands/remote'
+export type {} from '@xneog/dsh-api-settings-controller/remote'
 export type {} from '@xneog/dsh-goal/remote'
+export type {} from '@xneog/dsh-llm/remote'
 export type {} from '@xneog/dsh-host-plugin-inventory/remote'
 export type {} from '@xneog/dsh-message-feedback/remote'
+export type {} from '@xneog/dsh-session-reference/remote'
+export type {} from '@xneog/dsh-subagent/remote'
+export type * from '@xneog/dsh-subagent/client'
+export type {} from '@xneog/dsh-api-session-controller/remote'
+export type * from '@xneog/dsh-api-session-controller/types'
+export type {} from '@xneog/dsh-api-workspace-controller/remote'
+export type * from '@xneog/dsh-api-workspace-controller/types'
+export type { SessionJob as JobView } from '@xneog/dsh-api-session-controller/types'
 // The forwarded-event allowlist's selection seat: without it in the consumer's
 // compilation face `TypertRemoteEvent` is `never` and every `$on` call fails.
 export type { ApiRemoteForwardedEvent } from '../types.ts'
@@ -26,6 +44,9 @@ export type {} from '@xneog/dsh-credentials/types'
 export type {} from '@xneog/dsh-llm/types'
 export type {} from '@xneog/dsh-agent-presets/types'
 export type {} from '@xneog/dsh-settings/types'
+export type {} from '@xneog/dsh-user-approval/types'
+export type {} from '@xneog/dsh-user-questions/types'
+export type {} from '@xneog/dsh-api-session-controller/types'
 
 /**
  * The carrier's Client-facing types, re-exported so a business package names one
@@ -33,14 +54,10 @@ export type {} from '@xneog/dsh-settings/types'
  * the carrier's runtime values stay behind their own module edge.
  */
 export type {
-  ClientResponse, ConfigurableProviderView, ConnectionHandle, ConnectionSinks, ContentBlock,
-  CredentialView, DirectoryListing, DiscoveredModelView, HistoryEntry, HostFrame, IApiClient,
-  MessageId, ModelCatalogFailure, ModelProviderGroup, ModelReasoningEffort, ModelSelection,
-  MuxFrame, PromptContentPart, QuestionResponsePayload, QueueAction, RpcError, RpcId, RpcReceipt,
-  RpcRequest, RpcResponse, RpcResult, SessionId, SessionModels, SessionSearchItem,
-  SessionSummary, SettingsNamespaceView, SettingsPathOpView, SkillEntry, StreamChunk,
-  SubagentAddress, SubagentCatalog, JobView, ToolCallView, ToolEventView, ToolResultView,
-  WorkspaceId, WorkspaceView,
+  ConnectionHandle, ConnectionSinks, ContentBlock,
+  MessageId,
+  RpcId, RpcRequest, RpcResponse, RpcResult, SessionId,
+  StreamChunk,
 } from '@xneog/dsh-client-connection/client'
 export type {} from '@xneog/dsh-api-gateway/client'
 export type {} from '@xneog/dsh-cordis-host-runner/remote'
@@ -82,15 +99,36 @@ export type {
   DynamicCordisUndefineReceipt,
   RequestRunOutcome,
 } from '@xneog/dsh-cordis-host-runner/types'
-// The JSON vocabulary those payloads are built from, re-exported for the same
-// reason: a Client contribution names what it sends without importing a Host
-// package, and this assembly is where both planes legitimately meet.
-export type { JsonValue } from '@xneog/dsh-session/types'
+// Credential state vocabulary for the credentials namespace (values never ride it).
+export type { CredentialInfo } from '@xneog/dsh-credentials/types'
+// Redacted namespace vocabulary for the settings namespace (secrets never ride
+// it). It travels with its seam, whose `./types` the Client face already reads.
+export type {
+  SettingsDescribeValue, SettingsNamespaceView, SettingsPathOpView, SettingsSecretView,
+} from '@xneog/dsh-settings/types'
+// Provider registry and discovery vocabulary for the llm namespace.
+export type {
+  LlmConfigurableProvider, LlmDiscoveredModel,
+  LlmModelDiscoveryRequest, LlmProviderInfo,
+} from '@xneog/dsh-llm/types'
+// Reference-discovery result vocabulary for the fileReferences and
+// sessionReferenceResolver namespaces.
+export type { FileReferenceCandidate } from '@xneog/dsh-file-reference/types'
+export type { SessionReferenceMentionCandidate } from '@xneog/dsh-session-reference/types'
+
+// The Remote failure vocabulary, re-exported so business packages keep naming
+// this assembly alone. Types only: a value export would make spec imports load
+// this module's owner /remote artifacts; specs take RemoteError from
+// dsh-client-test-runtime instead.
+export type {
+  RemoteErrorCode, RemoteErrorDetailsMap, RemoteFailure, RemoteResult,
+} from '@xneog/dsh-typert-protocol'
+export type { RemoteHostFacts } from '@xneog/dsh-api-gateway/client'
 
 declare module '@xneog/cordis' {
   interface Context {
     /** Generated Remote namespaces selected by this Client assembly. */
-    remote: TypertClientRemote
+    remote: ClientRemote
   }
 }
 
@@ -106,7 +144,9 @@ export async function apply(ctx: Context): Promise<() => Promise<void>> {
   const disposers: Array<() => Promise<void>> = []
   try {
     for (const contribution of [
-      commandsRemote, goalsRemote, dynamicRemote, pluginInventoryRemote, messageFeedbackRemote,
+      agentPresetsRemote, commandsRemote, settingsControllerRemote, goalsRemote, llmRemote, dynamicRemote,
+      pluginInventoryRemote, messageFeedbackRemote, sessionReferencesRemote,
+      subagentsRemote, sessionRemote, workspaceRemote,
     ]) {
       disposers.push(await ctx.remote.$mount(contribution))
     }

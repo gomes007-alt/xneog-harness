@@ -1,6 +1,6 @@
 /** Injected faces and the Package-owned `tool.view.cordis` slot declaration. */
 
-import type { SessionId } from '@xneog/dsh-client-connection/client'
+import type { SessionId } from '@xneog/dsh-api-remotes/client'
 import type { HostObservable } from '@xneog/dsh-client-ui-slots'
 import type {
   CordisRunActivity, CordisRunFailure, CordisUserRunRequest, DynamicCordisLivePackage,

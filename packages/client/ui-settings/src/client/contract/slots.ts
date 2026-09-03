@@ -9,6 +9,7 @@
  * ui-settings-general too.
  */
 
+import type {} from '@xneog/dsh-client-ui-slots'
 
 declare module '@xneog/dsh-client-ui-slots' {
   interface SlotMap {

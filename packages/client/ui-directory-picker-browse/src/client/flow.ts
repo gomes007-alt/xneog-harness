@@ -5,7 +5,7 @@
  */
 import { createElement } from 'react'
 import type { ReactElement } from 'react'
-import type { DirectoryListing } from '@xneog/dsh-client-runtime/client'
+import type { DirectoryListing } from '@xneog/dsh-api-remotes/client'
 import type { Translate } from '@xneog/dsh-client-locale/client'
 // Type-only: the owner contract of the directory-flow holes.
 import type { DirectoryFlowOwnerProps } from '@xneog/dsh-client-ui-workspace/client'

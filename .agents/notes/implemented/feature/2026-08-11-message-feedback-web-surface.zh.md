@@ -6,9 +6,9 @@ Status: implemented
 
 ## 问题
 
-[PR #2217](https://github.com/deepseek-harness/deepseek-harness/pull/2217) 交付了持久化的消息反馈 sidecar 及其三个 Host Remote 方法，但它明确只做后端：没有任何客户端包消费 `messageFeedback.list`、`put` 或 `delete`，因此 Web GUI 无法记录评价。它的 Agent Note 把「客户端 Remote aggregate 挂载与 UI」留给了另一个负责人。Issue #1326 要求的正是 Web 界面，却在该后端合并时被关闭，而用户可见的那一半并不存在。
+[PR #2217](https://github.com/deepseek-harness/xneog-harness/pull/2217) 交付了持久化的消息反馈 sidecar 及其三个 Host Remote 方法，但它明确只做后端：没有任何客户端包消费 `messageFeedback.list`、`put` 或 `delete`，因此 Web GUI 无法记录评价。它的 Agent Note 把「客户端 Remote aggregate 挂载与 UI」留给了另一个负责人。Issue #1326 要求的正是 Web 界面，却在该后端合并时被关闭，而用户可见的那一半并不存在。
 
-更早的全栈尝试 [PR #1010](https://github.com/deepseek-harness/deepseek-harness/pull/1010) 带有 UI 层，但它基于自己的后端、形状不同：整个 Session 一个 `revision` 做 compare-and-swap，RPC 名为 `feedback.upsert`。#2217 最终交付的是逐条 `ifVersion` 与 `messageFeedback.put`，因此 #1010 的 controller 逻辑不再匹配契约；它的分支在结构上也已漂移（改动了 `packages/cordis/`，该目录已重命名为 `packages/extensions/`；新增的顶层 `packages/session-feedback/` 与整合后的 `packages/feedback/` 冲突）。它作为 superseded 关闭，而不是 rebase。
+更早的全栈尝试 [PR #1010](https://github.com/deepseek-harness/xneog-harness/pull/1010) 带有 UI 层，但它基于自己的后端、形状不同：整个 Session 一个 `revision` 做 compare-and-swap，RPC 名为 `feedback.upsert`。#2217 最终交付的是逐条 `ifVersion` 与 `messageFeedback.put`，因此 #1010 的 controller 逻辑不再匹配契约；它的分支在结构上也已漂移（改动了 `packages/cordis/`，该目录已重命名为 `packages/extensions/`；新增的顶层 `packages/session-feedback/` 与整合后的 `packages/feedback/` 冲突）。它作为 superseded 关闭，而不是 rebase。
 
 任何 UI 的阻塞缺口在于浏览器无法指名一个反馈目标。Host 只接受以 `MessageId` 寻址的 append 来源 `assistant/message`，但 `AssistantMessageNode`——客户端表示已完成 assistant 输出的节点——只携带 `seq`、`turn`、`step`，没有消息身份。只有 `SteeringMessageNode` 有 `messageId`。
 
@@ -46,7 +46,7 @@ list 读取被推迟到首次 hover 或 focus，而不是在 mount 时触发，�
 
 Web GUI 可以记录逐条消息的评价与备注。#1326 中用户可见的那一半现在存在了；该 Issue 之所以被重开，是因为后端合并在没有任何入口存在的情况下关闭了它。
 
-`AssistantMessageNode.messageId` 是可选的，因此所有既有读取方无需改动即可编译，但任何将来的消费方都必须处理缺失，而不能假定消息已完成。两个并行的物化点仍是重复隐患：第三个构造该节点的视图必须记得复制该 id，而没有任何机制强制这一点。今天只有 chat 视图渲染控件，尽管 trajectory 与 waterfall 节点现在携带同一个 id。
+`AssistantMessageNode.messageId` 是可选的，因此所有既有读取方无需改动即可编译，但任何将来的消费方都必须处理缺失，而不能假定消息已完成。两个并行的物化点仍是重复隐患：第三个构造该节点的视图必须记得复制该 id，而没有任何机制强制这一点。只有 chat 视图渲染控件，尽管 trajectory 与 waterfall 节点现在携带同一个 id。
 
 反馈对模型保持不可见——该 sidecar 既不进入 Session 日志、也不进入模型上下文与 telemetry——因此该包的 Model Experience 是一条经审计的 `none` 条目，而不是结构化区块。
 

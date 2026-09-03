@@ -8,8 +8,9 @@
  */
 import { Context } from '@xneog/cordis'
 import { describe, expect, it } from 'vitest'
-import { createScope, scopeOf, SlotRegistry } from '@xneog/dsh-client-runtime/client'
-import type { SessionId } from '@xneog/dsh-client-runtime/client'
+import { createScope, scopeOf } from '@xneog/dsh-api-session-controller/client'
+import { SlotRegistry } from '@xneog/dsh-client-ui-renderer/client'
+import type { SessionId } from '@xneog/dsh-session/types'
 import type { InputTriggerSource } from '@xneog/dsh-client-ui-input-trigger/client'
 import type { CommandUiContract } from '../src/client/contract.ts'
 import type { PopupSelectInjected } from '../src/client/PopupSelectView.tsx'

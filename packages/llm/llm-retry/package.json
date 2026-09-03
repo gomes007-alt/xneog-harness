@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-llm-retry",
   "description": "Provider-routed LLM request retry policy for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/llm/llm-retry"
   },
   "type": "module",
@@ -42,10 +42,12 @@
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-timeout": "workspace:^",
-    "@xneog/cordis": "workspace:^"
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^"
   },
   "dependencies": {
-    "@xneog/schemastery": "workspace:^"
+    "@xneog/schemastery": "workspace:^",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@xneog/dsh-brand": "workspace:^",
@@ -60,10 +62,10 @@
     "@xneog/dsh-llm-mock-server": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-session-persistence-jsonl": "workspace:^",
-    "@xneog/dsh-session-persistence-sqlite": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/dsh-timeout": "workspace:^",
     "@xneog/dsh-tools": "workspace:^",
-    "@xneog/cordis": "workspace:^"
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^"
   }
 }

@@ -2,7 +2,7 @@
 
 import { HarnessError } from '@xneog/dsh-llm'
 import type { ContentBlock } from '@xneog/dsh-llm'
-import type { JsonValue } from '@xneog/dsh-session'
+import type { JsonValue } from '@xneog/dsh-util-values'
 import type { ToolDefinition, ToolExecution, ToolExecutionResult, ToolRunContext, ToolResult } from './index.ts'
 import { assertSupportedJsonSchema, isJsonSchemaRecord, isPlainJsonArray, JsonSchemaError, validateJsonSchemaValue } from './json-schema.ts'
 import type { JsonSchemaNode, JsonSchemaScalar, ObjectJsonSchema } from './json-schema.ts'

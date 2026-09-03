@@ -1,6 +1,2 @@
-# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
-# side as of the last confirmed-consistent state. Both languages carry equal authority;
-# after editing either side, bring the other along and re-record with:
-#   pnpm run verify-translation-pairing --write
-2026-07-05-windows-fs-permissions.md: da3aabd872156d04e27b8b5521486e1190ac1173
-2026-07-05-windows-fs-permissions.zh.md: 8cb3e90922894f1755e8861411a36463d1ec7367
+2026-07-05-windows-fs-permissions.md: 75b9346f8adcc8ea290192006756f95300ff5797
+2026-07-05-windows-fs-permissions.zh.md: 465b707fb670820324f0c681d7ac040a39c3ce9e

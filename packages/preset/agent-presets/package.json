@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-agent-presets",
   "description": "Per-session agent composition from preset cordis.yml files for the xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/preset/agent-presets"
   },
   "type": "module",
@@ -26,14 +26,31 @@
       "types": "./lib/types/types.d.ts",
       "default": "./lib/types/types.js"
     },
+    "./display": {
+      "types": "./lib/types/display.d.ts",
+      "default": "./lib/types/display.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
   "files": [
     "lib/index.js",
     "lib/invariant.js",
+    "presets",
     "lib/types/**/*.js",
-    "lib/types/**/*.d.ts"
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
   ],
   "license": "MIT",
   "peerDependencies": {
@@ -45,15 +62,20 @@
     "@xneog/dsh-home-paths": "workspace:^",
     "@xneog/dsh-scope": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
     "@xneog/dsh-settings": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
     "@xneog/cordis": "workspace:^"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "@xneog/schemastery": "workspace:^"
+    "@xneog/schemastery": "workspace:^",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@xneog/cordis-plugin-group": "workspace:^",
     "@xneog/cordis-plugin-include": "workspace:^",
     "@xneog/cordis-plugin-loader": "workspace:^",
     "@xneog/dsh-agent": "workspace:^",
@@ -64,10 +86,12 @@
     "@xneog/dsh-home-paths": "workspace:^",
     "@xneog/dsh-scope": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
     "@xneog/dsh-settings": "workspace:^",
     "@xneog/dsh-settings-file": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-typert-protocol": "workspace:^",
     "@xneog/cordis": "workspace:^"
   }
 }

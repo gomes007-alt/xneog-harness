@@ -1,9 +1,11 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
-import { bindSnapshotSelector } from '@xneog/dsh-client-web-react'
-import { createSnapshotStore, type SessionListState, type WorkspaceListState } from '@xneog/dsh-client-runtime/client'
-import { makeTranslate } from '@xneog/dsh-client-test-runtime'
+import { bindSnapshotSelector, makeTranslate } from '@xneog/dsh-client-test-runtime'
+import type { SessionListState } from '@xneog/dsh-api-session-controller/client'
+import type { WorkspaceSnapshot } from '@xneog/dsh-api-workspace-controller/client'
+import type { SessionPendingInteractionSnapshot } from '@xneog/dsh-client-ui-session/client'
+import { createSnapshotStore } from '@xneog/dsh-client-store'
 import { EnterBehaviorRow } from '../src/client/settings/EnterBehaviorRow.tsx'
 import type { EnterBehaviorRowProps } from '../src/client/settings/EnterBehaviorRow.tsx'
 import { ComposerSubmissionPolicy } from '../src/client/input/submission-policy.ts'
@@ -21,10 +23,13 @@ function emptySessions() {
 }
 
 function emptyWorkspaces() {
-  return bindSnapshotSelector(createSnapshotStore<WorkspaceListState>({
+  return bindSnapshotSelector(createSnapshotStore<WorkspaceSnapshot>({
     items: [], archivedSessionIds: [], state: 'idle', phase: 'ready', error: null,
-    baselinesReady: true, recentWorkspaceId: undefined,
   }))
+}
+
+function noPendingInteraction() {
+  return bindSnapshotSelector(createSnapshotStore<SessionPendingInteractionSnapshot>(new Map()))
 }
 
 function mount() {
@@ -32,6 +37,7 @@ function mount() {
   const setBusyEnter = vi.fn((behavior: 'queue' | 'steer') => { policy.setBusyEnter(behavior) })
   const props: EnterBehaviorRowProps = {
     useSessions: emptySessions(),
+    useSessionPendingInteraction: noPendingInteraction(),
     useWorkspaces: emptyWorkspaces(),
     useBusyEnter: bindSnapshotSelector(policy.busyEnter),
     setBusyEnter,

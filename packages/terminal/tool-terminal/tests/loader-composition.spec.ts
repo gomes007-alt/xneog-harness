@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
-import { CallId } from '@xneog/dsh-llm'
+import { ToolCallId } from '@xneog/dsh-llm'
 import { Session, SessionId } from '@xneog/dsh-session'
 import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
@@ -16,6 +16,7 @@ import TerminalSessionService from '@xneog/dsh-terminal'
 import SandboxProvider from '@xneog/dsh-sandbox'
 import type { ConfinedArgv, SandboxPolicy } from '@xneog/dsh-sandbox'
 import SandboxPolicyService from '@xneog/dsh-sandbox-policy'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import LocalSubprocessRuntime from '@xneog/dsh-subprocess-local'
 import * as TerminalLocal from '@xneog/dsh-terminal-bash'
 import * as ToolPty from '@xneog/dsh-tool-terminal'
@@ -69,6 +70,7 @@ suite('terminal real Loader composition through cordis.yml', () => {
       "- name: '@xneog/dsh-tools'",
       "- name: '@xneog/dsh-terminal'",
       "- name: '@xneog/dsh-test-sandbox'",
+      "- name: '@xneog/dsh-session-projection'",
       "- name: '@xneog/dsh-sandbox-policy'",
       '  config:',
       '    mode: danger-full-access',
@@ -96,6 +98,7 @@ suite('terminal real Loader composition through cordis.yml', () => {
       ['@xneog/dsh-tools', ToolRuntime],
       ['@xneog/dsh-terminal', TerminalSessionService],
       ['@xneog/dsh-test-sandbox', PassthroughSandbox],
+      ['@xneog/dsh-session-projection', SessionProjectionRegistry],
       ['@xneog/dsh-sandbox-policy', SandboxPolicyService],
       ['@xneog/dsh-subprocess-local', LocalSubprocessRuntime],
       ['@xneog/dsh-terminal-bash', TerminalLocal],
@@ -114,15 +117,15 @@ suite('terminal real Loader composition through cordis.yml', () => {
     const owner = agent(context)
     const signal = new AbortController().signal
     const spawn = await context.tools.execute({
-      signal, callId: CallId('spawn'), name: 'terminal_open', arguments: { type: 'shell', name: 'main', cwd: root }, agent: owner,
+      signal, callId: ToolCallId('spawn'), name: 'terminal_open', arguments: { type: 'shell', name: 'main', cwd: root }, agent: owner,
     })
     expect(resultText(spawn)).toContain('started terminal session pty-1 (main)')
 
     await context.tools.execute({
-      signal, callId: CallId('state'), name: 'terminal_send', arguments: { sessionId: 'pty-1', text: 'export KEEP=loader; cd /' }, agent: owner,
+      signal, callId: ToolCallId('state'), name: 'terminal_send', arguments: { sessionId: 'pty-1', text: 'export KEEP=loader; cd /' }, agent: owner,
     })
     const read = await context.tools.execute({
-      signal, callId: CallId('read'), name: 'terminal_send', arguments: { sessionId: 'pty-1', text: 'printf "cwd=%s keep=%s\\n" "$PWD" "$KEEP"' }, agent: owner,
+      signal, callId: ToolCallId('read'), name: 'terminal_send', arguments: { sessionId: 'pty-1', text: 'printf "cwd=%s keep=%s\\n" "$PWD" "$KEEP"' }, agent: owner,
     })
     expect(resultText(read)).toContain('cwd=/ keep=loader')
     expect(context.terminals.list(owner)).toHaveLength(1)

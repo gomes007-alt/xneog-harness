@@ -15,7 +15,8 @@ import { dirname, extname, join, resolve } from 'node:path'
 import { Document, parseDocument } from 'yaml'
 import { withFileLock, writeFileAtomic } from '@xneog/dsh-atomic-write'
 import { canonicalizeWatchPath, resolveDshHome } from '@xneog/dsh-home-paths'
-import { SettingsProvider, deepEqualJson, type SettingsNamespace } from '@xneog/dsh-settings'
+import { SettingsProvider, type SettingsNamespace } from '@xneog/dsh-settings'
+import { deepEqualJson } from '@xneog/dsh-util-values'
 
 /** Plugin config: file location and hot-reload behavior. */
 export interface Config {

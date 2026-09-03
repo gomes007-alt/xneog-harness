@@ -9,7 +9,7 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import type { JsonValue } from '@xneog/dsh-session'
+import type { JsonValue } from '@xneog/dsh-util-values'
 import {
   globSearchMeta,
   grepSearchMeta,

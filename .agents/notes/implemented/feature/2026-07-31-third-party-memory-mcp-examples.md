@@ -12,9 +12,9 @@ The acceptance bar is stronger than "the socket connects": each reference must s
 
 ## Decision
 
-Ship three default-off Cordis overlay examples under `examples/mcp-memory`: Memorix, MCP Reference Memory, and Engram. Every file inserts exactly one `@xneog/dsh-mcp-client` row. None is referenced by the shipped composition, and the CLI declares the generic bridge only so an explicitly selected overlay can resolve it.
+Ship three default-off Cordis overlay examples under `apps/cli/config/examples/mcp-memory`: Memorix, MCP Reference Memory, and Engram. Every file inserts exactly one `@xneog/dsh-mcp-client` row. None is referenced by the default composition, and the CLI declares the generic bridge so an explicitly selected overlay resolves in installed and source launches. The [memory MCP guide](../../../../docs/user/guide/mcp-memory.md) owns setup and verification.
 
-These third-party configurations are provided as interoperability examples only. Their inclusion does not imply endorsement, recommendation, partnership, or ongoing support by DeepSeek. There is no memory preset registry, vendor-specific XNG plugin, universal memory service, installation UI, migration layer, health checker, or reconnect controller. Another memory MCP server uses the same documented stdio or Streamable HTTP row.
+These third-party configurations are provided as interoperability examples only. Their inclusion does not imply endorsement, recommendation, partnership, or ongoing support by DeepSeek. There is no memory preset registry, vendor-specific DSH plugin, universal memory service, installation UI, migration layer, health checker, or reconnect controller. Another memory MCP server uses the same documented stdio or Streamable HTTP row.
 
 ## Responsibility boundary
 
@@ -63,7 +63,7 @@ Before merge, manual evidence for every pinned provider must separately show:
 
 ## Alternatives considered
 
-**One XNG plugin per provider.** Rejected because it repeats auth, configuration, lifecycle, and tool wrappers that MCP already standardizes and expands ownership for every added provider.
+**One DSH plugin per provider.** Rejected because it repeats auth, configuration, lifecycle, and tool wrappers that MCP already standardizes and expands ownership for every added provider.
 
 **A memory-provider preset registry.** Rejected because a registry would make third-party versions and recommendations look like a supported DSH product surface. Copyable overlays keep ownership and drift visible.
 

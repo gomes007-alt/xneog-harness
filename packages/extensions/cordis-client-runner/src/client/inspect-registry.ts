@@ -3,9 +3,9 @@
 import type { Context } from '@xneog/cordis'
 import type {
   CordisInspectProviderManifest, CordisInspectQueryRequest, CordisInspectQueryResolution,
-  CordisInspectRequestId, JsonValue,
+  CordisInspectRequestId, SessionId,
 } from '@xneog/dsh-api-remotes/client'
-import type { SessionId } from '@xneog/dsh-client-connection/client'
+import type { JsonValue } from '@xneog/dsh-util-values'
 
 /** Context supplied to a Client inspect provider query. */
 export interface ClientCordisInspectQueryContext {

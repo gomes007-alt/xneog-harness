@@ -4,7 +4,10 @@ import SessionStore, { SessionId, type Session } from '@xneog/dsh-session'
 import { createUserMessage, ProviderRequestId } from '@xneog/dsh-llm'
 import { MAX_TIMER_DELAY_MS } from '@xneog/dsh-timeout'
 import InvariantRegistry from '@xneog/dsh-invariants'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
+import AgentRegistry from '@xneog/dsh-agent'
 import * as RetryInvariant from '@xneog/dsh-llm-retry/invariant'
+import * as retry from '../src/index.ts'
 import { RetryId } from '@xneog/dsh-llm-retry'
 import { providerForOpenStep } from '../src/history.ts'
 
@@ -57,6 +60,28 @@ const always = {
   delayMs: 1,
   failure,
 }
+
+describe('llm-retry projection fold', () => {
+  it('keeps one retry count per dispatch key across duplicate records', async () => {
+    const ctx = new Context()
+    await ctx.plugin(SessionStore)
+    await ctx.plugin(AgentRegistry)
+    await ctx.plugin(SessionProjectionRegistry)
+    await ctx.plugin(retry)
+    const session = ctx.sessions.create(SessionId('retry-dup'))
+    session.append('llm/retry', { turn: 1, step: 1, ...normal })
+    const first = ctx.sessionProjections.stateOf(session, 'llmRetry')
+    session.append('llm/retry', { turn: 1, step: 1, ...normal })
+    const second = ctx.sessionProjections.stateOf(session, 'llmRetry')
+    expect(second).toBe(first)
+    expect(second).toEqual({
+      '["mock","normal-policy"]': {
+        retry: 1,
+        retryId: 'normal-retry-chain',
+      },
+    })
+  })
+})
 
 describe('llm-retry invariants', () => {
   it('has no provider without the requested open step or a route marker', () => {

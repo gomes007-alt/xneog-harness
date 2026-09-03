@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-web-app",
   "description": "The dsh browser-surface bundle: the web patch layer over dsh-base plus the runtime glue plugin (frontend dist serving, web-surface prompt, bash runtime variables, URL line)",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/bundle/web-app"
   },
   "type": "module",
@@ -22,17 +22,12 @@
       "types": "./lib/types/startup.d.ts",
       "default": "./lib/startup.js"
     },
-    "./invariant": {
-      "types": "./lib/types/invariant.d.ts",
-      "default": "./lib/invariant.js"
-    },
     "./cordis.patch.yml": "./cordis.patch.yml",
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
   "files": [
     "lib/index.js",
-    "lib/invariant.js",
     "lib/startup.js",
     "cordis.patch.yml",
     "lib/types/**/*.d.ts"
@@ -45,15 +40,20 @@
   },
   "dependencies": {
     "@xneog/dsh-agent-presets": "workspace:^",
+    "@xneog/dsh-tool-subagent": "workspace:^",
     "@xneog/dsh-api-remotes": "workspace:^",
     "@xneog/dsh-app-boot": "workspace:^",
     "@xneog/dsh-client-connection": "workspace:^",
     "@xneog/dsh-client-hmr": "workspace:^",
     "@xneog/dsh-client-locale": "workspace:^",
     "@xneog/dsh-client-modules": "workspace:^",
-    "@xneog/dsh-client-runtime": "workspace:^",
+    "@xneog/dsh-client-ui-renderer": "workspace:^",
     "@xneog/dsh-client-ui-agent-preset": "workspace:^",
+    "@xneog/dsh-client-ui-attachment": "workspace:^",
+    "@xneog/dsh-client-ui-approval": "workspace:^",
+    "@xneog/dsh-client-ui-brand-official": "workspace:^",
     "@xneog/dsh-client-ui-commands": "workspace:^",
+    "@xneog/dsh-client-ui-chat": "workspace:^",
     "@xneog/dsh-client-ui-conversation": "workspace:^",
     "@xneog/dsh-client-ui-cordis": "workspace:^",
     "@xneog/dsh-client-ui-deliverables": "workspace:^",
@@ -67,6 +67,8 @@
     "@xneog/dsh-client-ui-settings-plugin-inventory": "workspace:^",
     "@xneog/dsh-client-ui-permission-presets": "workspace:^",
     "@xneog/dsh-client-ui-plan": "workspace:^",
+    "@xneog/dsh-client-ui-schedule": "workspace:^",
+    "@xneog/dsh-client-ui-session": "workspace:^",
     "@xneog/dsh-client-ui-settings-plugins": "workspace:^",
     "@xneog/dsh-client-ui-user-questions": "workspace:^",
     "@xneog/dsh-client-ui-settings": "workspace:^",
@@ -74,6 +76,7 @@
     "@xneog/dsh-client-ui-sidebar": "workspace:^",
     "@xneog/dsh-client-ui-skill": "workspace:^",
     "@xneog/dsh-client-ui-input-trigger": "workspace:^",
+    "@xneog/dsh-client-ui-reference": "workspace:^",
     "@xneog/dsh-client-ui-subagent": "workspace:^",
     "@xneog/dsh-client-ui-jobs": "workspace:^",
     "@xneog/dsh-client-ui-theme": "workspace:^",
@@ -87,34 +90,37 @@
     "@xneog/dsh-cordis-host-runner": "workspace:^",
     "@xneog/dsh-web-frontend": "workspace:^",
     "@xneog/dsh-host-frontend-static": "workspace:^",
-    "@xneog/dsh-host-apiproxy": "workspace:^",
     "@xneog/dsh-host-directory-picker-auto": "workspace:^",
     "@xneog/dsh-host-directory-picker-browse": "workspace:^",
     "@xneog/dsh-host-directory-picker-native": "workspace:^",
     "@xneog/dsh-host-plugin-inventory": "workspace:^",
     "@xneog/dsh-host-webserver": "workspace:^",
+    "@xneog/dsh-file-reference": "workspace:^",
+    "@xneog/dsh-file-reference-local": "workspace:^",
+    "@xneog/dsh-launch-environment": "workspace:^",
     "@xneog/dsh-message-feedback": "workspace:^",
-    "@xneog/dsh-session-projection-cache": "workspace:^",
+    "@xneog/dsh-session-reference": "workspace:^",
     "@xneog/dsh-session-log-export": "workspace:^",
     "@xneog/dsh-session-stats": "workspace:^",
-    "@xneog/dsh-storage": "workspace:^",
-    "@xneog/dsh-storage-domain": "workspace:^",
-    "@xneog/dsh-storage-json": "workspace:^",
+    "@xneog/dsh-session-turn-outline": "workspace:^",
+    "@xneog/dsh-api-session-controller": "workspace:^",
+    "@xneog/dsh-api-settings-controller": "workspace:^",
+    "@xneog/dsh-api-workspace-controller": "workspace:^",
+    "@xneog/dsh-subprocess": "workspace:^",
     "@xneog/dsh-workspace": "workspace:^",
     "@xneog/schemastery": "workspace:^",
-    "commander": "^15.0.0"
+    "commander": "^15.0.0",
+    "open": "^11.0.0"
   },
   "peerDependencies": {
     "@xneog/cordis-plugin-loader": "workspace:^",
     "@xneog/dsh-shell-env": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/cordis": "workspace:^"
   },
   "devDependencies": {
     "@xneog/cordis-plugin-loader": "workspace:^",
     "@xneog/dsh-shell-env": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/cordis": "workspace:^"
   }

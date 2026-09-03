@@ -6,9 +6,9 @@ English | [中文](2026-08-11-message-feedback-web-surface.zh.md)
 
 ## Problem
 
-[PR #2217](https://github.com/deepseek-harness/deepseek-harness/pull/2217) landed the durable message-feedback sidecar and its three Host Remote methods, but it was explicitly backend-only: no client package consumed `messageFeedback.list`, `put`, or `delete`, so the Web GUI had no way to record a rating. Its Agent Note deferred "client Remote aggregate mounting and UI" to a separate owner. Issue #1326 asks for the Web surface and was closed by that backend merge without the user-visible half existing.
+[PR #2217](https://github.com/deepseek-harness/xneog-harness/pull/2217) landed the durable message-feedback sidecar and its three Host Remote methods, but it was explicitly backend-only: no client package consumed `messageFeedback.list`, `put`, or `delete`, so the Web GUI had no way to record a rating. Its Agent Note deferred "client Remote aggregate mounting and UI" to a separate owner. Issue #1326 asks for the Web surface and was closed by that backend merge without the user-visible half existing.
 
-An earlier full-stack attempt, [PR #1010](https://github.com/deepseek-harness/deepseek-harness/pull/1010), carried a UI layer but was built against its own backend with a different shape: one Session-wide `revision` for compare-and-swap and RPC named `feedback.upsert`. #2217 shipped per-item `ifVersion` and `messageFeedback.put` instead, so #1010's controller logic no longer matched the contract, and its branch had also drifted structurally (it edited `packages/cordis/`, renamed to `packages/extensions/`, and added a top-level `packages/session-feedback/` that conflicts with the consolidated `packages/feedback/`). It was closed as superseded rather than rebased.
+An earlier full-stack attempt, [PR #1010](https://github.com/deepseek-harness/xneog-harness/pull/1010), carried a UI layer but was built against its own backend with a different shape: one Session-wide `revision` for compare-and-swap and RPC named `feedback.upsert`. #2217 shipped per-item `ifVersion` and `messageFeedback.put` instead, so #1010's controller logic no longer matched the contract, and its branch had also drifted structurally (it edited `packages/cordis/`, renamed to `packages/extensions/`, and added a top-level `packages/session-feedback/` that conflicts with the consolidated `packages/feedback/`). It was closed as superseded rather than rebased.
 
 The blocking gap for any UI was that the browser could not name a feedback target. The Host accepts only an append-origin `assistant/message` addressed by `MessageId`, but `AssistantMessageNode` — the client's finalized-assistant node — carried `seq`, `turn`, and `step` and no message identity. Only `SteeringMessageNode` had a `messageId`.
 
@@ -46,7 +46,7 @@ Toggle semantics keep the two verbs honest: re-clicking the recorded rating call
 
 The Web GUI records per-message ratings and notes. #1326's user-visible half now exists; the issue was reopened because the backend merge had closed it while no entry point existed.
 
-`AssistantMessageNode.messageId` is optional, so every existing reader compiles unchanged, but any future consumer must handle absence rather than assume a finalized message. The two parallel materializers remain a duplication hazard: a third view that builds this node must remember to copy the id, and nothing enforces it. Only the chat view renders controls today, even though trajectory and waterfall nodes now carry the same id.
+`AssistantMessageNode.messageId` is optional, so every existing reader compiles unchanged, but any future consumer must handle absence rather than assume a finalized message. The two parallel materializers remain a duplication hazard: a third view that builds this node must remember to copy the id, and nothing enforces it. Only the chat view renders controls, even though trajectory and waterfall nodes now carry the same id.
 
 Feedback stays invisible to the model — the sidecar reaches neither the Session log, model context, nor telemetry — so the package's Model Experience is an audited `none` entry rather than a structured block.
 

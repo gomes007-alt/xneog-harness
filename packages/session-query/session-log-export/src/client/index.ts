@@ -1,9 +1,12 @@
 /** Browser plugin owning Session export download state and its shared modal. */
 
-import type { ClientContext, SessionId } from '@xneog/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@xneog/cordis'
+import type { SessionId } from '@xneog/dsh-session/types'
 import type {} from '@xneog/dsh-client-locale/client'
 import type {} from '@xneog/dsh-client-ui-commands/client'
 import type {} from '@xneog/dsh-client-ui-conversation/client'
+import type {} from '@xneog/dsh-client-ui-renderer/client'
+import type {} from '@xneog/dsh-client-ui-session/client'
 import { SessionLogDownloadController } from './controller.ts'
 import type { SessionLogDownloadDialogInjected } from './Dialog.tsx'
 import { SessionLogDownloadHeaderAction } from './HeaderAction.tsx'

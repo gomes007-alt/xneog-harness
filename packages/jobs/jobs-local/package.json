@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-jobs-local",
   "description": "Process-local implementation of the xneog background job registry seam",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/jobs/jobs-local"
   },
   "type": "module",
@@ -18,22 +18,16 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
     },
-    "./invariant": {
-      "types": "./lib/types/invariant.d.ts",
-      "default": "./lib/invariant.js"
-    },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
   "files": [
     "lib/index.js",
-    "lib/invariant.js",
     "lib/types/**/*.d.ts"
   ],
   "license": "MIT",
   "peerDependencies": {
     "@xneog/dsh-agent": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-scope": "workspace:^",
     "@xneog/dsh-jobs": "workspace:^",
     "@xneog/dsh-timeout": "workspace:^",
@@ -47,7 +41,6 @@
     "@xneog/cordis-plugin-loader": "workspace:^",
     "@xneog/dsh-agent": "workspace:^",
     "@xneog/dsh-brand": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-scope": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-jobs": "workspace:^",

@@ -11,11 +11,9 @@ import * as ReactJsxRuntime from 'react/jsx-runtime'
 import * as ReactDom from 'react-dom'
 import * as ReactDomClient from 'react-dom/client'
 import * as Cordis from '@xneog/cordis'
+import * as ClientStore from '@xneog/dsh-client-store'
 import * as UiSlots from '@xneog/dsh-client-ui-slots'
-import * as WebReact from '@xneog/dsh-client-web-react'
 import * as UiPrimitives from '@xneog/dsh-client-ui-primitives'
-import * as UiAttachment from '@xneog/dsh-client-ui-attachment'
-import * as SchemaForm from '@xneog/dsh-client-schema-form'
 import type { PlatformModule } from './platform.ts'
 
 /**
@@ -32,10 +30,8 @@ export function getStaticModules(): Record<string, unknown> {
     'react-dom': ReactDom,
     'react-dom/client': ReactDomClient,
     '@xneog/cordis': Cordis,
+    '@xneog/dsh-client-store': ClientStore,
     '@xneog/dsh-client-ui-slots': UiSlots,
-    '@xneog/dsh-client-web-react': WebReact,
     '@xneog/dsh-client-ui-primitives': UiPrimitives,
-    '@xneog/dsh-client-ui-attachment': UiAttachment,
-    '@xneog/dsh-client-schema-form': SchemaForm,
   } satisfies Record<PlatformModule, unknown>
 }

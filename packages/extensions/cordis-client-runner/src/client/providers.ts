@@ -1,8 +1,8 @@
 /** Built-in Client inspect providers over live Client-owned services. */
 
 import type { Context } from '@xneog/cordis'
-import type { JsonValue } from '@xneog/dsh-api-remotes/client'
-import type { SlotRegistry } from '@xneog/dsh-client-runtime/client'
+import type { JsonValue } from '@xneog/dsh-util-values'
+import type { SlotRegistry } from '@xneog/dsh-client-ui-renderer/client'
 import type {} from '@xneog/dsh-client-ui-theme/client'
 import { queryEventApi, queryServiceApi } from './api-catalog.ts'
 import type { ClientCordisInspectProviderRegistration } from './inspect-registry.ts'

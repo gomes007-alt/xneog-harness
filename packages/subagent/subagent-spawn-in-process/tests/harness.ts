@@ -1,6 +1,7 @@
 import { Context } from '@xneog/cordis'
 import type { Agent } from '@xneog/dsh-agent'
 import AgentLoop from '@xneog/dsh-agent-loop'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { mountAgentLoopTestDependencies } from '@xneog/dsh-agent-loop-testkit'
 import { LocalBashExecutor } from '@xneog/dsh-bash-local'
 import * as BashEnvPlugin from '@xneog/dsh-shell-env'
@@ -24,6 +25,7 @@ export async function spawnHarness(workdir: string): Promise<Context> {
   // spawned children render it. It stays neutral for both roles; the
   // delegation nudge lives in the e2e's user prompt and the subagent tool's
   // own description.
+  await ctx.plugin(SessionProjectionRegistry)
   await mountAgentLoopTestDependencies(ctx, {
     systemPrompt: { persona: 'You are a coding agent. Report only when the requested work is done.' },
   })

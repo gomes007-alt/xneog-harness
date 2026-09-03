@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
-import { CallId } from '@xneog/dsh-llm'
+import { ToolCallId } from '@xneog/dsh-llm'
 import { Session, SessionId } from '@xneog/dsh-session'
 import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
@@ -15,6 +15,7 @@ import * as TerminalLocal from '@xneog/dsh-terminal-bash'
 import SandboxProvider from '@xneog/dsh-sandbox'
 import type { ConfinedArgv, SandboxPolicy } from '@xneog/dsh-sandbox'
 import SandboxPolicyService from '@xneog/dsh-sandbox-policy'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import LocalSubprocessRuntime from '@xneog/dsh-subprocess-local'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
@@ -39,7 +40,7 @@ class PassthroughSandbox extends SandboxProvider {
 function agent(ctx: Context, cwd: string): Agent {
   const id = SessionId('persistent-bash-loader-agent')
   const scope = ctx.plugin(() => {})
-  const session = Session.create(id, [], { version: 0, id, createdAt: 0, cwd })
+  const session = Session.create(id, [], { version: 0, id, createdAt: 0, cwd, isSeeded: false })
   const value: Agent = {
     id,
     options: {},
@@ -75,6 +76,7 @@ suite('persistent Bash through a real cordis.yml Loader composition', () => {
       "- name: '@xneog/dsh-tools'",
       "- name: '@xneog/dsh-terminal'",
       "- name: '@xneog/dsh-test-sandbox'",
+      "- name: '@xneog/dsh-session-projection'",
       "- name: '@xneog/dsh-sandbox-policy'",
       '  config:',
       '    mode: danger-full-access',
@@ -108,6 +110,7 @@ suite('persistent Bash through a real cordis.yml Loader composition', () => {
       ['@xneog/dsh-tools', ToolRuntime],
       ['@xneog/dsh-terminal', TerminalSessionService],
       ['@xneog/dsh-test-sandbox', PassthroughSandbox],
+      ['@xneog/dsh-session-projection', SessionProjectionRegistry],
       ['@xneog/dsh-sandbox-policy', SandboxPolicyService],
       ['@xneog/dsh-subprocess-local', LocalSubprocessRuntime],
       ['@xneog/dsh-terminal-bash', TerminalLocal],
@@ -127,7 +130,7 @@ suite('persistent Bash through a real cordis.yml Loader composition', () => {
     const signal = new AbortController().signal
     const execute = (id: string, command: string) => context!.tools.execute({
       signal,
-      callId: CallId(id),
+      callId: ToolCallId(id),
       name: 'bash',
       arguments: { command },
       agent: owner,
@@ -151,6 +154,12 @@ suite('persistent Bash through a real cordis.yml Loader composition', () => {
       "cat <<'EOF'\nalpha\nbeta\nEOF",
     ))
     expect(heredoc).toBe('alpha\nbeta')
+
+    const pipeline = text(await execute(
+      'pipeline',
+      '{ sleep 0.1; printf "delayed\\n"; } | cat',
+    ))
+    expect(pipeline).toBe('delayed')
 
     const large = text(await execute('large-output', 'seq 1 12050'))
     expect(large.startsWith('1\n2\n3\n')).toBe(true)

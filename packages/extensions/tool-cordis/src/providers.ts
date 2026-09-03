@@ -3,7 +3,7 @@
 import type { Context } from '@xneog/cordis'
 import { HOST_BUILTIN_INSPECTION } from '@xneog/dsh-cordis-host-runner'
 import type { HostCordisInspectProviderRegistration } from '@xneog/dsh-cordis-host-runner'
-import type { JsonValue } from '@xneog/dsh-session'
+import type { JsonValue } from '@xneog/dsh-util-values'
 import { EVENT_API, queryEventApi, queryServiceApi } from './api-catalog.ts'
 
 const EMPTY_INPUT = { type: 'object', properties: {}, additionalProperties: false } as const

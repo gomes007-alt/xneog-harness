@@ -3,8 +3,7 @@
 import { Service } from '@xneog/cordis'
 import type { Context } from '@xneog/cordis'
 import type { Agent } from '@xneog/dsh-agent'
-import { snapshotJsonValue } from '@xneog/dsh-session'
-import type { JsonValue } from '@xneog/dsh-session/types'
+import { snapshotJsonValue, type JsonValue } from '@xneog/dsh-util-values'
 import { assertSupportedJsonSchema, validateJsonSchemaValue } from '@xneog/dsh-tools'
 import type { JsonSchemaNode } from '@xneog/dsh-tools'
 import type {

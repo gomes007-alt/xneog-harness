@@ -8,13 +8,16 @@
  * plan state.
  */
 import type {} from '@xneog/dsh-api-remotes/client'
-import type { ClientContext, SessionId } from '@xneog/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@xneog/cordis'
+import type { SessionId } from '@xneog/dsh-session/types'
 // Type-only: pulls the ui-conversation SlotMap merge (the input.plan seat).
 import type {} from '@xneog/dsh-client-ui-conversation/client'
 // Type-only: pulls the locale plugin's Context merge (ctx.locale).
 import type {} from '@xneog/dsh-client-locale/client'
 // Type-only: pulls the `plan` SessionProjectionMap merge for useProjection.
 import type {} from '@xneog/dsh-plan-mode/client'
+import type {} from '@xneog/dsh-client-ui-renderer/client'
+import type {} from '@xneog/dsh-client-ui-session/client'
 import { PlanChip } from './PlanModeControl.tsx'
 import { en, zh, type PlanKey } from './locales.ts'
 
@@ -55,7 +58,7 @@ export function apply(ctx: ClientContext): void {
     inject: (sessionId: SessionId): PlanChipInjected => ({
       // Failure strings stay English (error-surface policy: not localized).
       exitPlanMode: async () => {
-        const result = await ctx.remote.commands.execute(sessionId, '/plan off')
+        const result = await ctx.remote.commands.execute(sessionId, '/plan off', [])
         if (!result.ok) return `${result.error.message} (${result.error.code})`
         if (result.value === undefined) return 'unknown command: /plan off'
         return null

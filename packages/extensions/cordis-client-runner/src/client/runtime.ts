@@ -18,10 +18,10 @@ import type { Context } from '@xneog/cordis'
 import type { Loader } from '@xneog/cordis-plugin-loader'
 import type {
   CordisDynamicPackageId, CordisDynamicPluginId, CordisDynamicPluginRunId, DynamicCordisPackage,
+  SessionId,
 } from '@xneog/dsh-api-remotes/client'
-import type { SessionId } from '@xneog/dsh-client-connection/client'
 import type { ClientModuleSystem } from '@xneog/dsh-client-modules/client'
-import type { SlotRegistry } from '@xneog/dsh-client-runtime/client'
+import type { SlotRegistry } from '@xneog/dsh-client-ui-renderer/client'
 import { DynamicCordisStyles, evaluateClientHalf, DYNAMIC_CLIENT_REDIRECTS } from './evaluator.ts'
 import type { DynamicCordisEvaluatedPlugin } from './evaluator.ts'
 import { dynamicCordisContext } from './guard.ts'

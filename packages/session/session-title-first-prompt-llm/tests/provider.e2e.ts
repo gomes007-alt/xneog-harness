@@ -5,6 +5,7 @@ import LlmRuntime from '@xneog/dsh-llm'
 import * as LlmDeepSeek from '@xneog/dsh-llm-deepseek'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
 import SessionTitleService from '@xneog/dsh-session-title'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import * as FirstMessageTitleProvider from '@xneog/dsh-session-title-first-prompt-llm'
 
 const contexts: Context[] = []
@@ -20,6 +21,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('first-prompt title provider with
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmDeepSeek, { thinking: 'disabled' })
     await ctx.plugin(SessionStore)
+    await ctx.plugin(SessionProjectionRegistry)
     await ctx.plugin(SessionTitleService, {
       fallbackMaxWords: 5,
       fallbackMaxBytes: 40,

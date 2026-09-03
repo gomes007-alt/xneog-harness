@@ -19,7 +19,7 @@ import { scopeOf } from '@xneog/dsh-scope'
 import { assertSupportedJsonSchema, defineTool } from '@xneog/dsh-tools'
 import type { ToolDefinition } from '@xneog/dsh-tools'
 import type { ContentBlock } from '@xneog/dsh-llm'
-import type { JsonValue } from '@xneog/dsh-session'
+import type { JsonValue } from '@xneog/dsh-util-values'
 
 const DYNAMIC_TOOL = Symbol('cordis-host-runner.dynamic-tool')
 const SCHEMA_TYPES = new Set<unknown>(['string', 'number', 'integer', 'boolean', 'null', 'object', 'array', 'json'])

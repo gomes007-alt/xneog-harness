@@ -7,7 +7,9 @@
  */
 import { Service } from '@xneog/cordis'
 import type { Context } from '@xneog/cordis'
-import type { ClientContext, ISessions, SessionId } from '@xneog/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@xneog/cordis'
+import type { ISessions } from '@xneog/dsh-api-session-controller/client'
+import type { SessionId } from '@xneog/dsh-session/types'
 import type { InputTriggerSource } from '../types.ts'
 import { InputTriggerController } from './controller.ts'
 import type { InputTriggerServiceContract } from './contract.ts'

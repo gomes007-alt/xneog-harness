@@ -1,0 +1,6 @@
+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
+# side as of the last confirmed-consistent state. Both languages carry equal authority;
+# after editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-08-20-multiline-question-answer-field.md
+2026-08-20-multiline-question-answer-field.md: 76b5a8054653b6a98b2b6b79ed81ac6685b71cc8
+2026-08-20-multiline-question-answer-field.zh.md: e9911b46aa48bb7983f238ad9638d8483ae8a2eb

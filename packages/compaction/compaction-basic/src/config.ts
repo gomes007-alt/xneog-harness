@@ -4,8 +4,8 @@
  * @module @xneog/dsh-compaction-basic/config
  */
 
-import { deepFreeze } from '@xneog/dsh-llm'
 import type { LlmCallConfig } from '@xneog/dsh-llm'
+import { deepFreeze } from '@xneog/dsh-util-values'
 import type {
   BasicCompactionConfig,
   CompactionPolicyConfig,

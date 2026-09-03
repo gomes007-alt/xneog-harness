@@ -10,11 +10,10 @@ import {
 } from '@xneog/dsh-cordis-host-runner'
 import type { DynamicCordisReference } from '@xneog/dsh-cordis-host-runner'
 import { createUserMessage } from '@xneog/dsh-llm'
-import type { JsonValue } from '@xneog/dsh-session'
+import type { JsonValue } from '@xneog/dsh-util-values'
 import type { UserMessage } from '@xneog/dsh-session'
 import { defineTool } from '@xneog/dsh-tools'
 import type { ToolExecution } from '@xneog/dsh-tools'
-import type {} from '@xneog/dsh-system-prompt'
 import { missingServices, providedServices } from './inspect.ts'
 import {
   presentDefineCall, presentInspectListCall, presentInspectQueryCall, presentInspectSelfCall, presentRunCall,
@@ -33,7 +32,11 @@ function requireAgent(exec: ToolExecution): Agent {
 
 /** Register the Cordis tools and explicit `@pluginId` context injection. */
 export function apply(ctx: Context): void {
-  ctx.systemPrompt.section({ name: 'tool:cordis', order: 115, text: CORDIS_SYSTEM_PROMPT })
+  ctx.systemPrompt.section({
+    name: 'tool:cordis',
+    order: ctx.systemPrompt.getSectionOrder('TOOL_CORDIS'),
+    text: CORDIS_SYSTEM_PROMPT,
+  })
   for (const provider of hostInspectProviders(ctx)) {
     ctx.effect(() => ctx.cordisInspect.register(provider), `tool-cordis: inspect ${provider.manifest.id}`)
   }
@@ -394,7 +397,7 @@ export function apply(ctx: Context): void {
         source: { kind: 'plugin', plugin: name, form: 'instructions' },
       })
     })
-    return { kind: 'enter', messages: [...decision.messages, ...contexts] }
+    return { ...decision, messages: [...decision.messages, ...contexts] }
   })
 }
 

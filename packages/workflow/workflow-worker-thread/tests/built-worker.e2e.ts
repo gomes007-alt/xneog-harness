@@ -22,15 +22,17 @@ describe.skipIf(!existsSync(builtIndex) || !existsSync(builtWorker))('built work
     try {
       await writeFile(driver, `
 import { Context } from '@xneog/cordis'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SubagentRuntime from '@xneog/dsh-subagent'
 import WorkerThreadWorkflowEngine from '@xneog/dsh-workflow-worker-thread'
 
 const ctx = new Context()
+await ctx.plugin(SessionProjectionRegistry)
 await ctx.plugin(SubagentRuntime)
 let selectedStarts = 0
 ctx.subagents.registerProvider({
   name: 'built-selected',
-  capabilities: { outputSchema: true, depthLimit: false, toolFilter: false, persona: false },
+  capabilities: { agentOptions: true, outputSchema: true, depthLimit: false, toolFilter: false, persona: false },
   inheritsParentContext: false,
   async start() {
     selectedStarts += 1

@@ -5,7 +5,7 @@
 
 import type { Context } from '@xneog/cordis'
 import type { InvariantFailure, InvariantInstaller } from '@xneog/dsh-invariants'
-import { deepEqualJson } from './index.ts'
+import { deepEqualJson } from '@xneog/dsh-util-values'
 
 const PACKAGE_NAME = '@xneog/dsh-settings'
 

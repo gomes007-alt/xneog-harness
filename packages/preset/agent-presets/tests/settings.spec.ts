@@ -13,18 +13,18 @@ import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
 import LlmRuntime from '@xneog/dsh-llm'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
 import AgentRegistry from '@xneog/dsh-agent'
 import AgentLoop from '@xneog/dsh-agent-loop'
 import FileSettingsProvider from '@xneog/dsh-settings-file'
-import { settingsNamespace } from '@xneog/dsh-settings'
 import { describe, expect, it } from 'vitest'
 import AgentPresets, { COMPOSITION_FILE, SETTINGS_NAMESPACE } from '@xneog/dsh-agent-presets'
 
 const FIXTURES = join(dirname(fileURLToPath(import.meta.url)), 'fixtures')
 const ROOTS = [{ path: join(FIXTURES, 'system'), trust: 'system' as const }]
-const NS = settingsNamespace(SETTINGS_NAMESPACE)
+const NS = SETTINGS_NAMESPACE
 
 /**
  * A composition with a real file-backed settings provider. `settingsFiber` is
@@ -43,13 +43,14 @@ async function harness(
   ctx.loader.builtins.include = Include
   await ctx.plugin(LlmRuntime)
   await ctx.plugin(SessionStore)
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(SystemPrompt, { persona: '' })
   await ctx.plugin(ToolRuntime)
   await ctx.plugin(AgentRegistry)
   await ctx.plugin(AgentLoop, { agents: [] })
   const settingsFiber = ctx.plugin(FileSettingsProvider, { path: settingsFile, watch: false })
   await settingsFiber
-  await ctx.plugin(AgentPresets, { default: 'standard', roots: [...ROOTS, ...extraRoots], includeUserRoot: false })
+  await ctx.plugin(AgentPresets, { default: 'standard', roots: [...ROOTS, ...extraRoots], includeShippedRoot: false, includeUserRoot: false })
   return { ctx, settingsFile, settingsFiber }
 }
 

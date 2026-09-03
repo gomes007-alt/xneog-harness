@@ -1,6 +1,6 @@
 import {
   createSnapshotStore, type SnapshotStore,
-} from '@xneog/dsh-client-runtime/client'
+} from '@xneog/dsh-client-store'
 
 /**
  * Create the browser-wide trajectory duration preference source.

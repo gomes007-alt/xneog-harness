@@ -219,3 +219,10 @@ declare module '@xneog/dsh-session/types' {
     'schedule/change': ScheduleChange
   }
 }
+
+declare module '@xneog/dsh-session-projection/types' {
+  interface SessionProjectionMap {
+    /** Complete active reminders owned by this Session's post-fork suffix. */
+    schedule: readonly ScheduleRecord[]
+  }
+}

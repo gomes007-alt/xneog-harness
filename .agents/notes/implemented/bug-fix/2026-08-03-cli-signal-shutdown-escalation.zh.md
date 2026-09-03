@@ -6,7 +6,7 @@ Status: implemented
 
 ## 问题
 
-默认挂载遥测后，`xneog web` 与 headless 命令（现为 `xneog --profile headless`）新增了 SIGINT/SIGTERM 处理器，使进程退出时可以排空 Cordis 插件树，而不是丢弃排队中的遥测数据。每个处理器都使用单向布尔闩锁（latch），并且只有在 `ctx.fiber.dispose()` 结算后才退出。headless 正常完成时同样会无界等待整棵树执行 dispose（资源释放）。
+默认挂载遥测后，`dsh web` 与 headless 命令（现为 `dsh --profile headless`）新增了 SIGINT/SIGTERM 处理器，使进程退出时可以排空 Cordis 插件树，而不是丢弃排队中的遥测数据。每个处理器都使用单向布尔闩锁（latch），并且只有在 `ctx.fiber.dispose()` 结算后才退出。headless 正常完成时同样会无界等待整棵树执行 dispose（资源释放）。
 
 随后有用户复现，headless 命令在打印观察 URL 后立即卡死，重复按 `Ctrl+C` 也没有反应；设置 `DSH_TELEMETRY_DISABLED=1` 后不再卡死，而同一 Linux 沙箱中的独立 Node 信号处理器能够收到 SIGINT。这将待结算的 disposer 定位到遥测，而非终端信号转发。OTel 的 `BatchLogRecordProcessor.shutdown()` 会先等待 `exporter.forceFlush()`，再等待受 `exportTimeoutMillis` 限制的完成 Promise；OTLP 导出器的 `forceFlush()` 则直接等待正在进行的 HTTP Promise。因此，代理／沙箱连接始终无法取得 socket 时，即使已经配置两项 SDK 超时，也会让提供方关闭一直待结算。
 
@@ -29,7 +29,7 @@ Web 与 headless 共用 `createProcessShutdown`，它是围绕根级 dispose 建
 
 headless 对完成的轮次仍以 0 退出，对其他轮次结束原因或 API 业务错误仍以 1 退出，对 SIGINT 以 130 退出，对 SIGTERM 以 143 退出。Web 保留现有行为：SIGTERM 以 0 退出，SIGINT 以 130 退出。
 
-这项决策取代了[遥测部署 Agent Note](../feature/2026-07-31-web-telemetry-default-mount.md) 中 SDK 导出器／处理器超时能够限制提供方完整关闭流程的假设，也取代了其中暂缓进程级退出兜底的决定。后端负责导出数据丢失与延迟策略，并封住已知的 SDK `forceFlush()` 缺口；启动器负责最外层保证，确保任何插件都无法无限期困住进程。
+这项决策取代了[遥测部署 Agent Note](../feature/2026-07-31-web-telemetry-default-mount.zh.md) 中 SDK 导出器／处理器超时能够限制提供方完整关闭流程的假设，也取代了其中暂缓进程级退出兜底的决定。后端负责导出数据丢失与延迟策略，并封住已知的 SDK `forceFlush()` 缺口；启动器负责最外层保证，确保任何插件都无法无限期困住进程。
 
 ## 考虑过的替代方案
 

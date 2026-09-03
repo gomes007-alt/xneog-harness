@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-skill-badge",
   "description": "Bundled dsh badge skill provider for xneog",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/skill/skill-badge"
   },
   "type": "module",
@@ -18,26 +18,19 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
     },
-    "./invariant": {
-      "types": "./lib/types/invariant.d.ts",
-      "default": "./lib/invariant.js"
-    },
     "./package.json": "./package.json"
   },
   "files": [
     "lib/index.js",
-    "lib/invariant.js",
     "assets",
     "lib/types/**/*.d.ts"
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-skill": "workspace:^",
     "@xneog/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-skill": "workspace:^",
     "@xneog/cordis": "workspace:^"
   }

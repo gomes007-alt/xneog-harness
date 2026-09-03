@@ -1,0 +1,42 @@
+{
+  "name": "@xneog/dsh-experimental-code-runtime-python",
+  "description": "CPython subprocess implementation of the xneog code-execution seam",
+  "version": "0.1.2-rc.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
+    "directory": "packages/experimental/code-runtime-python"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "py/**/*.py",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@xneog/dsh-code-runtime": "workspace:^",
+    "@xneog/dsh-timeout": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-util-values": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/dsh-code-runtime": "workspace:^",
+    "@xneog/dsh-timeout": "workspace:^",
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-util-values": "workspace:^"
+  },
+  "dependencies": {
+    "@xneog/schemastery": "workspace:^"
+  },
+  "private": true
+}

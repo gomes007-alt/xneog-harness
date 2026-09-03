@@ -9,6 +9,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { LAUNCHER_FAILURE_EXIT } from '@xneog/node-addon-landlock-run'
 import { SANDBOX_UNAVAILABLE, SandboxUnavailableError } from '@xneog/dsh-sandbox'
 import { LocalSandboxProvider } from '@xneog/dsh-sandbox-local'
@@ -51,6 +52,7 @@ ${fatalBranch}exec "$@"
 async function setup(fatalExit?: number): Promise<SandboxBashExecutor> {
   const ctx = new Context()
   contexts.push(ctx)
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(LocalSandboxProvider, {})
   const sandbox = ctx.sandbox as LocalSandboxProvider
   sandbox.internals = {
@@ -68,6 +70,7 @@ async function setup(fatalExit?: number): Promise<SandboxBashExecutor> {
 async function setupConfiguredRunner(runner: string): Promise<SandboxBashExecutor> {
   const ctx = new Context()
   contexts.push(ctx)
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(LocalSandboxProvider, {
     runnerCommand: [runner],
     runnerFailureSignatures: ['configured-runner: fatal'],

@@ -7,6 +7,7 @@ import LlmRuntime from '@xneog/dsh-llm'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import AgentRegistry, { assembleContextFor } from '@xneog/dsh-agent'
 import AgentLoop from '@xneog/dsh-agent-loop'
 import InvariantRegistry from '@xneog/dsh-invariants'
@@ -30,8 +31,9 @@ async function harness(roster: Partial<Config> = {}): Promise<Context> {
   await ctx.plugin(SystemPrompt, { persona: '' })
   await ctx.plugin(ToolRuntime)
   await ctx.plugin(AgentRegistry)
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(AgentLoop, { agents: [] })
-  await ctx.plugin(AgentPresets, { default: 'standard', roots: ROOTS, includeUserRoot: false, ...roster })
+  await ctx.plugin(AgentPresets, { default: 'standard', roots: ROOTS, includeShippedRoot: false, includeUserRoot: false, ...roster })
   await ctx.plugin(InvariantRegistry)
   await ctx.plugin(AgentPresetsInvariant)
   return ctx

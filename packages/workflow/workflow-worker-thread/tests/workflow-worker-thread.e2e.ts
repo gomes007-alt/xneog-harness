@@ -7,6 +7,7 @@ import ToolRuntime from '@xneog/dsh-tools'
 import AgentRegistry from '@xneog/dsh-agent'
 
 import AgentLoop from '@xneog/dsh-agent-loop'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import * as LlmDeepSeek from '@xneog/dsh-llm-deepseek'
 import SubagentRuntime from '@xneog/dsh-subagent'
 import * as Spawn from '@xneog/dsh-subagent-spawn-in-process'
@@ -32,6 +33,7 @@ async function harness(): Promise<Context> {
   const built = new Context()
   await built.plugin(LlmRuntime)
   await built.plugin(SessionStore)
+  await built.plugin(SessionProjectionRegistry)
   await built.plugin(SystemPrompt)
   await built.plugin(ToolRuntime)
   await built.plugin(AgentRegistry)

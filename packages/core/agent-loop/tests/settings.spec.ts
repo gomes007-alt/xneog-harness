@@ -8,6 +8,7 @@ import SessionStore from '@xneog/dsh-session'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
 import AgentRegistry from '@xneog/dsh-agent'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { SettingsProvider } from '@xneog/dsh-settings'
 import type { SettingsNamespace } from '@xneog/dsh-settings'
 import AgentLoop, { AGENT_LOOP_SETTINGS_NAMESPACE } from '@xneog/dsh-agent-loop'
@@ -34,6 +35,7 @@ async function boot(): Promise<{ ctx: Context; settingsFiber: Fiber; loopFiber: 
   const ctx = new Context()
   await ctx.plugin(LlmRuntime)
   await ctx.plugin(SessionStore)
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(SystemPrompt)
   await ctx.plugin(ToolRuntime)
   await ctx.plugin(AgentRegistry)

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
-import type { JobView } from '@xneog/dsh-client-runtime/client'
+import type { SessionJob as JobView } from '@xneog/dsh-api-session-controller/types'
 import { IconChevronDownOutline14, StateDot, useDismissOnOutsidePointer, type StateDotState } from '@xneog/dsh-client-ui-primitives'
 import type { PropsLocale, PropsRuntime, TranslateNS } from '@xneog/dsh-client-ui-slots'
 import { NS } from './locales.ts'

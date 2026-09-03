@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-subagent-acp",
   "description": "Out-of-process ACP subagent backend: drives a child agent in a spawned subprocess over the Agent Client Protocol",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/subagent/subagent-acp"
   },
   "type": "module",
@@ -18,44 +18,43 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
     },
-    "./invariant": {
-      "types": "./lib/types/invariant.d.ts",
-      "default": "./lib/invariant.js"
-    },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
   "files": [
     "lib/index.js",
-    "lib/invariant.js",
     "lib/types/**/*.d.ts"
   ],
   "license": "MIT",
   "peerDependencies": {
+    "@xneog/cordis": "workspace:^",
     "@xneog/dsh-agent": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-subagent": "workspace:^",
     "@xneog/dsh-subprocess": "workspace:^",
-    "@xneog/dsh-timeout": "workspace:^",
-    "@xneog/cordis": "workspace:^"
+    "@xneog/dsh-timeout": "workspace:^"
   },
   "dependencies": {
-    "@agentclientprotocol/sdk": "0.25.1",
+    "@agentclientprotocol/sdk": "1.4.0",
+    "@xneog/dsh-brand": "workspace:^",
     "@xneog/schemastery": "workspace:^"
   },
   "devDependencies": {
+    "@xneog/cordis": "workspace:^",
     "@xneog/cordis-plugin-loader": "workspace:^",
     "@xneog/dsh-agent": "workspace:^",
-    "@xneog/dsh-invariants": "workspace:^",
+    "@xneog/dsh-app-boot": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-loader-smoke": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-checkpoint-policy": "workspace:^",
+    "@xneog/dsh-session-persistence-jsonl": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
     "@xneog/dsh-subagent": "workspace:^",
     "@xneog/dsh-subprocess": "workspace:^",
     "@xneog/dsh-subprocess-local": "workspace:^",
     "@xneog/dsh-timeout": "workspace:^",
-    "@xneog/cordis": "workspace:^"
+    "@xneog/dsh-tool-subagent": "workspace:^"
   }
 }

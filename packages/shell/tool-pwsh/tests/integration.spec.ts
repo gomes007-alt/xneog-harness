@@ -15,7 +15,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { Context } from '@xneog/cordis'
-import { CallId } from '@xneog/dsh-llm'
+import { ToolCallId } from '@xneog/dsh-llm'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime, { TOOL_ABORTED } from '@xneog/dsh-tools'
 import LocalJobRegistry from '@xneog/dsh-jobs-local'
@@ -41,7 +41,7 @@ let callCounter = 0
 function call(name: string, args: unknown, agentObj?: object, signal?: AbortSignal) {
   return ctx.tools.execute({
     signal: signal ?? testToolSignal,
-    callId: CallId(`it-${++callCounter}`),
+    callId: ToolCallId(`it-${++callCounter}`),
     name,
     arguments: args,
     ...agentObj ? { agent: agentObj as never } : {},

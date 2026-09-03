@@ -3,7 +3,7 @@
 
 # DSH Base Composition
 
-The dsh-base bundle patch every profile applies first; mode bundles (dsh-web-app, dsh-headless) and the user's profile layer patch over it.
+The dsh-base bundle patch shared by the web, headless, sdk, and acp profiles; their mode bundles and user layers patch over it, while sdk-minimal owns a separate standalone tree.
 
 ```mermaid
 flowchart LR
@@ -14,8 +14,12 @@ flowchart LR
   cfg --> plugin_dsh_base_hmr
   plugin_dsh_base_llm["llm<br/>@xneog/dsh-llm"]
   cfg --> plugin_dsh_base_llm
+  plugin_dsh_base_deepseek_llm_api_extensions["deepseek-llm-api-extensions<br/>@xneog/dsh-deepseek-llm-api-extensions"]
+  cfg --> plugin_dsh_base_deepseek_llm_api_extensions
   plugin_dsh_base_session["session<br/>@xneog/dsh-session"]
   cfg --> plugin_dsh_base_session
+  plugin_dsh_base_session_log_deepseek["session-log-deepseek<br/>@xneog/dsh-session-log-deepseek"]
+  cfg --> plugin_dsh_base_session_log_deepseek
   plugin_dsh_base_typert["typert<br/>@xneog/dsh-typert-registry"]
   cfg --> plugin_dsh_base_typert
   plugin_dsh_base_typert_loader["typert-loader<br/>@xneog/dsh-typert-loader"]
@@ -30,6 +34,8 @@ flowchart LR
   cfg --> plugin_dsh_base_user_questions
   plugin_dsh_base_agent["agent<br/>@xneog/dsh-agent"]
   cfg --> plugin_dsh_base_agent
+  plugin_dsh_base_plugin_package_inventory_deepseek["plugin-package-inventory-deepseek<br/>@xneog/dsh-plugin-package-inventory-deepseek"]
+  cfg --> plugin_dsh_base_plugin_package_inventory_deepseek
   plugin_dsh_base_agent_default_model["agent-default-model<br/>@xneog/dsh-agent-default-model"]
   cfg --> plugin_dsh_base_agent_default_model
   plugin_dsh_base_jobs["jobs<br/>@xneog/dsh-jobs-local"]
@@ -50,6 +56,14 @@ flowchart LR
   cfg --> plugin_dsh_base_session_query_sqlite
   plugin_dsh_base_session_projection["session-projection<br/>@xneog/dsh-session-projection"]
   cfg --> plugin_dsh_base_session_projection
+  plugin_dsh_base_storage["storage<br/>@xneog/dsh-storage"]
+  cfg --> plugin_dsh_base_storage
+  plugin_dsh_base_storage_json["storage-json<br/>@xneog/dsh-storage-json"]
+  cfg --> plugin_dsh_base_storage_json
+  plugin_dsh_base_storage_domain["storage-domain<br/>@xneog/dsh-storage-domain"]
+  cfg --> plugin_dsh_base_storage_domain
+  plugin_dsh_base_session_projection_cache["session-projection-cache<br/>@xneog/dsh-session-projection-cache"]
+  cfg --> plugin_dsh_base_session_projection_cache
   plugin_dsh_base_session_telemetry_otel["session-telemetry-otel<br/>@xneog/dsh-session-telemetry-otel"]
   cfg --> plugin_dsh_base_session_telemetry_otel
   plugin_dsh_base_subprocess["subprocess<br/>@xneog/dsh-subprocess-local"]
@@ -122,8 +136,6 @@ flowchart LR
   cfg --> plugin_dsh_base_tool_subagent
   plugin_dsh_base_tool_subagent_fork["tool-subagent-fork<br/>@xneog/dsh-tool-subagent"]
   cfg --> plugin_dsh_base_tool_subagent_fork
-  plugin_dsh_base_tool_subagent_report["tool-subagent-report<br/>@xneog/dsh-tool-subagent-report"]
-  cfg --> plugin_dsh_base_tool_subagent_report
   plugin_dsh_base_workflow_worker_thread["workflow-worker-thread<br/>@xneog/dsh-workflow-worker-thread"]
   cfg --> plugin_dsh_base_workflow_worker_thread
   plugin_dsh_base_tool_workflow["tool-workflow<br/>@xneog/dsh-tool-workflow"]
@@ -152,6 +164,8 @@ flowchart LR
   cfg --> plugin_dsh_base_web
   plugin_dsh_base_web_search_deepseek["web-search-deepseek<br/>@xneog/dsh-web-search-deepseek"]
   cfg --> plugin_dsh_base_web_search_deepseek
+  plugin_dsh_base_web_fetch_http["web-fetch-http<br/>@xneog/dsh-web-fetch-http"]
+  cfg --> plugin_dsh_base_web_fetch_http
   plugin_dsh_base_tool_web["tool-web<br/>@xneog/dsh-tool-web"]
   cfg --> plugin_dsh_base_tool_web
   plugin_dsh_base_tools["tools<br/>@xneog/dsh-tools"]
@@ -171,7 +185,9 @@ flowchart LR
 | `timer` | `@xneog/cordis-plugin-timer` |
 | `hmr` | `@xneog/cordis-plugin-hmr` |
 | `llm` | `@xneog/dsh-llm` |
+| `deepseek-llm-api-extensions` | `@xneog/dsh-deepseek-llm-api-extensions` |
 | `session` | `@xneog/dsh-session` |
+| `session-log-deepseek` | `@xneog/dsh-session-log-deepseek` |
 | `typert` | `@xneog/dsh-typert-registry` |
 | `typert-loader` | `@xneog/dsh-typert-loader` |
 | `typert-gateway` | `@xneog/dsh-api-gateway` |
@@ -179,6 +195,7 @@ flowchart LR
 | `session-title-llm` | `@xneog/dsh-session-title-first-prompt-llm` |
 | `user-questions` | `@xneog/dsh-user-questions` |
 | `agent` | `@xneog/dsh-agent` |
+| `plugin-package-inventory-deepseek` | `@xneog/dsh-plugin-package-inventory-deepseek` |
 | `agent-default-model` | `@xneog/dsh-agent-default-model` |
 | `jobs` | `@xneog/dsh-jobs-local` |
 | `llm-retry` | `@xneog/dsh-llm-retry` |
@@ -189,6 +206,10 @@ flowchart LR
 | `attachment-local` | `@xneog/dsh-attachment-local` |
 | `session-query-sqlite` | `@xneog/dsh-session-query-sqlite` |
 | `session-projection` | `@xneog/dsh-session-projection` |
+| `storage` | `@xneog/dsh-storage` |
+| `storage-json` | `@xneog/dsh-storage-json` |
+| `storage-domain` | `@xneog/dsh-storage-domain` |
+| `session-projection-cache` | `@xneog/dsh-session-projection-cache` |
 | `session-telemetry-otel` | `@xneog/dsh-session-telemetry-otel` |
 | `subprocess` | `@xneog/dsh-subprocess-local` |
 | `sandbox` | `@xneog/dsh-sandbox-local` |
@@ -225,7 +246,6 @@ flowchart LR
 | `tool-subagent-list-agents` | `@xneog/dsh-tool-subagent-control/list-agents` |
 | `tool-subagent` | `@xneog/dsh-tool-subagent` |
 | `tool-subagent-fork` | `@xneog/dsh-tool-subagent` |
-| `tool-subagent-report` | `@xneog/dsh-tool-subagent-report` |
 | `workflow-worker-thread` | `@xneog/dsh-workflow-worker-thread` |
 | `tool-workflow` | `@xneog/dsh-tool-workflow` |
 | `timeout-policy` | `@xneog/dsh-tool-call-timeout-policy` |
@@ -240,6 +260,7 @@ flowchart LR
 | `repeat-tool-reminder` | `@xneog/dsh-repeat-tool-reminder` |
 | `web` | `@xneog/dsh-web` |
 | `web-search-deepseek` | `@xneog/dsh-web-search-deepseek` |
+| `web-fetch-http` | `@xneog/dsh-web-fetch-http` |
 | `tool-web` | `@xneog/dsh-tool-web` |
 | `tools` | `@xneog/dsh-tools` |
 | `system-prompt` | `@xneog/dsh-system-prompt` |
@@ -249,4 +270,4 @@ flowchart LR
 
 Source config: [`packages/bundle/base/cordis.patch.yml`](../../packages/bundle/base/cordis.patch.yml).
 
-Maintenance mode: hybrid: the leaf plugin list is parsed from its `cordis.yml`; app package expansion is curated from package source.
+Maintenance mode: hybrid: the patch row list is parsed from its `cordis.yml`; app package expansion is curated from package source.

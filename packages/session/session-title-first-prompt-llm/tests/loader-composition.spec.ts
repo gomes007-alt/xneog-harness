@@ -9,6 +9,7 @@ import { pathToFileURL } from 'node:url'
 import LlmRuntime, { createUserMessage, LlmAdapter  } from '@xneog/dsh-llm'
 import type { GenerateOptions, StreamChunk } from '@xneog/dsh-llm'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SessionTitleService from '@xneog/dsh-session-title'
 import * as providerPlugin from '@xneog/dsh-session-title-first-prompt-llm'
 
@@ -38,6 +39,7 @@ async function loadComposition(): Promise<Context> {
   await writeFile(configPath, [
     "- name: '@xneog/dsh-llm'",
     "- name: '@xneog/dsh-session'",
+    "- name: '@xneog/dsh-session-projection'",
     "- name: '@xneog/dsh-session-title'",
     '  config:',
     '    fallbackMaxWords: 5',
@@ -62,6 +64,7 @@ async function loadComposition(): Promise<Context> {
   const modules = new Map<string, unknown>([
     ['@xneog/dsh-llm', LlmRuntime],
     ['@xneog/dsh-session', SessionStore],
+    ['@xneog/dsh-session-projection', SessionProjectionRegistry],
     ['@xneog/dsh-session-title', SessionTitleService],
     ['@xneog/dsh-session-title-first-prompt-llm', providerPlugin],
   ])

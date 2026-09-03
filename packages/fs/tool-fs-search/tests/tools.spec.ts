@@ -13,7 +13,7 @@
 import { describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import { join, sep } from 'node:path'
-import { createUserMessage, CallId } from '@xneog/dsh-llm'
+import { createUserMessage, ToolCallId } from '@xneog/dsh-llm'
 import SystemPrompt, { renderPrompt } from '@xneog/dsh-system-prompt'
 import ToolRuntime, { TOOL_ABORTED_BEFORE_DISPATCH, type ToolExecution, type ToolExecutionToken } from '@xneog/dsh-tools'
 import { SubprocessRuntime } from '@xneog/dsh-subprocess'
@@ -213,7 +213,7 @@ function call(
 ) {
   return ctx.tools.execute({
     signal: testToolSignal,
-    callId: CallId(`call-${++callCounter}`),
+    callId: ToolCallId(`call-${++callCounter}`),
     name,
     arguments: args,
     ...options.agent ? { agent: options.agent as never } : {},
@@ -467,7 +467,7 @@ describe('workdir derivation and signal forwarding', () => {
     const { ctx } = await setup()
     const controller = new AbortController()
     controller.abort()
-    const exec = { signal: controller.signal, name: 'glob', callId: CallId('direct-pre-abort') } as unknown as ToolExecution
+    const exec = { signal: controller.signal, name: 'glob', callId: ToolCallId('direct-pre-abort') } as unknown as ToolExecution
     await expect(runRipgrep(ctx, exec, 'glob', ['--files'], 1_000_000, 3_000, 64 * 1024)).rejects
       .toMatchObject({ name: 'SearchError', code: 'SEARCH_ABORTED' })
   })

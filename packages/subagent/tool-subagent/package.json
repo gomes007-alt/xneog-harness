@@ -1,13 +1,13 @@
 {
   "name": "@xneog/dsh-tool-subagent",
   "description": "Model-facing subagent delegation tool over the ctx.subagents seam",
-  "version": "0.1.0-rc.7",
+  "version": "0.1.2-rc.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
     "directory": "packages/subagent/tool-subagent"
   },
   "type": "module",
@@ -17,6 +17,10 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
+    },
+    "./model-selection-settings": {
+      "types": "./lib/types/model-selection-settings.d.ts",
+      "default": "./lib/model-selection-settings.js"
     },
     "./invariant": {
       "types": "./lib/types/invariant.d.ts",
@@ -28,6 +32,7 @@
   "files": [
     "lib/index.js",
     "lib/invariant.js",
+    "lib/model-selection-settings.js",
     "lib/types/**/*.d.ts"
   ],
   "license": "MIT",
@@ -35,6 +40,10 @@
     "@xneog/dsh-agent": "workspace:^",
     "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
+    "@xneog/dsh-settings": "workspace:^",
     "@xneog/dsh-subagent": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/dsh-jobs": "workspace:^",
@@ -42,7 +51,8 @@
     "@xneog/cordis": "workspace:^"
   },
   "dependencies": {
-    "@xneog/schemastery": "workspace:^"
+    "@xneog/schemastery": "workspace:^",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@xneog/cordis-plugin-loader": "workspace:^",
@@ -50,8 +60,10 @@
     "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^",
     "@xneog/dsh-session-persistence": "workspace:^",
     "@xneog/dsh-session-persistence-jsonl": "workspace:^",
+    "@xneog/dsh-settings": "workspace:^",
     "@xneog/dsh-subagent": "workspace:^",
     "@xneog/dsh-subagent-spawn-in-process": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
@@ -59,6 +71,7 @@
     "@xneog/dsh-jobs-local": "workspace:^",
     "@xneog/dsh-tool-jobs": "workspace:^",
     "@xneog/dsh-tools": "workspace:^",
-    "@xneog/cordis": "workspace:^"
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^"
   }
 }

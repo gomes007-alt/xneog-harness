@@ -1,7 +1,8 @@
 /** Shared top-level-call post-policy selection for search result spill. @module dsh-tool-fs-search/direct-call */
 
 import type { Context } from '@xneog/cordis'
-import type { JsonValue, PostToolDecision, ToolDefinition, ToolExecution, ToolExecutionResult } from '@xneog/dsh-tools'
+import type { PostToolDecision, ToolDefinition, ToolExecution, ToolExecutionResult } from '@xneog/dsh-tools'
+import type { JsonValue } from '@xneog/dsh-util-values'
 
 /**
  * Return the accepted canonical value only when this tool still owns a direct

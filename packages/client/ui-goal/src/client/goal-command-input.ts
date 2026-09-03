@@ -3,7 +3,7 @@ import type { CommandId } from '@xneog/dsh-commands/brand'
 import type {} from '@xneog/dsh-commands/types'
 import type {
   ConversationNodeDefinition,
-} from '@xneog/dsh-client-runtime/client'
+} from '@xneog/dsh-client-ui-conversation/client'
 
 /** Goal-owned human command input projected independently of model messages. */
 export interface GoalCommandInputData {
@@ -12,7 +12,7 @@ export interface GoalCommandInputData {
   readonly time: number
 }
 
-declare module '@xneog/dsh-client-ui-conversation/client' {
+declare module '@xneog/dsh-client-ui-chat/client' {
   interface ChatNodeDataMap {
     /** Human-entered `/goal` command input. */
     'command-input': GoalCommandInputData
