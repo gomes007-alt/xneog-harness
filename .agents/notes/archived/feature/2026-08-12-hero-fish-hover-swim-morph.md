@@ -1,6 +1,7 @@
 # Agent Note: Hero fish hover swim morph
 
 Status: implemented
+Archived: 2026-09-03
 
 English | [中文](2026-08-12-hero-fish-hover-swim-morph.zh.md)
 
