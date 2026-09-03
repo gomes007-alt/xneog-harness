@@ -17,7 +17,7 @@ xneog 目前处于 _开发者预览_ 阶段，正在快速迭代。**未来将�
 安装 `Node.js`，然后运行：
 
 ```sh
-npx @xneog/xneog web
+npx @xneog/dsh web
 ```
 
 该命令会启动 Web UI，默认地址为 `http://127.0.0.1:3080`。详见 [Web UI 指南](docs/user/guide/index.zh.md)。

@@ -17,7 +17,7 @@ xneog is currently in _developer preview_ and is iterating rapidly. **THERE WILL
 Install `Node.js`, then run:
 
 ```sh
-npx @xneog/xneog web
+npx @xneog/dsh web
 ```
 
 The command starts the Web UI, served at `http://127.0.0.1:3080` by default. See [Web UI guide](docs/user/guide/index.md).
