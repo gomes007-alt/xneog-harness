@@ -1496,6 +1496,12 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
         parameters: [{ name: 'options', description: 'optional cancellation.' }],
         returns: 'one snapshot per stored session.',
       },
+      {
+        signature: 'abstract delete(id: SessionId, options?: SessionPersistenceDeleteOptions): Promise<boolean>',
+        description: 'Delete one stored session permanently: its log and every physical artifact this backend keeps. The product-level liveness gate belongs to the caller (the workspace registry refuses live sessions first); a backend removes whatever exists for the id.',
+        parameters: [{ name: 'id', description: 'the stored session to delete.' }, { name: 'options', description: 'optional cancellation.' }],
+        returns: '`true` when the session existed and was removed, `false` when no stored session matched the id.',
+      },
     ],
   },
   {
@@ -2818,6 +2824,12 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
         signature: 'archiveSession(sessionId: SessionId): Promise<void>',
         description: 'Archive one session durably. The session must exist (live or in session persistence); its workspace accounting — or lack of one — is irrelevant. An already archived id resolves without writing.',
         parameters: [{ name: 'sessionId', description: 'The session to archive.' }],
+        returns: 'resolution after durability.',
+      },
+      {
+        signature: 'deleteSession(sessionId: SessionId): Promise<void>',
+        description: 'Delete one session for good: drop its workspace accounting slot, drop it from the archive set, and remove its stored log from disk. Unlike `archiveSession` — which only hides the session and keeps everything — this is irreversible.\n\nA live session — one this host has loaded since it started — is refused: the session store has no public removal, so the in-memory object would outlive its bytes. A session the registry cannot locate on disk fails with WorkspaceSessionNotDeletableError rather than silently removing only the accounting, so the UI never reports a delete that left the log behind.',
+        parameters: [{ name: 'sessionId', description: 'The session to delete.' }],
         returns: 'resolution after durability.',
       },
       {
@@ -4975,6 +4987,10 @@ export const TYPE_API: readonly TypeApiEntry[] = [
   {
     name: 'SessionPersistenceCreateOptions',
     declaration: 'export interface SessionPersistenceCreateOptions {\n    readonly signal?: AbortSignal;\n    readonly inheritedEventCount?: SessionLogOffset;\n}',
+  },
+  {
+    name: 'SessionPersistenceDeleteOptions',
+    declaration: 'export interface SessionPersistenceDeleteOptions {\n    readonly signal?: AbortSignal;\n}',
   },
   {
     name: 'SessionPersistenceListOptions',

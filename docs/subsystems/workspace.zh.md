@@ -306,6 +306,23 @@ insertBefore(id: WorkspaceId, beforeId?: WorkspaceId): Promise<readonly Workspac
 archiveSession(sessionId: SessionId): Promise<void>
 
 /**
+ * Delete one session for good: drop its workspace accounting slot, drop it
+ * from the archive set, and remove its stored log from disk. Unlike
+ * `archiveSession` — which only hides the session and keeps everything —
+ * this is irreversible.
+ *
+ * A live session — one this host has loaded since it started — is refused:
+ * the session store has no public removal, so the in-memory object would
+ * outlive its bytes. A session the registry cannot locate on disk
+ * fails with {@link WorkspaceSessionNotDeletableError} rather than silently
+ * removing only the accounting, so the UI never reports a delete that left
+ * the log behind.
+ * @param sessionId - The session to delete.
+ * @returns resolution after durability.
+ */
+deleteSession(sessionId: SessionId): Promise<void>
+
+/**
  * Resolve by canonical directory path without creating or mutating a
  * workspace. A missing path rejects during `realpath`; an existing unowned
  * directory returns `undefined`.
