@@ -74,7 +74,6 @@ export interface HeroShellProps {
 function HeroMark() {
   return <BrandMark size={34} className={css.mark} />
 }
-}
 
 /**
  * Render the hero chrome (headline only; no composer, no workspace row).
