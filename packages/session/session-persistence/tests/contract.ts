@@ -537,6 +537,29 @@ export function runPersistenceContract(name: string, make: () => Promise<Contrac
       }
     })
 
+    it('delete removes the stored log and reports absent ids as not deleted', async () => {
+      const { persistence, dispose } = await make()
+      try {
+        const m = meta('delete-me', '/work')
+        const writer = await persistence.create(m)
+        await writer.append(oneTurnLog())
+        await writer.close()
+
+        expect(await persistence.stat(m.id)).toBeDefined()
+        expect(await persistence.delete(m.id)).toBe(true)
+        expect(await persistence.stat(m.id)).toBeUndefined()
+        expect((await persistence.list()).find(s => s.header.id === m.id)).toBeUndefined()
+
+        // An absent id resolves false without touching anything.
+        expect(await persistence.delete(SessionId('absent-delete'))).toBe(false)
+        // The id is free again after deletion.
+        const again = await persistence.create(m)
+        await again.close()
+      } finally {
+        await dispose()
+      }
+    })
+
     it('stat and list agree on stable revisions that change after an append', async () => {
       const { persistence, dispose } = await make()
       try {

@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/implemented/process/2026-09-03-rebase-fork-on-upstream-master.md
-2026-09-03-rebase-fork-on-upstream-master.md: 2fc46c735199561885d2592a4192c0efefcc0d82
-2026-09-03-rebase-fork-on-upstream-master.zh.md: 213994a652b7bc65b0d7c9d272e531f94d1e9f4e
+2026-09-03-rebase-fork-on-upstream-master.md: 688e98df394e257365beb74b3ddff3e5bc054490
+2026-09-03-rebase-fork-on-upstream-master.zh.md: 9c97c09e53ed3dd2785b49ff000591890ad2b967

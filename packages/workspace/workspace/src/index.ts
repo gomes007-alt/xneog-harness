@@ -6,8 +6,8 @@
  */
 
 import { randomUUID } from 'node:crypto'
-import { rm, stat } from 'node:fs/promises'
-import { basename, dirname } from 'node:path'
+import { stat } from 'node:fs/promises'
+import { basename } from 'node:path'
 import { Context, Service } from '@xneog/cordis'
 import type { SessionHeader, SessionId } from '@xneog/dsh-session'
 import type {} from '@xneog/dsh-session-persistence'
@@ -301,13 +301,12 @@ export class WorkspaceRegistry extends Service {
       }
       const header = this.headers.get(sessionId)
       if (header === undefined) throw new WorkspaceUnknownSessionError(sessionId, 'delete')
-      const location = this.ctx.sessionPersistence.locate(header)
-      // The jsonl backend stores one session per directory; removing the file
-      // alone would leave an empty husk that the listing walk still visits.
-      if (location === undefined || location.kind !== 'jsonl') {
+      // The persistence backend removes the log and its artifact directory;
+      // a session that vanishes between the header read and the delete
+      // reports the same refusal rather than silently deleting only half.
+      if (!(await this.ctx.sessionPersistence.delete(sessionId))) {
         throw new WorkspaceSessionNotDeletableError(sessionId)
       }
-      await rm(dirname(location.path), { recursive: true, force: true })
 
       // Accounting last: the log is the source of truth for the listing, so a
       // crash between the two leaves a stale slot that the next header index
