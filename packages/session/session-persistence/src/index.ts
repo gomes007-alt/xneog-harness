@@ -58,6 +58,12 @@ export interface SessionPersistenceSnapshot {
 }
 
 /** Options for {@link SessionPersistence.create}. */
+/** Options for {@link SessionPersistence.delete}. */
+export interface SessionPersistenceDeleteOptions {
+  /** Optional cancellation observed before backend work starts. */
+  readonly signal?: AbortSignal
+}
+
 export interface SessionPersistenceCreateOptions {
   /** Optional cancellation observed before backend work starts. */
   readonly signal?: AbortSignal
@@ -195,6 +201,18 @@ export abstract class SessionPersistence extends Service {
    * @returns one snapshot per stored session.
    */
   abstract list(options?: SessionPersistenceListOptions): Promise<readonly SessionPersistenceSnapshot[]>
+
+  /**
+   * Delete one stored session permanently: its log and every physical
+   * artifact this backend keeps. The product-level liveness gate belongs to
+   * the caller (the workspace registry refuses live sessions first); a
+   * backend removes whatever exists for the id.
+   * @param id - the stored session to delete.
+   * @param options - optional cancellation.
+   * @returns `true` when the session existed and was removed, `false` when
+   *   no stored session matched the id.
+   */
+  abstract delete(id: SessionId, options?: SessionPersistenceDeleteOptions): Promise<boolean>
 }
 
 export default SessionPersistence

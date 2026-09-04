@@ -28,7 +28,7 @@ export interface LinkIconProps extends IconProps {
 const CODE_EXTENSIONS = new Set([
   'ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs', 'cts', 'mts', 'css', 'scss', 'sass', 'less',
   'html', 'htm', 'vue', 'svelte', 'astro', 'json', 'jsonc', 'json5', 'yaml', 'yml',
-  'toml', 'xml', 'ini', 'env', 'sh', 'bash', 'zsh', 'fish', 'ps1', 'bat', 'cmd',
+  'toml', 'xml', 'ini', 'env', 'sh', 'bash', 'zsh', 'mark', 'ps1', 'bat', 'cmd',
   'py', 'pyi', 'rb', 'rs', 'go', 'java', 'kt', 'kts', 'c', 'cc', 'cpp', 'cxx',
   'h', 'hh', 'hpp', 'cs', 'php', 'swift', 'sql', 'csv', 'tsv', 'proto', 'graphql',
   'gql', 'lua', 'r', 'pl', 'scala', 'clj', 'cljs', 'ex', 'exs', 'erl', 'hs', 'dart',

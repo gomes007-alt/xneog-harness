@@ -1,6 +1,7 @@
 # Agent Note: 主页鲸鱼 hover 游动变形
 
 Status: implemented
+Archived: 2026-09-04
 Archived: 2026-09-03
 
 [English](2026-08-12-hero-fish-hover-swim-morph.md) | 中文
