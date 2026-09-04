@@ -27,6 +27,7 @@ import {
   type SessionLocation, type SessionPersistenceCreateOptions,
   type SessionPersistenceListOptions, type SessionPersistenceOpenOptions,
   type SessionPersistenceSnapshot, type SessionPersistenceStatOptions,
+  type SessionPersistenceDeleteOptions,
   type SessionPersistenceRevision as PersistenceRevision,
 } from '@xneog/dsh-session-persistence'
 import { JsonlBackendTracker, JsonlSessionHandle } from './storage.ts'
@@ -379,6 +380,29 @@ class JsonlSessionPersistence extends SessionPersistence {
     }
     signal?.throwIfAborted()
     return snapshots
+  }
+
+  /**
+   * Delete one stored session permanently. The stored header resolves the
+   * session's cwd-scoped artifact directory, and the whole directory is
+   * removed — removing the file alone would leave an empty husk the listing
+   * walk still visits. A lease the registry still holds is the caller's
+   * refusal decision, not this backend's.
+   * @param id - the stored session to delete.
+   * @param options - optional cancellation.
+   * @returns `true` when the session existed and was removed, `false` when
+   *   no stored session matched the id.
+   */
+  async delete(id: SessionId, options?: SessionPersistenceDeleteOptions): Promise<boolean> {
+    options?.signal?.throwIfAborted()
+    await this.ensureRootEncoding()
+    options?.signal?.throwIfAborted()
+    const snapshot = await this.stat(id, options)
+    if (snapshot === undefined) return false
+    options?.signal?.throwIfAborted()
+    await rm(dirname(this.locate(snapshot.header).path), { recursive: true, force: true })
+    this.coldLogMemo.delete(id)
+    return true
   }
 
   // --- handle-facing storage internals (package-private via the handle class below) ---

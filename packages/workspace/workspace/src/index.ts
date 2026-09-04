@@ -44,12 +44,29 @@ export function WorkspaceId(id: string): WorkspaceId {
 export class WorkspaceUnknownSessionError extends Error {
   /**
    * @param sessionId - The unknown session id.
+   * @param operation - The operation the refusal names, so a delete refusal
+   *   never reports itself as an archive.
    */
-  constructor(readonly sessionId: SessionId) {
-    super(`cannot archive session '${sessionId}': live sessions and session persistence hold no such session`)
+  constructor(readonly sessionId: SessionId, readonly operation: 'archive' | 'delete' = 'archive') {
+    super(`cannot ${operation} session '${sessionId}': live sessions and session persistence hold no such session`)
     this.name = 'WorkspaceUnknownSessionError'
   }
 }
+
+/**
+ * A deleteSession request named a session the registry cannot remove from
+ * persistence (no stored log, or a backend without physical removal).
+ */
+export class WorkspaceSessionNotDeletableError extends Error {
+  /**
+   * @param sessionId - the session that cannot be deleted.
+   */
+  constructor(sessionId: SessionId) {
+    super(`cannot delete session '${sessionId}': not deletable`)
+    this.name = 'WorkspaceSessionNotDeletableError'
+  }
+}
+
 
 /** A workspace reorder named a source or anchor absent from the durable registry order. */
 export class WorkspaceOrderInvalidError extends Error {
@@ -252,6 +269,47 @@ export class WorkspaceRegistry extends Service {
       await this.setState({ ...state, archivedSessionIds: [...state.archivedSessionIds, sessionId] })
     })
   }
+  /**
+   * Delete one session for good: drop its workspace accounting slot, drop it
+   * from the archive set, and remove its stored log from disk. Unlike
+   * `archiveSession` — which only hides the session and keeps everything —
+   * this is irreversible.
+   *
+   * A live session — one this host has loaded since it started — is refused:
+   * the session store has no public removal, so the in-memory object would
+   * outlive its bytes. A session the persistence backend cannot remove
+   * fails with {@link WorkspaceSessionNotDeletableError} rather than silently
+   * removing only the accounting, so the UI never reports a delete that left
+   * the log behind.
+   * @param sessionId - The session to delete.
+   * @returns resolution after durability.
+   */
+  deleteSession(sessionId: SessionId): Promise<void> {
+    return this.enqueueOperation(async () => {
+      if (this.ctx.get('sessions')?.get(sessionId) !== undefined) {
+        throw new WorkspaceSessionNotDeletableError(sessionId)
+      }
+      if (!(await this.sessionKnown(sessionId))) {
+        throw new WorkspaceUnknownSessionError(sessionId, 'delete')
+      }
+      const header = this.headers.get(sessionId)
+      if (header === undefined) throw new WorkspaceUnknownSessionError(sessionId, 'delete')
+      if (!(await this.ctx.sessionPersistence.delete(sessionId))) {
+        throw new WorkspaceSessionNotDeletableError(sessionId)
+      }
+      for (const entity of this.entities.values()) {
+        await entity.detachSession(sessionId)
+      }
+      const state = this.requireState()
+      if (state.archivedSessionIds.includes(sessionId)) {
+        await this.setState({
+          ...state,
+          archivedSessionIds: state.archivedSessionIds.filter((id) => id !== sessionId),
+        })
+      }
+    })
+  }
+
 
   /**
    * Whether a session is live, header-indexed, or present in a fresh
