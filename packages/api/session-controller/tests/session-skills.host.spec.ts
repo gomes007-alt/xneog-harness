@@ -1,7 +1,7 @@
 import { Context } from '@xneog/cordis'
 import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
-import SessionStore, { SessionId, SessionLogOffset } from '@xneog/dsh-session'
+import SessionStore, { SESSION_FORMAT_VERSION, SessionId, SessionLogOffset } from '@xneog/dsh-session'
 import { SessionQueryError, type SessionObservation } from '@xneog/dsh-session-query'
 import type {} from '@xneog/dsh-skill'
 import { describe, expect, it, vi } from 'vitest'
@@ -15,7 +15,7 @@ function observation(
   const lease = (): SessionObservation => ({
     source: 'live',
     header: {
-      version: 0,
+      version: SESSION_FORMAT_VERSION,
       id: sessionId,
       createdAt: 1,
       isSeeded: false,

@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-client-ui-conversation",
   "description": "Target-neutral Conversation assembly, shell, composer, queue, and view navigation",
-  "version": "0.1.2-rc.1",
+  "version": "0.1.3-alpha.1",
   "publishConfig": {
     "access": "public"
   },
@@ -29,6 +29,7 @@
     "client": {
       "inject": [
         "@xneog/dsh-api-session-controller",
+        "@xneog/dsh-client-file-upload",
         "@xneog/dsh-client-locale",
         "@xneog/dsh-client-ui-layout",
         "@xneog/dsh-client-ui-renderer",
@@ -64,6 +65,7 @@
     "@xneog/dsh-attachment": "workspace:^",
     "@xneog/dsh-brand": "workspace:^",
     "@xneog/dsh-client-locale": "workspace:^",
+    "@xneog/dsh-client-file-upload": "workspace:^",
     "@xneog/dsh-client-store": "workspace:^",
     "@xneog/dsh-client-test-runtime": "workspace:^",
     "@xneog/dsh-client-ui-layout": "workspace:^",

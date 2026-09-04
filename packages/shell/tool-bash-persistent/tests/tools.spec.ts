@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import { ToolCallId } from '@xneog/dsh-llm'
-import { Session, SessionId } from '@xneog/dsh-session'
+import { SESSION_FORMAT_VERSION, Session, SessionId } from '@xneog/dsh-session'
 import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import TerminalSessionService from '@xneog/dsh-terminal'
@@ -30,7 +30,7 @@ function agent(ctx: Context, cwd: string | undefined): Agent {
   const id = SessionId(`persistent-bash-owner-${callNumber}`)
   const scope = ctx.plugin(() => {})
   const session = Session.create(id, [], {
-    version: 0,
+    version: SESSION_FORMAT_VERSION,
     id,
     createdAt: 0,
     isSeeded: false,

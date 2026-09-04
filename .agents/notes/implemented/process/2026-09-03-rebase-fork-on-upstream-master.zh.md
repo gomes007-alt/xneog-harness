@@ -6,11 +6,11 @@ Status: implemented
 
 ## 问题
 
-xneog fork 停留在上游 `deepseek-harness` 2026-08-17 的快照上，而上游已推进到 `dsh-v0.1.2-rc.1`（新增 webhook 与 experimental 包、SDK 服务 profiles、snapshots/、locale 拥有的客户端 UI 文案，以及 single-dsh-application-launcher 规则）。fork 与上游没有共享历史，任何 merge 或 rebase 都无法跟踪上游。
+xneog fork 停留在上游 `xneog-harness` 2026-08-17 的快照上，而上游已推进到 `dsh-v0.1.2-rc.1`（新增 webhook 与 experimental 包、SDK 服务 profiles、snapshots/、locale 拥有的客户端 UI 文案，以及 single-dsh-application-launcher 规则）。fork 与上游没有共享历史，任何 merge 或 rebase 都无法跟踪上游。
 
 ## 决策
 
-在上游之上重放 fork。将上游演进补丁（2026-08-17 → master）应用到 fork 快照，并机械地重新应用整树 rebrand：npm scope `@deepseek-ai/*` → `@xneog/dsh-*`（CLI 包 `@xneog/dsh`）、可见品牌 → xneog、仓库 URL → `gomes007-alt/xneog-harness`、默认 Harness home `~/.xneog-harness`。Python SDK 保留其上游发行名称与控制台命令；vendor 来源与归档 Agent Note 保留其事实性的上游名称；冻结归档与每条翻译配对记录都为 rebrand 后的快照重新封印。fork 自身的 19 个提交用 `git rebase --rebase-merges` 重放在其上：fork 的改动已被吸收时采纳上游内容（仓库 URL、deleteSession），仍适用时保留 fork 意图（README fork 声明、xneog 标记、web 应用的 `xneog web:` 打印、CI 裁剪到 Pages 部署、手持视口修复）。
+在上游之上重放 fork。将上游演进补丁（2026-08-17 → master）应用到 fork 快照，并机械地重新应用整树 rebrand：npm scope `@xneog/*` → `@xneog/dsh-*`（CLI 包 `@xneog/dsh`）、可见品牌 → xneog、仓库 URL → `gomes007-alt/xneog-harness`、默认 Harness home `~/.xneog-harness`。Python SDK 保留其上游发行名称与控制台命令；vendor 来源与归档 Agent Note 保留其事实性的上游名称；冻结归档与每条翻译配对记录都为 rebrand 后的快照重新封印。fork 自身的 19 个提交用 `git rebase --rebase-merges` 重放在其上：fork 的改动已被吸收时采纳上游内容（仓库 URL、deleteSession），仍适用时保留 fork 意图（README fork 声明、xneog 标记、web 应用的 `xneog web:` 打印、CI 裁剪到 Pages 部署、手持视口修复）。
 
 fork 的 `deleteSession` 功能在上游没有等价物的位置（workspace 注册表、apiproxy、client fakes）得以保留，并适配新的持久化 API：`SessionPersistence.delete(id)` 是服务级方法，JSONL 后端通过移除会话的 artifact 目录来实现，并由共享持久化契约覆盖。
 

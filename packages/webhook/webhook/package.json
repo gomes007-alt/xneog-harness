@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-webhook",
   "description": "Fire-and-forget webhook rule runtime that creates Workspace-backed xneog Sessions",
-  "version": "0.1.2-rc.1",
+  "version": "0.1.3-alpha.1",
   "publishConfig": {
     "access": "public"
   },

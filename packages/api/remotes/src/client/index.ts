@@ -9,6 +9,7 @@ import llmRemote from '@xneog/dsh-llm/remote'
 import dynamicRemote from '@xneog/dsh-cordis-host-runner/remote'
 import pluginInventoryRemote from '@xneog/dsh-host-plugin-inventory/remote'
 import messageFeedbackRemote from '@xneog/dsh-message-feedback/remote'
+import fileUploadsRemote from '@xneog/dsh-client-file-upload/remote'
 import sessionReferencesRemote from '@xneog/dsh-session-reference/remote'
 import subagentsRemote from '@xneog/dsh-subagent/remote'
 import sessionRemote from '@xneog/dsh-api-session-controller/remote'
@@ -24,6 +25,7 @@ export type {} from '@xneog/dsh-goal/remote'
 export type {} from '@xneog/dsh-llm/remote'
 export type {} from '@xneog/dsh-host-plugin-inventory/remote'
 export type {} from '@xneog/dsh-message-feedback/remote'
+export type {} from '@xneog/dsh-client-file-upload/remote'
 export type {} from '@xneog/dsh-session-reference/remote'
 export type {} from '@xneog/dsh-subagent/remote'
 export type * from '@xneog/dsh-subagent/client'
@@ -145,7 +147,7 @@ export async function apply(ctx: Context): Promise<() => Promise<void>> {
   try {
     for (const contribution of [
       agentPresetsRemote, commandsRemote, settingsControllerRemote, goalsRemote, llmRemote, dynamicRemote,
-      pluginInventoryRemote, messageFeedbackRemote, sessionReferencesRemote,
+      pluginInventoryRemote, messageFeedbackRemote, fileUploadsRemote, sessionReferencesRemote,
       subagentsRemote, sessionRemote, workspaceRemote,
     ]) {
       disposers.push(await ctx.remote.$mount(contribution))

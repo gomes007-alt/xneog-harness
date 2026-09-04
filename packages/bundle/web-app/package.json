@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-web-app",
   "description": "The dsh browser-surface bundle: the web patch layer over dsh-base plus the runtime glue plugin (frontend dist serving, web-surface prompt, bash runtime variables, URL line)",
-  "version": "0.1.2-rc.1",
+  "version": "0.1.3-alpha.1",
   "publishConfig": {
     "access": "public"
   },
@@ -44,6 +44,7 @@
     "@xneog/dsh-api-remotes": "workspace:^",
     "@xneog/dsh-app-boot": "workspace:^",
     "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-client-file-upload": "workspace:^",
     "@xneog/dsh-client-hmr": "workspace:^",
     "@xneog/dsh-client-locale": "workspace:^",
     "@xneog/dsh-client-modules": "workspace:^",

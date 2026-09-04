@@ -43,7 +43,8 @@ const DUPLICATE_SAFE_PACKAGES: readonly string[] = [
 const SAFE_HOST_DEPENDENCY_EXPORTS = {
   '@xneog/dsh-credentials': ['credentialKey'],
   '@xneog/dsh-deque': ['Deque'],
-  '@xneog/dsh-llm': ['callConfigEquals'],
+  '@xneog/dsh-llm': ['BlockAssembler', 'callConfigEquals', 'expandAssistantStream'],
+  '@xneog/dsh-session-format': ['sessionFormatLogFilename'],
   '@xneog/dsh-timeout': ['MAX_TIMER_DELAY_MS'],
   '@xneog/schemastery': ['default'],
 } as const satisfies HostDependencyExports
@@ -51,6 +52,7 @@ const SAFE_HOST_DEPENDENCY_EXPORTS = {
 /** Runtime exports that require every consumer to resolve the provider's shared peer instance. */
 const PEER_REQUIRED_HOST_EXPORTS = {
   '@xneog/dsh-scope': ['carrierKeyOf', 'scopeOf', 'scopeTarget'],
+  '@xneog/dsh-session': ['SESSION_FORMAT_VERSION'],
   '@xneog/dsh-session-persistence': ['SessionPersistenceNotFoundError'],
 } as const satisfies HostDependencyExports
 

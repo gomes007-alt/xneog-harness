@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-client-connection",
   "description": "Authenticated RPC transport, generation lifecycle, and browser fixture",
-  "version": "0.1.2-rc.1",
+  "version": "0.1.3-alpha.1",
   "publishConfig": {
     "access": "public"
   },
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-api-session-controller": "workspace:^",
     "@xneog/dsh-attachment": "workspace:^",
     "@xneog/dsh-brand": "workspace:^",
     "@xneog/dsh-commands": "workspace:^",

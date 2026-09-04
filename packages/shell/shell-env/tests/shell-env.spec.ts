@@ -10,6 +10,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
 import { ToolCallId } from '@xneog/dsh-llm'
 import type { Agent } from '@xneog/dsh-agent'
+import { SESSION_FORMAT_VERSION } from '@xneog/dsh-session'
 import type { ToolExecution } from '@xneog/dsh-tools'
 import { ShellEnvRegistry } from '@xneog/dsh-shell-env'
 import * as BashEnvPlugin from '@xneog/dsh-shell-env'
@@ -28,7 +29,13 @@ function execution(sessionId?: string): ToolExecution {
     arguments: { command: 'true' },
     ...(sessionId === undefined
       ? {}
-      : { agent: { session: { header: { version: 0, id: sessionId, createdAt: 0 } } } as Agent }),
+      : {
+        agent: {
+          session: {
+            header: { version: SESSION_FORMAT_VERSION, id: sessionId, createdAt: 0, isSeeded: false },
+          },
+        } as unknown as Agent,
+      }),
   }
 }
 
@@ -55,7 +62,7 @@ describe('ShellEnvRegistry', () => {
 
     vi.stubEnv('DSH_HOME', undefined)
     const fromDefault = new ShellEnvRegistry(new Context())
-    expect(fromDefault.collect(execution()).DSH_HOME).toBe(join(homedir(), '.xneog-harness'))
+    expect(fromDefault.collect(execution()).DSH_HOME).toBe(join(homedir(), '.dsh'))
   })
 
   it('collects declared contributor variables and omits unavailable values', () => {

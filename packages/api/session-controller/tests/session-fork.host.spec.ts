@@ -6,7 +6,7 @@ import AgentRegistry, { agentEvents } from '@xneog/dsh-agent'
 import type { Agent, AgentHandle, CreateAgentOptions } from '@xneog/dsh-agent'
 import { createUserMessage, ReasoningEffortId } from '@xneog/dsh-llm'
 import type { LlmCallConfig } from '@xneog/dsh-llm'
-import SessionStore, { SessionLogOffset, SessionSeq } from '@xneog/dsh-session'
+import SessionStore, { SESSION_FORMAT_VERSION, SessionLogOffset, SessionSeq } from '@xneog/dsh-session'
 import type { Session, SessionEvent, SessionHeader, SessionId } from '@xneog/dsh-session'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import type { Workspace } from '@xneog/dsh-workspace'
@@ -151,7 +151,7 @@ describe('sessions.fork', () => {
     const sourceId = sid('session-cold-subagent')
     const parentId = sid('session-cold-parent')
     const header: SessionHeader = {
-      version: 0,
+      version: SESSION_FORMAT_VERSION,
       id: sourceId,
       createdAt: 1,
       cwd: '/proj',

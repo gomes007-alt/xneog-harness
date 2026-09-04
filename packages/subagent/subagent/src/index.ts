@@ -30,7 +30,7 @@
  */
 
 import { Context } from '@xneog/cordis'
-import { admitPromptContent } from '@xneog/dsh-attachment'
+import type {} from '@xneog/dsh-attachment'
 import { scopeTarget } from '@xneog/dsh-scope'
 import type { Scoped } from '@xneog/dsh-scope'
 import { assertObjectJsonSchema } from '@xneog/dsh-tools'
@@ -105,7 +105,6 @@ export type {
   SubagentDescriptorData,
   SubagentDescriptorInput,
 } from './descriptor.ts'
-export { seedDescriptorTurn } from './descriptor-seed.ts'
 export { SubagentError } from './error.ts'
 export { settleRun } from './run-settlement.ts'
 export { assertSubagentMaxDepth, delegationDepthOf } from './depth.ts'
@@ -446,7 +445,7 @@ export class SubagentRuntime extends TypertRemoteService {
       } else {
         const attachments = this.ctx.get('attachments')
         if (attachments === undefined) throw new Error('subagent image prompt requires an attachment store')
-        content = await admitPromptContent(attachments, request.content)
+        content = await attachments.admitPromptContent(request.content)
       }
       return {
         messageId: await this[deliverSubagentPrompt](

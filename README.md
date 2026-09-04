@@ -2,13 +2,17 @@
 
 English | [中文](README.zh.md)
 
-xneog (`dsh`) is an open-source agent harness — a fork of [deepseek-harness](https://github.com/deepseek-ai/deepseek-harness), developed by [DeepSeek AI](https://deepseek.com).
+xneog (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).
 
-It uses an architecture where **everything is a plugin**, and is powered by [Cordis](https://github.com/cordiverse/cordis), whose design is described in [_A Programming Paradigm for Spatiotemporal Composability_](https://github.com/cordiverse/paper).
+It is built on an **everything-is-a-plugin** architecture and powered by [Cordis](https://github.com/cordiverse/cordis), whose design is described in [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512).
+
+Documentation: [https://xneog-harness.github.io/xneog-harness/](https://xneog-harness.github.io/xneog-harness/)
 
 ## Developer preview
 
-xneog is currently in _developer preview_ and is iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**
+xneog is in _developer preview_ and iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**
+
+Review the [safety notice](SAFETY.md) before running the project.
 
 ## Run
 
@@ -20,7 +24,7 @@ Install `Node.js`, then run:
 npx @xneog/dsh web
 ```
 
-The command starts the Web UI, served at `http://127.0.0.1:3080` by default. See [Web UI guide](docs/user/guide/index.md).
+The command starts the Web UI at `http://127.0.0.1:3080` by default and opens it in the default browser for a local launch. An SSH launch only prints the host URL because the SSH client or editor owns the local forwarded address. Pass `--no-open` to run the server without opening a browser. See [Web UI guide](docs/user/guide/index.md).
 
 ### Run from source
 
@@ -31,12 +35,14 @@ git clone https://github.com/gomes007-alt/xneog-harness.git
 cd xneog-harness
 pnpm install
 pnpm run build
-pnpm xneog web
+pnpm dsh web
 ```
+
+`pnpm run build` prepares the repository artifacts. `pnpm dsh web` uses those built artifacts without rebuilding.
 
 ## Community and support
 
-- Feel free to submit feedback or bug reports through [GitHub Issues](https://github.com/gomes007-alt/xneog-harness/issues).
+- Submit feedback or bug reports through [GitHub Discussions](https://github.com/gomes007-alt/xneog-harness/discussions).
 - Add the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic to your plugin repository for discoverability.
 - Join <a href="https://discord.gg/Ycq5dCaS4">xneog Discord community</a>.
 

@@ -1,11 +1,11 @@
 import type { Context } from '@xneog/cordis'
 import type {
-  ConversationMatch, ConversationNodeContext, ConversationNodeDefinition,
+  ConversationMatch, ConversationNodeContext, ConversationNodeDefinition, RunningToolCall,
+  ToolCallBlock, ToolResultNode,
 } from '@xneog/dsh-client-ui-conversation/client'
 import { isAppendSurfaceEvent } from '@xneog/dsh-session/surface'
 import type {} from '@xneog/dsh-tools/types'
 import type { ToolChatData } from '../contract/chat-nodes.ts'
-import type { RunningToolCall, ToolCallBlock, ToolResultNode } from '../contract/snapshot.ts'
 import { CHAT_SYNTHETIC_SEQ_OFFSETS, chatNode } from './common.ts'
 
 declare module '../contract/chat-nodes.ts' {

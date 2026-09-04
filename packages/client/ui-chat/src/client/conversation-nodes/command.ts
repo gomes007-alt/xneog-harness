@@ -1,13 +1,12 @@
 import type { Context } from '@xneog/cordis'
 import type {
-  ConversationMatch, ConversationNodeContext, ConversationNodeDefinition,
+  CommandNode, CompactionSummaryNode, ConversationMatch, ConversationNodeContext, ConversationNodeDefinition,
 } from '@xneog/dsh-client-ui-conversation/client'
 import type { CompactionCheckpointSource } from '@xneog/dsh-compaction/checkpoint'
 import type {} from '@xneog/dsh-compaction/types'
 import type {} from '@xneog/dsh-commands/types'
 import { isReplacementSurfaceEvent } from '@xneog/dsh-session/surface'
 import type { ManualCompactionChatData } from '../contract/chat-nodes.ts'
-import type { CommandNode, CompactionSummaryNode } from '../contract/snapshot.ts'
 import { chatNode } from './common.ts'
 
 declare module '../contract/chat-nodes.ts' {

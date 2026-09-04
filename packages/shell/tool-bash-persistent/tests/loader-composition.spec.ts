@@ -7,7 +7,7 @@ import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
 import { ToolCallId } from '@xneog/dsh-llm'
-import { Session, SessionId } from '@xneog/dsh-session'
+import { SESSION_FORMAT_VERSION, Session, SessionId } from '@xneog/dsh-session'
 import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import TerminalSessionService from '@xneog/dsh-terminal'
@@ -40,7 +40,9 @@ class PassthroughSandbox extends SandboxProvider {
 function agent(ctx: Context, cwd: string): Agent {
   const id = SessionId('persistent-bash-loader-agent')
   const scope = ctx.plugin(() => {})
-  const session = Session.create(id, [], { version: 0, id, createdAt: 0, cwd, isSeeded: false })
+  const session = Session.create(id, [], {
+    version: SESSION_FORMAT_VERSION, id, createdAt: 0, cwd, isSeeded: false,
+  })
   const value: Agent = {
     id,
     options: {},

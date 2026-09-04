@@ -2,6 +2,8 @@
 
 import type { Context } from '@xneog/cordis'
 import type {} from '@xneog/dsh-agent/types'
+import type {} from '@xneog/dsh-client-connection/client'
+import type {} from '@xneog/dsh-client-file-upload/client'
 import { createSessionControlStream } from './transport.ts'
 import { ClientSessions } from './sessions/service.ts'
 import type { SessionRemotes } from './sessions/remotes.ts'
@@ -49,17 +51,23 @@ export type {
 export type { ISessions } from './contract/sessions.ts'
 export { MutableSessionEventSource } from './contract/events.ts'
 export type {
+  AssistantLiveChunkEvent,
+  SessionAssistantSettlementEntry,
   SessionEventChange,
   SessionEventLike,
   SessionEventLikeEntry,
   SessionEventSource,
   SessionEventWindow,
   SessionLiveEventEntry,
+  SessionTransientEventEntry,
 } from './contract/events.ts'
 export type {
   OpenState,
   PendingSubmission,
+  PendingSubmissionAttachment,
+  PendingSubmissionFileAttachment,
   PendingSubmissionImage,
+  PendingSubmissionImageAttachment,
   PendingSubmissionPlacement,
   PromptError,
   QueuedMessage,
@@ -75,6 +83,8 @@ declare module '@xneog/cordis' {
 
 /** Required Remote and Context projection services. */
 export const inject = [
+  'connection',
+  'fileUpload',
   'typert',
   'remote',
   'remote.commands',

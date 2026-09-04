@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-experimental-webworker-runtime",
   "description": "Browser-only harness runtime: in-memory VFS, module transform and loader, postMessage tunnel, and the dedicated Web Worker assembly, with the Node-compatibility layer that lets the host tree run unchanged",
-  "version": "0.1.2-rc.1",
+  "version": "0.1.3-alpha.1",
   "private": true,
   "repository": {
     "type": "git",
@@ -47,6 +47,7 @@
     "@xneog/dsh-api-gateway": "workspace:^",
     "@xneog/dsh-bash-sandbox": "workspace:^",
     "@xneog/dsh-client-connection": "workspace:^",
+    "@xneog/dsh-client-file-upload": "workspace:^",
     "@xneog/dsh-client-modules": "workspace:^",
     "@xneog/dsh-host-webserver": "workspace:^",
     "@xneog/dsh-sandbox-local": "workspace:^",

@@ -7,7 +7,6 @@
 
 import { randomUUID } from 'node:crypto'
 import { stat } from 'node:fs/promises'
-import { basename } from 'node:path'
 import { Context, Service } from '@xneog/cordis'
 import type { SessionHeader, SessionId } from '@xneog/dsh-session'
 import type {} from '@xneog/dsh-session-persistence'
@@ -16,7 +15,7 @@ import { WorkspaceEntity } from './entity.ts'
 import type { WorkspaceEntityHost } from './entity.ts'
 
 export { WorkspaceMoveInvalidError } from './entity.ts'
-import { realpathNormalize } from './paths.ts'
+import { defaultWorkspaceTitle, realpathNormalize } from './paths.ts'
 import { workspaceDomainSpec } from './spec.ts'
 import type { WorkspaceDomainState, WorkspaceRecord } from './spec.ts'
 import type { Workspace, WorkspaceId as WorkspaceIdBrand } from './types.ts'
@@ -39,33 +38,16 @@ export function WorkspaceId(id: string): WorkspaceId {
 }
 
 /**
- * An archiveSession or deleteSession request named a session neither live nor
- * in session persistence — a definite miss only; storage faults propagate as
- * themselves.
+ * An archiveSession request named a session neither live nor in session
+ * persistence — a definite miss only; storage faults propagate as themselves.
  */
 export class WorkspaceUnknownSessionError extends Error {
   /**
    * @param sessionId - The unknown session id.
-   * @param operation - The verb the message names, so a delete does not report
-   *   itself as an archive.
-   */
-  constructor(readonly sessionId: SessionId, operation: 'archive' | 'delete' = 'archive') {
-    super(`cannot ${operation} session '${sessionId}': live sessions and session persistence hold no such session`)
-    this.name = 'WorkspaceUnknownSessionError'
-  }
-}
-
-/**
- * A delete request named a session whose log this backend cannot remove — the
- * storage location is not a filesystem path this registry owns.
- */
-export class WorkspaceSessionNotDeletableError extends Error {
-  /**
-   * @param sessionId - The session whose log could not be located on disk.
    */
   constructor(readonly sessionId: SessionId) {
-    super(`cannot delete session '${sessionId}': its log is not a filesystem location this registry can remove`)
-    this.name = 'WorkspaceSessionNotDeletableError'
+    super(`cannot archive session '${sessionId}': live sessions and session persistence hold no such session`)
+    this.name = 'WorkspaceUnknownSessionError'
   }
 }
 
@@ -157,13 +139,13 @@ export class WorkspaceRegistry extends Service {
   }
 
   /**
-   * Create or reuse a workspace for an existing directory. The path is
-   * canonicalized through `fs.realpath`; a nonexistent path rejects with the
-   * original error and a non-directory rejects. Repeated calls for the same
-   * canonical path return the existing entity without changing its title.
+   * Create or reuse a workspace for an existing directory. The fully qualified
+   * path is canonicalized through `fs.realpath`; a relative, nonexistent, or
+   * non-directory path rejects. Repeated calls for the same canonical path
+   * return the existing entity without changing its title.
    * A newly created workspace is prepended to the durable registry order.
    * Different canonical paths may share a display title.
-   * @param path - Existing directory to own, in any path spelling.
+   * @param path - Existing directory to own, in a fully qualified path spelling.
    * @param title - Display title used only when a new record is created.
    * @returns the existing or newly durable workspace.
    */
@@ -272,62 +254,6 @@ export class WorkspaceRegistry extends Service {
   }
 
   /**
-   * Delete one session for good: drop its workspace accounting slot, drop it
-   * from the archive set, and remove its stored log from disk. Unlike
-   * `archiveSession` — which only hides the session and keeps everything —
-   * this is irreversible.
-   *
-   * A live session — one this host has loaded since it started — is refused:
-   * the session store has no public removal, so the in-memory object would
-   * outlive its bytes. A session the registry cannot locate on disk
-   * fails with {@link WorkspaceSessionNotDeletableError} rather than silently
-   * removing only the accounting, so the UI never reports a delete that left
-   * the log behind.
-   * @param sessionId - The session to delete.
-   * @returns resolution after durability.
-   */
-  deleteSession(sessionId: SessionId): Promise<void> {
-    return this.enqueueOperation(async () => {
-      // A live session is refused outright: the store has no public removal,
-      // so deleting the log under it would leave an in-memory ghost that
-      // `session.list` keeps serving and the next append would rewrite to disk.
-      // Only sessions touched since the host started are live, so in practice
-      // this refuses the session the user just used, not the backlog.
-      if (this.ctx.get('sessions')?.get(sessionId) !== undefined) {
-        throw new WorkspaceSessionNotDeletableError(sessionId)
-      }
-      if (!(await this.sessionKnown(sessionId))) {
-        throw new WorkspaceUnknownSessionError(sessionId, 'delete')
-      }
-      const header = this.headers.get(sessionId)
-      if (header === undefined) throw new WorkspaceUnknownSessionError(sessionId, 'delete')
-      // The persistence backend removes the log and its artifact directory;
-      // a session that vanishes between the header read and the delete
-      // reports the same refusal rather than silently deleting only half.
-      if (!(await this.ctx.sessionPersistence.delete(sessionId))) {
-        throw new WorkspaceSessionNotDeletableError(sessionId)
-      }
-
-      // Accounting last: the log is the source of truth for the listing, so a
-      // crash between the two leaves a stale slot that the next header index
-      // prunes — the opposite order would orphan the log instead.
-      for (const entity of this.entities.values()) {
-        await entity.detachSession(sessionId)
-      }
-      const state = this.requireState()
-      if (state.archivedSessionIds.includes(sessionId)) {
-        await this.setState({
-          ...state,
-          archivedSessionIds: state.archivedSessionIds.filter(id => id !== sessionId),
-        })
-      }
-      this.headers.delete(sessionId)
-      this.sessionPaths.delete(sessionId)
-      this.invalidSessionPaths.delete(sessionId)
-    })
-  }
-
-  /**
    * Whether a session is live, header-indexed, or present in a fresh
    * persistence listing. Only a definite miss returns false — a failing
    * `sessionPersistence.list()` propagates so storage faults never
@@ -344,7 +270,7 @@ export class WorkspaceRegistry extends Service {
    * Resolve by canonical directory path without creating or mutating a
    * workspace. A missing path rejects during `realpath`; an existing unowned
    * directory returns `undefined`.
-   * @param path - Existing directory path in any spelling.
+   * @param path - Existing directory path in a fully qualified spelling.
    * @returns the workspace owning the canonical path, when one exists.
    */
   async resolveByPath(path: string): Promise<Workspace | undefined> {
@@ -360,7 +286,7 @@ export class WorkspaceRegistry extends Service {
       if (entity.path === canonical) return entity
     }
 
-    const workspaceName = title ?? basename(canonical)
+    const workspaceName = title ?? defaultWorkspaceTitle(canonical)
     const table = this.requireTable()
     const state = this.requireState()
     const id = WorkspaceId(randomUUID())
@@ -532,7 +458,7 @@ export class WorkspaceRegistry extends Service {
         const createdAt = new Date(group.newestAt).toISOString()
         const record: WorkspaceRecord = {
           path: group.path,
-          title: basename(group.path),
+          title: defaultWorkspaceTitle(group.path),
           sessionIds,
           createdAt,
           updatedAt: createdAt,

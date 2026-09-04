@@ -5,8 +5,8 @@
  * @module @xneog/dsh-api-session-controller/client/sessions/remotes
  */
 
-import type { EncodedImageAttachment } from '@xneog/dsh-attachment/types'
 import type { ClientRemote } from '@xneog/dsh-api-gateway/client'
+import type { CommandSubmitAttachment } from '@xneog/dsh-commands/types'
 import type { SessionId } from '@xneog/dsh-session/types'
 import type {
   SubagentCatalog, SubagentInterruptReceipt, SubagentPromptReceipt, SubagentPromptRequest,
@@ -19,7 +19,7 @@ export interface SessionCommandsRemote {
   execute(
     agentId: SessionId,
     line: string,
-    images: readonly EncodedImageAttachment[],
+    attachments: readonly CommandSubmitAttachment[],
     signal?: AbortSignal,
   ): Promise<RemoteResult<object | undefined>>
 }

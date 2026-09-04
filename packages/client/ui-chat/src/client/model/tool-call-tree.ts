@@ -2,7 +2,7 @@ import type { SessionEvent } from '@xneog/dsh-session/types'
 import type {} from '@xneog/dsh-tools/types'
 import type {
   ConversationNode, RunningToolCall, ToolCallBlock, ToolResultNode,
-} from '../contract/snapshot.ts'
+} from '@xneog/dsh-client-ui-conversation/client'
 
 interface ProjectedBlock {
   source: ToolCallBlock

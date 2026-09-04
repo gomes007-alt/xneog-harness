@@ -1,9 +1,8 @@
 import type { Context } from '@xneog/cordis'
 import type {
-  ConversationMatch, ConversationNodeContext, ConversationNodeDefinition,
+  CompactionSummaryNode, ConversationMatch, ConversationNodeContext, ConversationNodeDefinition,
 } from '@xneog/dsh-client-ui-conversation/client'
 import type {} from '@xneog/dsh-compaction/types'
-import type { CompactionSummaryNode } from '../contract/snapshot.ts'
 import { chatNode } from './common.ts'
 import { compactSource, compactSummary, updateCompactionState } from './command.ts'
 
