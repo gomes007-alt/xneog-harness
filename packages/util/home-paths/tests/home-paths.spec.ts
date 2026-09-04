@@ -19,17 +19,17 @@ afterEach(() => {
 
 describe('dsh path helpers', () => {
   it('owns the shared default DSH home directory name', () => {
-    expect(DSH_HOME_DIR_NAME).toBe('.dsh')
-    expect(DEFAULT_DSH_HOME_DISPLAY).toBe('~/.dsh')
-    expect(defaultDshHome()).toBe(join(homedir(), '.dsh'))
+    expect(DSH_HOME_DIR_NAME).toBe('.xneog-harness')
+    expect(DEFAULT_DSH_HOME_DISPLAY).toBe('~/.xneog-harness')
+    expect(defaultDshHome()).toBe(join(homedir(), '.xneog-harness'))
   })
 
   it('expands tilde paths without changing non-tilde paths', () => {
     expect(expandHomePath('~')).toBe(homedir())
-    expect(expandHomePath('~/.dsh')).toBe(join(homedir(), '.dsh'))
-    expect(expandHomePath('~\\.dsh')).toBe(join(homedir(), '.dsh'))
-    expect(expandHomePath('/tmp/.dsh')).toBe('/tmp/.dsh')
-    expect(expandHomePath('~other/.dsh')).toBe('~other/.dsh')
+    expect(expandHomePath('~/.xneog-harness')).toBe(join(homedir(), '.xneog-harness'))
+    expect(expandHomePath('~\\.xneog-harness')).toBe(join(homedir(), '.xneog-harness'))
+    expect(expandHomePath('/tmp/.xneog-harness')).toBe('/tmp/.xneog-harness')
+    expect(expandHomePath('~other/.xneog-harness')).toBe('~other/.xneog-harness')
   })
 
   it('resolves explicit path before DSH_HOME and the default', () => {
@@ -52,7 +52,7 @@ describe('dsh path helpers', () => {
   })
 
   it('labels a resolved home by whether it is the default root', () => {
-    expect(dshHomeDisplay(resolve(defaultDshHome()))).toBe('~/.dsh')
+    expect(dshHomeDisplay(resolve(defaultDshHome()))).toBe('~/.xneog-harness')
     expect(dshHomeDisplay('/some/other/root')).toBe('$DSH_HOME')
   })
 

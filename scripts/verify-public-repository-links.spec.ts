@@ -31,7 +31,9 @@ describe('repository link policy', () => {
   })
 
   it('preserves frozen archived Agent Notes', () => {
-    const unavailableRepository = ['xneog', 'deepseek-harness-sdk'].join('/')
+    // Join-split spelling mirrors the gate's own construction so the rebrand
+// transform cannot rewrite the fixture into a different repository.
+    const unavailableRepository = `${['deepseek', 'ai'].join('-')}/${['deepseek', 'harness', 'sdk'].join('-')}`
 
     expect(findUnavailableRepositoryReferences(
       '.agents/notes/archived/process/historical-record.md',
