@@ -13,7 +13,7 @@ The plugin-based agent harness, powered by your DeepSeek API key.
 npm install -g @xneog/dsh
 ```
 
-This installs the `xneog-harness` command globally.
+This installs the `dsh` command globally.
 
 ### From source (development / before npm publication)
 
@@ -22,7 +22,7 @@ git clone <your-repo-url> xneog
 cd xneog
 pnpm install
 pnpm build
-pnpm xneog-harness web          # source launch
+pnpm dsh web                    # source launch (root script: node --import tsx/esm apps/cli/src/bin.ts)
 ```
 
 ## Configure your API key
@@ -43,14 +43,14 @@ or `%USERPROFILE%\.xneog-harness` on Windows).
 
 ```bash
 # Web GUI (default: http://127.0.0.1:3080)
-xneog-harness web
-xneog-harness web --port 8080       # custom port
+dsh web
+dsh web --port 8080                 # custom port
 
 # Headless (one task, print result, exit)
-xneog-harness --profile headless "run the tests"
+dsh --profile headless "run the tests"
 
 # Show help
-xneog-harness --help
+dsh --help
 ```
 
 ## macOS
@@ -67,7 +67,7 @@ Verified working. If port `3080` is in use, pass `--port 3081`.
    ```powershell
    npm install -g @xneog/dsh
    $env:DEEPSEEK_API_KEY = "sk-..."
-   xneog-harness web
+   dsh web
    ```
 
 4. Open `http://127.0.0.1:3080` in the browser.
@@ -92,6 +92,14 @@ All user data lives under one root:
 - **Windows**: `%USERPROFILE%\.xneog-harness`
 
 Override it with the `DSH_HOME` environment variable (kept for compatibility).
+
+## Where to look next
+
+- Architecture and composition: `docs/architecture.md` (read before changing `packages/`).
+- Contributor workflow and checks: `AGENTS.md` and `docs/development.md`.
+- Planned work: `.agents/notes/proposed/` is the roadmap home; there is no separate ROADMAP file.
+- Release history: git tags (`git tag --list 'dsh-v*'`); there is no separate CHANGELOG file.
+- Native-client protocol map: `~/Documents/Untitled Project/docs/native-client-protocol-map.md`.
 
 ## License
 
