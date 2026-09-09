@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-tool-terminal",
   "description": "Six model-facing persistent PTY tools with owner isolation and generic background-job integration",
-  "version": "0.1.3-alpha.1",
+  "version": "0.1.5-alpha.2",
   "publishConfig": {
     "access": "public"
   },
@@ -43,6 +43,7 @@
     "@xneog/cordis-plugin-include": "workspace:^",
     "@xneog/cordis-plugin-loader": "workspace:^",
     "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-loop-testkit": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-terminal": "workspace:^",
     "@xneog/dsh-terminal-bash": "workspace:^",

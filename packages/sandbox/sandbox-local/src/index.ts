@@ -30,7 +30,7 @@ import {
   LAUNCHER_FAILURE_EXIT,
   launcherPath as landlockLauncherPath,
   probe as defaultProbeLandlock,
-} from '@xneog/node-addon-landlock-run'
+} from '@xneog/node-addon-system/landlock-run'
 import { Context } from '@xneog/cordis'
 import z from '@xneog/schemastery'
 import { SandboxProvider, SandboxUnavailableError } from '@xneog/dsh-sandbox'

@@ -14,6 +14,14 @@ const experimental: WorkspaceManifest = {
   manifest: { name: '@xneog/dsh-experimental-prototype', private: true },
 }
 
+const publicExperimental: WorkspaceManifest = {
+  dir: 'packages/experimental/agent-team',
+  manifest: {
+    name: '@xneog/dsh-experimental-agent-team',
+    publishConfig: { access: 'public' },
+  },
+}
+
 describe('experimental workspace constraints', () => {
   it('requires the experimental package-name prefix', () => {
     expect(checkExperimentalManifest({
@@ -32,6 +40,20 @@ describe('experimental workspace constraints', () => {
     })).toEqual([
       '@xneog/dsh-experimental-prototype: experimental package must set "private": true',
       '@xneog/dsh-experimental-prototype: experimental package must omit publishConfig',
+    ])
+  })
+
+  it('requires public metadata only for the Agent Teams exceptions', () => {
+    expect(checkExperimentalManifest(publicExperimental)).toEqual([])
+    expect(checkExperimentalManifest({
+      ...publicExperimental,
+      manifest: {
+        name: '@xneog/dsh-experimental-agent-team',
+        private: true,
+      },
+    })).toEqual([
+      '@xneog/dsh-experimental-agent-team: public experimental package must not set "private": true',
+      '@xneog/dsh-experimental-agent-team: public experimental package must set publishConfig.access to "public"',
     ])
   })
 
@@ -102,7 +124,7 @@ describe('dsh family version coherence', () => {
   it('leaves other sequences to their own version lines', () => {
     expect(checkDshFamilyVersion({ name: '@xneog/cordis', version: '4.0.1' }, '0.1.2-rc.1')).toBeUndefined()
     expect(checkDshFamilyVersion(
-      { name: '@xneog/node-addon-landlock-run', version: '0.1.1' },
+      { name: '@xneog/node-addon-system', version: '0.1.1' },
       '0.1.2-rc.1',
     )).toBeUndefined()
     expect(checkDshFamilyVersion({ version: '0.1.2-alpha.5' }, '0.1.2-rc.1')).toBeUndefined()

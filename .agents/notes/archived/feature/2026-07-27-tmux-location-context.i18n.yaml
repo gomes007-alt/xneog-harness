@@ -1,0 +1,6 @@
+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
+# side as of the last confirmed-consistent state. Both languages carry equal authority;
+# after editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/archived/feature/2026-07-27-tmux-location-context.md
+2026-07-27-tmux-location-context.md: 3cce5b5b1a08f7485b68eef1b355baa5299c5105
+2026-07-27-tmux-location-context.zh.md: 17767dfd1c535bf236d3906929206efa1ccabb7e

@@ -9,7 +9,6 @@ import { mountAgentLoopTestDependencies } from '@xneog/dsh-agent-loop-testkit'
 import { ToolCallId } from '@xneog/dsh-llm'
 import { scopeOf } from '@xneog/dsh-scope'
 import { SessionId } from '@xneog/dsh-session'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import JsonlSessionPersistence from '@xneog/dsh-session-persistence-jsonl'
 import SessionQueryEngine from '@xneog/dsh-session-query'
 import SubagentService from '@xneog/dsh-subagent'
@@ -56,7 +55,6 @@ afterEach(() => {
 async function setup(script: ConstructorParameters<typeof MockAdapter>[0], legacyControl = false) {
   const ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
-  await ctx.plugin(SessionProjectionRegistry)
   const storageRoot = mkdtempSync(join(tmpdir(), 'dsh-tool-team-'))
   roots.push(storageRoot)
   await ctx.plugin(JsonlSessionPersistence, { root: storageRoot })

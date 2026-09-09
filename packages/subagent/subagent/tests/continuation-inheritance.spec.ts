@@ -19,7 +19,6 @@ import SandboxPolicyService, { setSandboxMode } from '@xneog/dsh-sandbox-policy'
 import { Session, SessionId } from '@xneog/dsh-session'
 import type { SessionEvent } from '@xneog/dsh-session'
 import JsonlSessionPersistence from '@xneog/dsh-session-persistence-jsonl'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { queueHostSubagentPrompt } from '@xneog/dsh-subagent/internal'
 import * as SubagentFork from '@xneog/dsh-subagent-fork-in-process'
 import * as SubagentSpawn from '@xneog/dsh-subagent-spawn-in-process'
@@ -43,7 +42,6 @@ async function setup(script: Script) {
   const ctx = new Context()
   contexts.push(ctx)
   await mountAgentLoopTestDependencies(ctx)
-  await ctx.plugin(SessionProjectionRegistry)
   const root = mkdtempSync(join(tmpdir(), 'dsh-continuation-inherit-'))
   roots.push(root)
   await ctx.plugin(JsonlSessionPersistence, { root })

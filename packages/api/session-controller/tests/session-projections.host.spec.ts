@@ -7,19 +7,18 @@
  * pushed through the control stream.
  */
 
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Context } from '@xneog/cordis'
 import { z } from 'zod'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import { AttachmentStore } from '@xneog/dsh-attachment'
 import { agentPresetProjectionDefinition } from '@xneog/dsh-agent-presets'
-import type { Agent } from '@xneog/dsh-agent'
 import { createUserMessage } from '@xneog/dsh-llm'
-import SessionStore, { SESSION_FORMAT_VERSION, SessionId, SessionSeq } from '@xneog/dsh-session'
-import type { Session } from '@xneog/dsh-session'
+import SessionStore, { SESSION_FORMAT_VERSION, SessionId, SessionLogOffset, SessionSeq } from '@xneog/dsh-session'
+import type { Session, SessionEvent, SessionHeader, UserMessage } from '@xneog/dsh-session'
 import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import type { ProjectionDefinition } from '@xneog/dsh-session-projection'
 import SessionProjectionCache, { projectionCacheDomainSpec } from '@xneog/dsh-session-projection-cache'
@@ -27,7 +26,18 @@ import Storage from '@xneog/dsh-storage'
 import * as StorageDomain from '@xneog/dsh-storage-domain'
 import * as StorageJson from '@xneog/dsh-storage-json'
 import type { SessionControlFrame, SessionFollowFrame } from '@xneog/dsh-api-session-controller/types'
+import {
+  mountAgentLoopTestDependencies,
+  mountAgentLoopTestHarness,
+} from '@xneog/dsh-agent-loop-testkit'
 import { createSessionTestRemote, testSessionPersistence, type TestSessionRemote } from './test-remote.ts'
+
+const ownedContexts = new Set<Context>()
+afterEach(async () => {
+  await Promise.all([...ownedContexts].map(ctx => ctx.fiber.dispose()))
+  ownedContexts.clear()
+})
+let nextHarnessSession = 1
 
 declare module '@xneog/dsh-session-projection/types' {
   interface SessionProjectionStateMap {
@@ -108,15 +118,35 @@ const privatePromptUnit = () => ({
   stateVersion: 1,
 }) satisfies ProjectionDefinition<'test/private-prompt', string | null>
 
-async function harness(withRegistry: boolean): Promise<{ ctx: Context; session: Session }> {
+async function harness(withRegistry: boolean): Promise<{
+  ctx: Context
+  session: Session
+  readonly claim: (target: 'next-turn' | 'next-step') => UserMessage[]
+}> {
   const ctx = new Context()
-  await ctx.plugin(SessionStore)
-  await ctx.plugin(AgentRegistry)
-  if (withRegistry) await ctx.plugin(SessionProjectionRegistry)
-  const session = ctx.sessions.create(undefined, { meta: { cwd: '/workspace' } })
-  // The gateway reads both the session and durable inbox baseline.
-  ctx.agents.register({ id: session.id, session, inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }), status: 'idle', ctx } as Agent)
-  return { ctx, session }
+  ownedContexts.add(ctx)
+  if (!withRegistry) {
+    await ctx.plugin(SessionStore)
+    await ctx.plugin(AgentRegistry)
+    const session = ctx.sessions.create(undefined, { meta: { cwd: '/workspace' } })
+    return {
+      ctx,
+      session,
+      claim: () => { throw new Error('inbox is unavailable without the projection registry') },
+    }
+  }
+  await mountAgentLoopTestDependencies(ctx)
+  const loop = await mountAgentLoopTestHarness(ctx)
+  const agent = await loop.create(
+    SessionId(`session-projections-${String(nextHarnessSession++)}`),
+    {},
+    { cwd: '/workspace' },
+  )
+  return {
+    ctx,
+    session: agent.session,
+    claim: target => loop.claim(agent, target, 1),
+  }
 }
 
 /** Append `count` user messages so the log has paginable message boundaries. */
@@ -203,6 +233,74 @@ describe('session.history projections block', () => {
     // asOfSeq IS the window tail: the last served event carries it.
     const last = records.at(-1)
     expect(last?.event.seq).toBe(projections.asOfSeq)
+  })
+
+  it('reconstructs a cold persisted queue without publishing or resuming an Agent', async () => {
+    const { ctx } = await harness(true)
+    const coldId = SessionId('cold-persisted-queue')
+    const meta: SessionHeader = { version: SESSION_FORMAT_VERSION, id: coldId, createdAt: 1, cwd: '/tmp', isSeeded: false }
+    const message = createUserMessage({
+      content: [{ type: 'text', text: 'survive process restart' }],
+      source: { kind: 'user' },
+    })
+    const events: SessionEvent[] = [{
+      type: 'agent/inbox/spliced',
+      seq: SessionSeq(0),
+      time: 2,
+      data: { target: 'next-turn', start: 0, inserted: [message] },
+    }]
+    ctx.provide('sessionPersistence', testSessionPersistence(ctx, {
+      list: () => Promise.resolve([meta]),
+      inspect: () => Promise.resolve({ meta, events, inheritedEventCount: SessionLogOffset(0) }),
+    }) as never)
+    const snapshot = await opening(remote(ctx), coldId)
+
+    expect(snapshot.projections.values.inbox).toEqual({
+      'next-turn': [message],
+      'next-step': [],
+    })
+    expect(ctx.agents.get(coldId)).toBeUndefined()
+    expect(ctx.sessions.get(coldId)).toBeUndefined()
+  })
+
+  it('removes claimed steering from the pending Inbox projection immediately', async () => {
+    const { ctx, session, claim } = await harness(true)
+    const proxy = remote(ctx)
+    const message = createUserMessage({
+      content: [{ type: 'text', text: 'apply this now' }],
+      source: { kind: 'user' },
+    })
+    const agent = ctx.agents.get(session.id)
+    if (agent === undefined) throw new Error('missing Agent')
+    agent.inbox.append('next-step', message)
+    claim('next-step')
+
+    const during = await opening(proxy, session.id)
+    expect(during.projections.values.inbox).toEqual({
+      'next-turn': [],
+      'next-step': [],
+    })
+
+    session.append('user/message', message, { surfaceOp: 'append' })
+    const settled = await opening(proxy, session.id)
+    expect(settled.projections.values.inbox).toEqual({
+      'next-turn': [],
+      'next-step': [],
+    })
+
+    const rejected = createUserMessage({
+      content: [{ type: 'text', text: 'reject this pre-step' }],
+      source: { kind: 'user' },
+    })
+    session.append('turn/start', { turn: 1 })
+    agent.inbox.append('next-step', rejected)
+    claim('next-step')
+    session.append('turn/end', { turn: 1, reason: { kind: 'blocked' } })
+    const closed = await opening(proxy, session.id)
+    expect(closed.projections.values.inbox).toEqual({
+      'next-turn': [],
+      'next-step': [],
+    })
   })
 
   it('returns a complete current replacement cut on each follow generation', async () => {

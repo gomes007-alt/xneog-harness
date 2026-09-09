@@ -2,7 +2,6 @@ import { writeFile } from 'node:fs/promises'
 import { Context } from '@xneog/cordis'
 import AgentLoop from '@xneog/dsh-agent-loop'
 import { mountAgentLoopTestDependencies } from '@xneog/dsh-agent-loop-testkit'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { createUserMessage, ToolCallId, type GenerateOptions, LlmAdapter, type StreamChunk  } from '@xneog/dsh-llm'
 import { SessionId } from '@xneog/dsh-session'
 import JsonlSessionPersistence from '@xneog/dsh-session-persistence-jsonl'
@@ -38,7 +37,6 @@ class CrashAdapter extends LlmAdapter {
 
 const ctx = new Context()
 await mountAgentLoopTestDependencies(ctx)
-await ctx.plugin(SessionProjectionRegistry)
 await ctx.plugin(AgentLoop, { agents: [] })
 await ctx.plugin(JsonlSessionPersistence, { root: persistenceRoot, compression: 'none' })
 await ctx.plugin(checkpointPolicy)

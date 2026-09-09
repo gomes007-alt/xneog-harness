@@ -6,7 +6,6 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SessionId, type SessionEvent } from '@xneog/dsh-session'
 import JsonlSessionPersistence from '@xneog/dsh-session-persistence-jsonl'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import type { Agent } from '@xneog/dsh-agent'
 import AgentLoop from '@xneog/dsh-agent-loop'
 import { mountAgentLoopTestDependencies } from '@xneog/dsh-agent-loop-testkit'
@@ -27,8 +26,6 @@ import { MockAdapter, textResponse, toolCallResponse } from '../../../core/agent
 async function harness(adapter: MockAdapter, sessionRoot?: string, dshHome?: string) {
   const ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
-  // AgentLoop declares the registry as a required injection.
-  await ctx.plugin(SessionProjectionRegistry)
   if (sessionRoot !== undefined) {
     await ctx.plugin(JsonlSessionPersistence, { root: sessionRoot, compression: 'none' })
   }

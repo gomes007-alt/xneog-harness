@@ -9,11 +9,13 @@ import llmRemote from '@xneog/dsh-llm/remote'
 import dynamicRemote from '@xneog/dsh-cordis-host-runner/remote'
 import pluginInventoryRemote from '@xneog/dsh-host-plugin-inventory/remote'
 import messageFeedbackRemote from '@xneog/dsh-message-feedback/remote'
+import sessionFeedbackRemote from '@xneog/dsh-command-feedback/remote'
 import fileUploadsRemote from '@xneog/dsh-client-file-upload/remote'
 import sessionReferencesRemote from '@xneog/dsh-session-reference/remote'
 import subagentsRemote from '@xneog/dsh-subagent/remote'
 import sessionRemote from '@xneog/dsh-api-session-controller/remote'
 import workspaceRemote from '@xneog/dsh-api-workspace-controller/remote'
+import workspaceFilesRemote from '@xneog/dsh-api-workspace-files/remote'
 import type { ClientRemote } from '@xneog/dsh-api-gateway/client'
 
 export type { ClientRemote } from '@xneog/dsh-api-gateway/client'
@@ -25,6 +27,7 @@ export type {} from '@xneog/dsh-goal/remote'
 export type {} from '@xneog/dsh-llm/remote'
 export type {} from '@xneog/dsh-host-plugin-inventory/remote'
 export type {} from '@xneog/dsh-message-feedback/remote'
+export type {} from '@xneog/dsh-command-feedback/remote'
 export type {} from '@xneog/dsh-client-file-upload/remote'
 export type {} from '@xneog/dsh-session-reference/remote'
 export type {} from '@xneog/dsh-subagent/remote'
@@ -33,6 +36,8 @@ export type {} from '@xneog/dsh-api-session-controller/remote'
 export type * from '@xneog/dsh-api-session-controller/types'
 export type {} from '@xneog/dsh-api-workspace-controller/remote'
 export type * from '@xneog/dsh-api-workspace-controller/types'
+export type {} from '@xneog/dsh-api-workspace-files/remote'
+export type * from '@xneog/dsh-api-workspace-files/types'
 export type { SessionJob as JobView } from '@xneog/dsh-api-session-controller/types'
 // The forwarded-event allowlist's selection seat: without it in the consumer's
 // compilation face `TypertRemoteEvent` is `never` and every `$on` call fails.
@@ -147,8 +152,8 @@ export async function apply(ctx: Context): Promise<() => Promise<void>> {
   try {
     for (const contribution of [
       agentPresetsRemote, commandsRemote, settingsControllerRemote, goalsRemote, llmRemote, dynamicRemote,
-      pluginInventoryRemote, messageFeedbackRemote, fileUploadsRemote, sessionReferencesRemote,
-      subagentsRemote, sessionRemote, workspaceRemote,
+      pluginInventoryRemote, messageFeedbackRemote, sessionFeedbackRemote, fileUploadsRemote, sessionReferencesRemote,
+      subagentsRemote, sessionRemote, workspaceRemote, workspaceFilesRemote,
     ]) {
       disposers.push(await ctx.remote.$mount(contribution))
     }

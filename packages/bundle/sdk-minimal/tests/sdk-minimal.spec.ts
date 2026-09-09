@@ -39,7 +39,6 @@ describe('dsh-sdk-minimal bundle', () => {
       ['pty', '@xneog/dsh-terminal'],
       ['terminal-bash', '@xneog/dsh-terminal-bash'],
       ['terminal-pwsh', '@xneog/dsh-terminal-bash'],
-      ['fs-local', '@xneog/dsh-fs-local'],
       ['timer', '@xneog/cordis-plugin-timer'],
       ['llm', '@xneog/dsh-llm'],
       ['session', '@xneog/dsh-session'],
@@ -57,7 +56,6 @@ describe('dsh-sdk-minimal bundle', () => {
       ['agent-loop', '@xneog/dsh-agent-loop'],
       ['persistent-bash', '@xneog/dsh-tool-bash-persistent'],
       ['persistent-pwsh', '@xneog/dsh-tool-pwsh-persistent'],
-      ['str-replace-editor', '@xneog/dsh-tool-str-replace-editor'],
       ['sessions', '@xneog/dsh-session-persistence-jsonl'],
     ])
     expect(rows.find(row => row.id === 'sdk-app-startup')?.config).toEqual({ profile: 'sdk-minimal' })
@@ -73,7 +71,7 @@ describe('dsh-sdk-minimal bundle', () => {
     expect(rows.find(row => row.id === 'system-prompt')?.config).toEqual({
       includeHarnessIdentity: false,
       includeRuntimeContext: false,
-      persona: { __jsExpr: "process.env.DSH_SYSTEM_PROMPT ?? 'You are a helpful software engineer assistant.'" },
+      personaPrefix: { __jsExpr: "process.env.DSH_SYSTEM_PROMPT ?? 'You are a helpful software engineer assistant.'" },
     })
     expect(rows.find(row => row.id === 'agent-loop')?.config).toEqual({ agents: [] })
     expect(rows.find(row => row.id === 'terminal-bash')).toMatchObject({

@@ -1,6 +1,0 @@
-# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
-# side as of the last confirmed-consistent state. Both languages carry equal authority;
-# after editing either side, bring the other along and re-record with:
-#   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-08-10-durable-workflow-runs-in-chat.md
-2026-08-10-durable-workflow-runs-in-chat.md: ba1ed751017bf37f1608b8978991ebaba6e76d6c
-2026-08-10-durable-workflow-runs-in-chat.zh.md: 05bb1e9e353b294e81391d2e7e14c481bc7503c6

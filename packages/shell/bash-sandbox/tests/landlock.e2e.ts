@@ -5,7 +5,7 @@ import { homedir, tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
-import { launcherPath } from '@xneog/node-addon-landlock-run'
+import { launcherPath } from '@xneog/node-addon-system/landlock-run'
 import { LocalSandboxProvider } from '@xneog/dsh-sandbox-local'
 import { SandboxPolicyService } from '@xneog/dsh-sandbox-policy'
 import SessionProjectionRegistry from '@xneog/dsh-session-projection'
@@ -21,7 +21,7 @@ import LocalSubprocessRuntime from '@xneog/dsh-subprocess-local'
  * `@xneog/dsh-sandbox-local`.
  *
  * Self-skips when the running kernel does not enforce Landlock. CI builds the launcher from
- * `native/landlock-run` before running this file.
+ * `native/system` before running this file.
  */
 
 const probe = spawnSync(launcherPath(), ['--probe'], { timeout: 5_000, encoding: 'utf8' })

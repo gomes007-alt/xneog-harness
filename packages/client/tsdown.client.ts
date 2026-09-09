@@ -58,7 +58,7 @@ function styleInjectionModule(
  * Everything else under @xneog/* is either a module-table entry
  * (external) or a leak the purity gate rejects.
  */
-export const INLINE_SAFE = /^(?:@xneog\/dsh-(?:file-reference|session|llm|tools|brand|deque|typert-protocol|util-crypto|util-values|util-workspace-path)(?:\/|$)|@xneog\/dsh-token-meter\/client$|@xneog\/dsh-agent-presets\/display$)/
+export const INLINE_SAFE = /^(?:@xneog\/dsh-(?:file-reference|session|llm|tools|brand|deque|output-retention|typert-protocol|util-crypto|util-values|util-workspace-path)(?:\/|$)|@xneog\/dsh-token-meter\/client$|@xneog\/dsh-host-open-in-app\/shared$|@xneog\/dsh-agent-presets\/display$|@xneog\/dsh-spill-policy\/notice$)/
 
 /**
  * Vendored framework libraries: rescoped into @xneog, so the gate below

@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import type { SandboxPolicy } from '@xneog/dsh-sandbox'
-import { launcherPath } from '@xneog/node-addon-landlock-run'
+import { launcherPath } from '@xneog/node-addon-system/landlock-run'
 import { LocalSandboxProvider } from '@xneog/dsh-sandbox-local'
 
 /**

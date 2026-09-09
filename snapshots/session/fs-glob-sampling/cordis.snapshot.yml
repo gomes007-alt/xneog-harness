@@ -35,7 +35,7 @@
 - id: system-prompt
   name: '@xneog/dsh-system-prompt'
   config:
-    persona: You are a concise snapshot agent working in {{cwd}}.
+    personaPrefix: You are a concise snapshot agent working in {{cwd}}.
 
 - id: tool-jobs
   name: '@xneog/dsh-tool-jobs'
@@ -79,3 +79,10 @@
   name: '@xneog/dsh-spill-local'
   config:
     root: !!js process.env.DSH_SNAPSHOT_SPILL_ROOT ?? './.spill'
+
+- insert:
+    - id: snapshot-spill-locators
+      name: ../../../scripts/snapshot-spill-locators.ts
+      config:
+        root: !!js process.env.DSH_SNAPSHOT_SPILL_ROOT
+        locatorRoot: !!js process.env.DSH_SNAPSHOT_SPILL_LOCATOR_ROOT

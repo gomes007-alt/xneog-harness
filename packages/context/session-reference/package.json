@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-session-reference",
   "description": "Cross-session snapshot references and durable untrusted model context (ctx.sessionReferenceResolver)",
-  "version": "0.1.3-alpha.1",
+  "version": "0.1.5-alpha.2",
   "publishConfig": {
     "access": "public"
   },
@@ -60,24 +60,38 @@
     "@xneog/dsh-session-projection-cache": "workspace:^",
     "@xneog/dsh-session-query": "workspace:^",
     "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-spill": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/dsh-typert-protocol": "workspace:^"
   },
   "peerDependenciesMeta": {
+    "@xneog/dsh-spill": {
+      "optional": true
+    },
     "@xneog/dsh-session-projection-cache": {
       "optional": true
     }
   },
   "devDependencies": {
     "@xneog/cordis": "workspace:^",
+    "@xneog/cordis-plugin-include": "workspace:^",
+    "@xneog/cordis-plugin-loader": "workspace:^",
     "@xneog/dsh-agent": "workspace:^",
     "@xneog/dsh-compaction": "workspace:^",
+    "@xneog/dsh-fs-local": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-output-retention": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
     "@xneog/dsh-session-projection": "workspace:^",
     "@xneog/dsh-session-projection-cache": "workspace:^",
     "@xneog/dsh-session-query": "workspace:^",
+    "@xneog/dsh-session-query-sqlite": "workspace:^",
     "@xneog/dsh-session-title": "workspace:^",
+    "@xneog/dsh-spill": "workspace:^",
+    "@xneog/dsh-spill-local": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-tool-fs": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
     "@xneog/dsh-typert-protocol": "workspace:^"
   }
 }

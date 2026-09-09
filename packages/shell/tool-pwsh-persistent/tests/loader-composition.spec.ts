@@ -9,8 +9,8 @@ import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
 import { ToolCallId } from '@xneog/dsh-llm'
 import { SESSION_FORMAT_VERSION, Session, SessionId } from '@xneog/dsh-session'
+import AgentRegistry from '@xneog/dsh-agent'
 import SessionProjectionRegistry from '@xneog/dsh-session-projection'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import TerminalSessionService from '@xneog/dsh-terminal'
 import * as TerminalBash from '@xneog/dsh-terminal-bash'
@@ -22,6 +22,7 @@ import { resolvePwshPath } from '@xneog/dsh-pwsh-local/src/resolve.ts'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRegistry from '@xneog/dsh-tools'
 import * as ToolPwshPersistent from '@xneog/dsh-tool-pwsh-persistent'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const hasPwsh = spawnSync(
   resolvePwshPath(), ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', '$true'],
@@ -54,7 +55,7 @@ function agent(ctx: Context, cwd: string): Agent {
     id,
     options: {},
     session,
-    inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    inbox: unsupportedInbox(),
     status: 'idle',
     ctx: scope.ctx,
     send: () => {},

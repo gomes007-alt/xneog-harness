@@ -5,7 +5,6 @@ import { SessionId, type SessionEvent } from '@xneog/dsh-session'
 import type { Agent } from '@xneog/dsh-agent'
 import AgentLoop from '@xneog/dsh-agent-loop'
 import { mountAgentLoopTestDependencies } from '@xneog/dsh-agent-loop-testkit'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import * as ToolTodo from '@xneog/dsh-tool-todo'
 import { MockAdapter, textResponse, toolCallResponse } from '../../../core/agent-loop/tests/mock-adapter.ts'
 
@@ -18,7 +17,6 @@ import { MockAdapter, textResponse, toolCallResponse } from '../../../core/agent
 async function harness(adapter: MockAdapter): Promise<Context> {
   const ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
-  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(AgentLoop, { agents: [] })
   await ctx.plugin(ToolTodo, { allowParallelInProgress: true })
   ctx.llm.registerAdapter(['mock'], adapter)

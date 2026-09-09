@@ -11,12 +11,13 @@ import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
 import { ToolCallId } from '@xneog/dsh-llm'
 import { Session, SessionId } from '@xneog/dsh-session'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
 import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import * as ToolTodo from '@xneog/dsh-tool-todo'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 let root: string | undefined
 let context: Context | undefined
@@ -33,7 +34,7 @@ function agent(ctx: Context): Agent {
   const id = SessionId('todo-loader-agent')
   const session = Session.create(id)
   const value: Agent = {
-    id, options: {}, session, inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    id, options: {}, session, inbox: unsupportedInbox(),
     status: 'idle', ctx: scope.ctx,
     followup: () => {}, steer: () => {}, inject: () => {}, send: () => {}, cancel() {},
     runMaintenance: task => task(new AbortController().signal),

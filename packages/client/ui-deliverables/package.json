@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-client-ui-deliverables",
   "description": "Produced-files turn tail and clickable final-response file references for Web",
-  "version": "0.1.3-alpha.1",
+  "version": "0.1.5-alpha.2",
   "publishConfig": {
     "access": "public"
   },
@@ -33,7 +33,8 @@
         "@xneog/dsh-client-locale",
         "@xneog/dsh-client-ui-chat",
         "@xneog/dsh-client-ui-conversation",
-        "@xneog/dsh-client-ui-renderer"
+        "@xneog/dsh-client-ui-renderer",
+        "@xneog/dsh-client-ui-tool"
       ],
       "platform": "web"
     }
@@ -61,11 +62,25 @@
     "react": "^18.2.0",
     "@xneog/dsh-client-ui-primitives": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
-    "@xneog/dsh-system-prompt": "workspace:^"
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-session-query": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-client-ui-tool": "workspace:^",
+    "@xneog/dsh-tool-present": "workspace:^",
+    "@xneog/dsh-api-session-controller": "workspace:^",
+    "@xneog/dsh-util-workspace-path": "workspace:^",
+    "@xneog/dsh-api-workspace-files": "workspace:^",
+    "@xneog/dsh-fs": "workspace:^",
+    "@xneog/dsh-fs-local": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-sandbox-policy": "workspace:^"
   },
   "files": [
     "lib/index.js",
     "lib/client.js",
     "lib/types/**/*.d.ts"
-  ]
+  ],
+  "dependencies": {
+    "@xneog/dsh-typert-protocol": "workspace:^"
+  }
 }

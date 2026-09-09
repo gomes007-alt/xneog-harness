@@ -1,13 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
 import { Session, SessionId } from '@xneog/dsh-session'
-import AgentRegistry, { agentEvents, Inbox, type Agent } from '@xneog/dsh-agent'
+import AgentRegistry, { agentEvents, type Agent } from '@xneog/dsh-agent'
 import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { createUserMessage } from '@xneog/dsh-llm'
 import { ShellExecutor } from '@xneog/dsh-shell'
 import type { ShellExecRequest, ShellExecSpec, ShellProcess, ShellRunResult } from '@xneog/dsh-shell'
 import * as tmuxContext from '@xneog/dsh-tmux-context'
 import type { Config } from '@xneog/dsh-tmux-context'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const SIGNAL = new AbortController().signal
 
@@ -94,11 +95,11 @@ async function mount(
 }
 
 function sessionAgent(session: Session, id = 'agent'): Agent {
-  return {
+  const agent: Agent = {
     id: SessionId(id),
     options: {},
     session,
-    inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    inbox: unsupportedInbox(),
     status: 'running',
     ctx: new Context(),
     send: () => {},
@@ -109,6 +110,7 @@ function sessionAgent(session: Session, id = 'agent'): Agent {
     runMaintenance: task => task(new AbortController().signal),
     whenIdle: () => Promise.resolve(),
   }
+  return agent
 }
 
 function openMessageTurn(session: Session, turn: number): void {

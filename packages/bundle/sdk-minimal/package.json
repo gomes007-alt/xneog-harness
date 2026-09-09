@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-sdk-minimal",
-  "description": "The standalone minimal SDK profile bundle: JSON-RPC, one DeepSeek adapter, persistent shell, editor, and JSONL sessions",
-  "version": "0.1.3-alpha.1",
+  "description": "The standalone minimal SDK profile bundle: JSON-RPC, one DeepSeek adapter, persistent shell, and JSONL sessions",
+  "version": "0.1.5-alpha.2",
   "publishConfig": {
     "access": "public"
   },
@@ -38,7 +38,6 @@
     "@xneog/dsh-agent": "workspace:^",
     "@xneog/dsh-agent-loop": "workspace:^",
     "@xneog/dsh-deepseek-llm-api-extensions": "workspace:^",
-    "@xneog/dsh-fs-local": "workspace:^",
     "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-jobs-local": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
@@ -61,7 +60,6 @@
     "@xneog/dsh-terminal-bash": "workspace:^",
     "@xneog/dsh-tool-bash-persistent": "workspace:^",
     "@xneog/dsh-tool-pwsh-persistent": "workspace:^",
-    "@xneog/dsh-tool-str-replace-editor": "workspace:^",
     "@xneog/dsh-tools": "workspace:^"
   },
   "peerDependencies": {

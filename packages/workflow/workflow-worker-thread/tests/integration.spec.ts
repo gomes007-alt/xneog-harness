@@ -7,7 +7,6 @@ import InvariantRegistry from '@xneog/dsh-invariants'
 import * as SessionInvariant from '@xneog/dsh-session/invariant'
 import * as AgentInvariant from '@xneog/dsh-agent/invariant'
 import * as AgentLoopInvariant from '@xneog/dsh-agent-loop/invariant'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SubagentRuntime from '@xneog/dsh-subagent'
 import * as spawn from '@xneog/dsh-subagent-spawn-in-process'
 import { STRUCTURED_OUTPUT_TOOL } from '@xneog/dsh-subagent-in-process-driver'
@@ -36,7 +35,6 @@ async function setup(script: Script) {
   const adapter = new MockAdapter(script)
   await mountAgentLoopTestDependencies(ctx)
   await mountInvariants(ctx)
-  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(AgentLoop, { agents: [] })
   await ctx.plugin(SubagentRuntime)
   await ctx.plugin(spawn, { providerName: 'spawn' })

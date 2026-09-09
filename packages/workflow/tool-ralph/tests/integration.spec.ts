@@ -5,7 +5,6 @@ import AgentLoop from '@xneog/dsh-agent-loop'
 import { mountAgentLoopTestDependencies } from '@xneog/dsh-agent-loop-testkit'
 import { createUserMessage, ToolCallId  } from '@xneog/dsh-llm'
 import { SessionId } from '@xneog/dsh-session'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SubagentRuntime from '@xneog/dsh-subagent'
 import { STRUCTURED_OUTPUT_TOOL } from '@xneog/dsh-subagent-in-process-driver'
 import * as spawn from '@xneog/dsh-subagent-spawn-in-process'
@@ -21,7 +20,6 @@ async function mountRalph(script: MockScript, config: toolRalph.Config) {
   const ctx = new Context()
   const adapter = new MockAdapter(script)
   await mountAgentLoopTestDependencies(ctx)
-  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(AgentLoop, { agents: [] })
   await ctx.plugin(SubagentRuntime)
   await ctx.plugin(spawn, { providerName: 'spawn' })
@@ -59,7 +57,6 @@ describe('dsh-tool-ralph over the real spawn and worker-thread stack', () => {
       toolCallResponse('round-2', STRUCTURED_OUTPUT_TOOL, finalReport),
     ])
     await mountAgentLoopTestDependencies(ctx)
-    await ctx.plugin(SessionProjectionRegistry)
     await ctx.plugin(AgentLoop, { agents: [] })
     await ctx.plugin(SubagentRuntime)
     await ctx.plugin(spawn, { providerName: 'spawn' })

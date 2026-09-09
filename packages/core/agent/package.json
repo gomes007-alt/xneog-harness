@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-agent",
   "description": "Agent interface, registry, initiator scope, and event vocabulary for the xneog",
-  "version": "0.1.3-alpha.1",
+  "version": "0.1.5-alpha.2",
   "publishConfig": {
     "access": "public"
   },
@@ -41,20 +41,22 @@
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-scope": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/dsh-typert-protocol": "workspace:^",
-    "@xneog/cordis": "workspace:^",
-    "@xneog/dsh-session-projection": "workspace:^"
+    "@xneog/dsh-util-values": "workspace:^",
+    "@xneog/cordis": "workspace:^"
   },
   "devDependencies": {
     "@xneog/dsh-invariants": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-scope": "workspace:^",
     "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
     "@xneog/dsh-system-prompt": "workspace:^",
     "@xneog/dsh-typert-protocol": "workspace:^",
     "@xneog/dsh-typert-registry": "workspace:^",
-    "@xneog/cordis": "workspace:^",
-    "@xneog/dsh-session-projection": "workspace:^"
+    "@xneog/dsh-util-values": "workspace:^",
+    "@xneog/cordis": "workspace:^"
   }
 }

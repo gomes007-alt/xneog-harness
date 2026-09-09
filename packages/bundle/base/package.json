@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-base",
   "description": "The shared dsh core as a profile bundle: the first patch layer of base-backed profiles, inserting core rows over the empty profile root",
-  "version": "0.1.3-alpha.1",
+  "version": "0.1.5-alpha.2",
   "publishConfig": {
     "access": "public"
   },
@@ -95,13 +95,13 @@
     "@xneog/dsh-tool-call-timeout-policy": "workspace:^",
     "@xneog/dsh-token-meter": "workspace:^",
     "@xneog/dsh-tool-bash": "workspace:^",
+    "@xneog/dsh-tool-present": "workspace:^",
     "@xneog/dsh-tool-fs": "workspace:^",
     "@xneog/dsh-tool-fs-search": "workspace:^",
     "@xneog/dsh-tool-goal": "workspace:^",
     "@xneog/dsh-tool-pwsh": "workspace:^",
     "@xneog/dsh-tool-ralph": "workspace:^",
     "@xneog/dsh-tool-skill": "workspace:^",
-    "@xneog/dsh-tool-str-replace-editor": "workspace:^",
     "@xneog/dsh-tool-subagent": "workspace:^",
     "@xneog/dsh-tool-subagent-control": "workspace:^",
     "@xneog/dsh-tool-jobs": "workspace:^",

@@ -6,7 +6,7 @@ import { Context } from '@xneog/cordis'
 import { FsVersion } from '@xneog/dsh-fs'
 import { ToolCallId } from '@xneog/dsh-llm'
 import { SESSION_FORMAT_VERSION, Session, SessionId } from '@xneog/dsh-session'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import LocalFileSystem from '@xneog/dsh-fs-local'
 import * as FsPolicy from '@xneog/dsh-fs-observation-policy'
@@ -16,6 +16,7 @@ import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
 import * as ToolStrReplaceEditor from '@xneog/dsh-tool-str-replace-editor'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const contexts: Context[] = []
 const roots: string[] = []
@@ -36,7 +37,7 @@ function agent(ctx: Context, cwd: string): Agent {
     id,
     options: {},
     session,
-    inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    inbox: unsupportedInbox(),
     status: 'idle',
     ctx: scope.ctx,
     send: () => {},

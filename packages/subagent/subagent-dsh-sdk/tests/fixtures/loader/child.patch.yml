@@ -7,7 +7,7 @@
 - id: system-prompt
   name: '@xneog/dsh-system-prompt'
   config:
-    persona: 'Echo where you run.'
+    personaPrefix: 'Echo where you run.'
 
 - id: agent-instructions
   name: '@xneog/dsh-agent-instructions'

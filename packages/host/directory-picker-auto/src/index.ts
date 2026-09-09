@@ -15,6 +15,7 @@ import type { Context } from '@xneog/cordis'
 // Empty type imports carry the `loader` and `webServer` Context merges for the reads below.
 import type {} from '@xneog/cordis-plugin-loader'
 import type {} from '@xneog/dsh-host-webserver'
+import { launchedThroughSsh, launchEnvironmentOf } from '@xneog/dsh-launch-environment'
 import { canExecute, hasLinuxChooserBinary } from './probe.ts'
 import type { DirectoryPickerBackendKind } from './resolve.ts'
 import { resolveDirectoryPickerBackend } from './resolve.ts'
@@ -62,6 +63,7 @@ export async function apply(ctx: Context): Promise<void> {
   const backend = resolveDirectoryPickerBackend({
     bindHost: ctx.webServer.host,
     platform: process.platform,
+    ssh: launchedThroughSsh(launchEnvironmentOf(ctx)),
     env: process.env,
     linuxChooser: hasLinuxChooserBinary(process.env.PATH, canExecute),
   })

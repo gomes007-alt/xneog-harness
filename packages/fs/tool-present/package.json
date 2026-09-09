@@ -1,0 +1,60 @@
+{
+  "name": "@xneog/dsh-tool-present",
+  "description": "Explicit workspace file delivery declarations for the xneog",
+  "version": "0.1.5-alpha.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes007-alt/xneog-harness.git",
+    "directory": "packages/fs/tool-present"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "dependencies": {
+    "@xneog/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-fs": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^"
+  },
+  "devDependencies": {
+    "@xneog/cordis": "workspace:^",
+    "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-fs": "workspace:^",
+    "@xneog/dsh-llm": "workspace:^",
+    "@xneog/dsh-session": "workspace:^",
+    "@xneog/dsh-session-projection": "workspace:^",
+    "@xneog/dsh-tools": "workspace:^",
+    "@xneog/dsh-agent-loop": "workspace:^",
+    "@xneog/dsh-agent-loop-testkit": "workspace:^",
+    "@xneog/dsh-fs-local": "workspace:^",
+    "@xneog/dsh-system-prompt": "workspace:^",
+    "@xneog/dsh-scope": "workspace:^"
+  }
+}

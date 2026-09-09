@@ -18,7 +18,7 @@ import { setActiveVfs } from '@xneog/dsh-experimental-webworker-runtime/src/stor
 import { spawn, spawnSync } from '@xneog/dsh-experimental-webworker-runtime/src/node/builtin_modules/implemented/child_process.ts'
 import {
   LAUNCHER_FAILURE_EXIT, grantArgs, launcherPath, probe,
-} from '@xneog/node-addon-landlock-run'
+} from '@xneog/node-addon-system/landlock-run'
 import { processAlive, signalProcess } from '@xneog/dsh-experimental-webworker-runtime/src/node/process-table.ts'
 import { hostFileSystem } from '@xneog/dsh-experimental-webworker-runtime/src/shell/fs-access.ts'
 import {

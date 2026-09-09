@@ -1,10 +1,11 @@
 import { fileURLToPath } from 'node:url'
-import { agentEvents, Inbox, type Agent } from '@xneog/dsh-agent'
+import { agentEvents, type Agent } from '@xneog/dsh-agent'
 import { ToolCallId } from '@xneog/dsh-llm'
 import { boot, loadOverlayPatches } from '@xneog/dsh-app-boot'
 import { SessionId } from '@xneog/dsh-session'
 import type {} from '@xneog/dsh-skill'
 import type {} from '@xneog/dsh-tools'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const overlayPath = process.argv[2]
 if (overlayPath === undefined) throw new Error('dsh-badge snapshot requires an overlay path')
@@ -23,7 +24,7 @@ try {
     id: agentId,
     options: {},
     session,
-    inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    inbox: unsupportedInbox(),
     status: 'idle',
     send: () => {},
     followup: () => {},

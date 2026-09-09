@@ -1,7 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import { Context } from '@xneog/cordis'
 import { Session, SessionId } from '@xneog/dsh-session'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import TerminalSessionService, { TerminalBackendCleanupError, TerminalError, TerminalSessionId } from '@xneog/dsh-terminal'
 import type {
@@ -14,6 +14,7 @@ import type {
   TerminalSessionStatus,
   TerminalSignal,
 } from '@xneog/dsh-terminal'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const agentScopeDisposers = new WeakMap<Agent, () => Promise<void>>()
 const ptyServiceDisposers = new WeakMap<Context, () => Promise<void>>()
@@ -26,7 +27,7 @@ function stubAgent(ctx: Context, rawId: string): Agent {
     id,
     options: {},
     session,
-    inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    inbox: unsupportedInbox(),
     status: 'idle',
     ctx: scopeFiber.ctx,
     send: () => {},

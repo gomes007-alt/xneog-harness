@@ -6,12 +6,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent, AgentStatus } from '@xneog/dsh-agent'
 import CommandRuntime from '@xneog/dsh-commands'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
 import * as CommandFeedback from '@xneog/dsh-command-feedback'
 import { getOrCreateAnonymousUserId } from '@xneog/dsh-anonymous-user-id'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 let root: string | undefined
 let context: Context | undefined
@@ -29,13 +30,12 @@ function agent(ctx: Context): Agent {
   const scope = ctx.plugin(() => {})
   const id = SessionId('feedback-loader-agent')
   const session = ctx.sessions.create(id)
-  const inbox = new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} })
   let status: AgentStatus = 'idle'
   const value: Agent = {
     id,
     options: {},
     session,
-    inbox,
+    inbox: unsupportedInbox(),
     ctx: scope.ctx,
     get status() { return status },
     send: () => {},
@@ -93,7 +93,7 @@ describe('/feedback real Loader composition through cordis.yml', () => {
     const userId = getOrCreateAnonymousUserId({ env: { DSH_HOME: root } })
     expect(accepted?.result).toEqual({
       kind: 'success',
-      text: `Feedback recorded for session feedback-loader-agent\nAnonymous user: ${userId}. Session sharing is not configured.`,
+      text: `Feedback recorded for session feedback-loader-agent\nAnonymous user: ${userId}.`,
     })
     const rejected = await context.commands.execute(owner, '/feedback', [], signal)
     expect(rejected?.result).toEqual({

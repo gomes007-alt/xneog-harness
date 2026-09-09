@@ -1,6 +1,0 @@
-# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
-# side as of the last confirmed-consistent state. Both languages carry equal authority;
-# after editing either side, bring the other along and re-record with:
-#   pnpm run verify-translation-pairing --write .agents/notes/implemented/architecture/2026-07-26-subprocess-seam.md
-2026-07-26-subprocess-seam.md: cff7561ef93cfdbee065e135c67360d749fcf25a
-2026-07-26-subprocess-seam.zh.md: 16328c313e77f55ebcc4a5e1bc4d41807c4d4511

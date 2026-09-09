@@ -20,6 +20,7 @@ export type {
   SessionHandleAppendOptions,
   SessionHandleFlushOptions,
   SessionHandleReadOptions,
+  SessionHandleReadResult,
 } from './handle.ts'
 export {
   SessionAlreadyExistsError,
@@ -57,13 +58,13 @@ export interface SessionPersistenceSnapshot {
   readonly sizeBytes?: number
 }
 
-/** Options for {@link SessionPersistence.create}. */
 /** Options for {@link SessionPersistence.delete}. */
 export interface SessionPersistenceDeleteOptions {
   /** Optional cancellation observed before backend work starts. */
   readonly signal?: AbortSignal
 }
 
+/** Options for {@link SessionPersistence.create}. */
 export interface SessionPersistenceCreateOptions {
   /** Optional cancellation observed before backend work starts. */
   readonly signal?: AbortSignal

@@ -3,4 +3,4 @@
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/proposed/process/2026-08-27-port-tool-owned-render.md
 2026-08-27-port-tool-owned-render.md: bc03827ecd7f1fa8eb30592da4fa9724ee7deada
-2026-08-27-port-tool-owned-render.zh.md: eaf6849ccb0c7e6449383e3555002c1440e2ef59
+2026-08-27-port-tool-owned-render.zh.md: 721d090b74d2c2b697c4a458050e6c9742d4b350

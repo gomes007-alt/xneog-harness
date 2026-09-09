@@ -3,7 +3,7 @@
  */
 
 import { z } from 'zod'
-import { expandAssistantStream, type TokenUsage } from '@xneog/dsh-llm'
+import { lastAssistantStreamChunk, type TokenUsage } from '@xneog/dsh-llm'
 import type {} from '@xneog/dsh-llm-retry/types'
 import { SessionSeq } from '@xneog/dsh-session'
 import type { SessionEvent } from '@xneog/dsh-session'
@@ -82,10 +82,7 @@ const pressureFrom = (usage: TokenUsage): number =>
 function usageOf(event: SessionEvent): TokenUsage | undefined {
   if (event.type === 'assistant/message' && event.data.usage !== undefined) return event.data.usage
   if (event.type !== 'assistant/message' && event.type !== 'assistant/attempt') return undefined
-  for (const member of expandAssistantStream(event.data.stream).toReversed()) {
-    if (member.chunk.type === 'usage') return member.chunk.usage
-  }
-  return undefined
+  return lastAssistantStreamChunk(event.data.stream, 'usage')?.usage
 }
 
 declare module '@xneog/dsh-session-projection/types' {

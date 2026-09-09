@@ -1,5 +1,6 @@
 import { Context } from '@xneog/cordis'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
+import { createInboxStub } from '@xneog/dsh-agent-loop-testkit'
 import type { Agent, ModelSelectionRef } from '@xneog/dsh-agent'
 import AttachmentStore, { AttachmentId } from '@xneog/dsh-attachment'
 import type {
@@ -38,7 +39,7 @@ async function uploadHarness(origin?: 'subagent'): Promise<{
   const session = ctx.sessions.create(SESSION, {
     meta: { cwd: '/workspace', ...(origin === undefined ? {} : { origin }) },
   })
-  const inbox = new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} })
+  const inbox = createInboxStub()
   const followup = vi.fn()
   const agent = {
     id: session.id,

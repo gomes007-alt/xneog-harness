@@ -1,0 +1,17 @@
+- name: '@xneog/dsh-session'
+- name: '@xneog/dsh-system-prompt'
+- name: '@xneog/dsh-tools'
+- name: '@xneog/dsh-fs-local'
+- name: '@xneog/dsh-tool-fs'
+- name: '@xneog/dsh-session-query-sqlite'
+  config:
+    path: ':memory:'
+    openAt: never
+- name: '@xneog/dsh-session-reference'
+  config:
+    maxReferenceBytes: 360
+- name: './source-session.ts'
+- name: '@xneog/dsh-spill-local'
+  config:
+    root: '{{spillRoot}}'
+    cleanupPeriodDays: 0

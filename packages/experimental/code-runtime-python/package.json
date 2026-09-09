@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-experimental-code-runtime-python",
   "description": "CPython subprocess implementation of the xneog code-execution seam",
-  "version": "0.1.3-alpha.1",
+  "version": "0.1.5-alpha.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gomes007-alt/xneog-harness.git",

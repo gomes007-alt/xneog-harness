@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write docs/cookbook/extension-cookbook.md
-extension-cookbook.md: 7780e748b0aff2de50da90dd13422b214ee4f709
-extension-cookbook.zh.md: 22f2dd88067ea19940f3f34b35bf859ab8fdcb85
+extension-cookbook.md: 6f450745666922c7ed916d1fa4bdc92aa7d38424
+extension-cookbook.zh.md: 5252e1463e7e4c37d9c66b49a1ef6a7fa5491eec

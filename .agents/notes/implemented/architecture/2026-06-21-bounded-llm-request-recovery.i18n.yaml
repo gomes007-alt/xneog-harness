@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/implemented/architecture/2026-06-21-bounded-llm-request-recovery.md
-2026-06-21-bounded-llm-request-recovery.md: e6a14b78dc2e48b27f6fd25f129bf8b8d24d06ae
-2026-06-21-bounded-llm-request-recovery.zh.md: 0ede589ad9bce753d36de5636a6e7d06a8dbdbf7
+2026-06-21-bounded-llm-request-recovery.md: 3bfcc28a47f83175a23471a55aef92fad9acc7ce
+2026-06-21-bounded-llm-request-recovery.zh.md: d14f1a47d409b3bb9af8996f963e07685e74fa46

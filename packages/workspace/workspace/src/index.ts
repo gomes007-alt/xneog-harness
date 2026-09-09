@@ -168,7 +168,7 @@ export class WorkspaceRegistry extends Service {
    */
   // TODO: `title` lost its last production caller when the gateway's
   // create-by-name branch was deleted
-  // (.agents/notes/implemented/simplification/2026-07-31-one-route-to-add-a-workspace.md);
+  // (.agents/notes/archived/simplification/2026-07-31-one-route-to-add-a-workspace.md);
   // drop the parameter with its @param clause and the `create(path, title?)`
   // lines in this package's README pair.
   async create(path: string, title?: string): Promise<Workspace> {
@@ -304,7 +304,7 @@ export class WorkspaceRegistry extends Service {
       if (state.archivedSessionIds.includes(sessionId)) {
         await this.setState({
           ...state,
-          archivedSessionIds: state.archivedSessionIds.filter((id) => id !== sessionId),
+          archivedSessionIds: state.archivedSessionIds.filter(id => id !== sessionId),
         })
       }
     })

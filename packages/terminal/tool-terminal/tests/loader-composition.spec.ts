@@ -8,7 +8,7 @@ import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
 import { ToolCallId } from '@xneog/dsh-llm'
 import { Session, SessionId } from '@xneog/dsh-session'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
@@ -20,6 +20,7 @@ import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import LocalSubprocessRuntime from '@xneog/dsh-subprocess-local'
 import * as TerminalLocal from '@xneog/dsh-terminal-bash'
 import * as ToolPty from '@xneog/dsh-tool-terminal'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 let root: string | undefined
 let context: Context | undefined
@@ -42,7 +43,7 @@ function agent(ctx: Context): Agent {
   const id = SessionId('pty-loader-agent')
   const session = Session.create(id)
   const value: Agent = {
-    id, options: {}, session, inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    id, options: {}, session, inbox: unsupportedInbox(),
     status: 'idle',
     ctx: scope.ctx,
     send: () => {},

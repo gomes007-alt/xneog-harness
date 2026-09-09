@@ -2,6 +2,7 @@
 
 import { homedir } from 'node:os'
 import type { Context } from '@xneog/cordis'
+import type { Agent } from '@xneog/dsh-agent'
 import type {
   TypertRemoteEventDispatch,
   TypertRemoteEventInvocation,
@@ -20,6 +21,7 @@ import { API_REMOTE_FORWARDED_EVENTS } from './remote-events.ts'
 import type {} from '@xneog/dsh-commands/types'
 import type {} from '@xneog/dsh-cordis-host-runner/types'
 import type {} from '@xneog/dsh-credentials/types'
+import type {} from '@xneog/dsh-goal/types'
 import type {} from '@xneog/dsh-llm/types'
 import type {} from '@xneog/dsh-agent-presets/types'
 import type {} from '@xneog/dsh-settings/types'
@@ -56,17 +58,17 @@ function remoteEventSource(ctx: Context): TypertRemoteEventSource {
         request: object,
         next: () => unknown,
       ) {
-        const subject = carrierKeyOf(this)
-        if (subject === undefined) return next()
-        const value = Reflect.get(subject, 'ctx') as unknown
-        if (typeof value !== 'object' || value === null) {
-          throw new TypeError(`forwarded scoped event ${JSON.stringify(event)} has no live Context`)
+        const carrierAgent = carrierKeyOf(this)
+        if (carrierAgent === undefined) return next()
+        const agent = (request as { readonly agent?: Agent }).agent
+        if (agent === undefined || agent !== carrierAgent) {
+          throw new TypeError(`forwarded scoped event ${JSON.stringify(event)} must carry its Agent directly`)
         }
         return forwardWaterfall(
           queue,
           event,
           request,
-          { value: value as Context, subject },
+          { value: agent.ctx, subject: agent, agentId: agent.id },
           next,
         )
       }) as never)

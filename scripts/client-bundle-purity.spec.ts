@@ -99,6 +99,15 @@ describe('client bundle purity gate', () => {
     expect(resolveId('@xneog/dsh-token-meter/client')).toBeNull()
     expect(() => resolveId('@xneog/dsh-token-meter')).toThrow(/purity/)
     expect(() => resolveId('@xneog/dsh-token-meter/client/internal')).toThrow(/purity/)
+    expect(resolveId('@xneog/dsh-host-open-in-app/shared')).toBeNull()
+    expect(() => resolveId('@xneog/dsh-host-open-in-app')).toThrow(/purity/)
+  })
+
+  it('admits only the pure spill notice entry, not its Host policy', () => {
+    expect(resolveId('@xneog/dsh-spill-policy/notice')).toBeNull()
+    expect(resolveId('@xneog/dsh-output-retention')).toBeNull()
+    expect(() => resolveId('@xneog/dsh-spill-policy')).toThrow(/purity/)
+    expect(() => resolveId('@xneog/dsh-spill-policy/notice/internal')).toThrow(/purity/)
   })
 
   it('lets exact generated Remote contributions inline without admitting their package implementation', () => {

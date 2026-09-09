@@ -4,7 +4,7 @@
  * @module @xneog/dsh-sandbox-local/profiles
  */
 
-import { grantArgs as landlockGrantArgs } from '@xneog/node-addon-landlock-run'
+import { grantArgs as landlockGrantArgs } from '@xneog/node-addon-system/landlock-run'
 import { writableRoots } from '@xneog/dsh-sandbox'
 import type { SandboxPolicy } from '@xneog/dsh-sandbox'
 

@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-08-02-pwsh-tool-bash-parity.md
-2026-08-02-pwsh-tool-bash-parity.md: 6ff9e530fa7325e46585bf06e9fe349f5de48647
-2026-08-02-pwsh-tool-bash-parity.zh.md: 3c0c07a659cfd54092db2e56f8dfd3f789b55321
+2026-08-02-pwsh-tool-bash-parity.md: 27019c2f87136e44d3af815181824bae20739563
+2026-08-02-pwsh-tool-bash-parity.zh.md: a37401631ea2f5303a01de53a764bd5dd98fe0ce

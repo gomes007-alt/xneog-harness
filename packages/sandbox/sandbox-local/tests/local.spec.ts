@@ -12,7 +12,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
-import { LAUNCHER_FAILURE_EXIT } from '@xneog/node-addon-landlock-run'
+import { LAUNCHER_FAILURE_EXIT } from '@xneog/node-addon-system/landlock-run'
 import { SANDBOX_UNAVAILABLE, SandboxUnavailableError } from '@xneog/dsh-sandbox'
 import type { SandboxPolicy } from '@xneog/dsh-sandbox'
 import {

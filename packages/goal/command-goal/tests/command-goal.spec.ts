@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
 import Loader from '@xneog/cordis-plugin-loader'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent, AgentStatus } from '@xneog/dsh-agent'
 import CommandRuntime from '@xneog/dsh-commands'
 import GoalService from '@xneog/dsh-goal'
@@ -9,6 +9,7 @@ import type { GoalRef } from '@xneog/dsh-goal'
 import SessionStore, { Session, SessionId, type SessionEvent } from '@xneog/dsh-session'
 import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import * as commandGoal from '@xneog/dsh-command-goal'
+import { createInboxStub } from '@xneog/dsh-agent-loop-testkit'
 
 interface Harness {
   readonly ctx: Context
@@ -21,7 +22,7 @@ interface Harness {
 function stubAgent(ctx: Context, id: string): { agent: Agent; session: Session } {
   // Store-created: the command executor durably logs lifecycle events on it.
   const session = ctx.sessions.create(SessionId(id))
-  const inbox = new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} })
+  const inbox = createInboxStub()
   let status: AgentStatus = 'idle'
   const agent: Agent = {
     id: session.id,
@@ -33,7 +34,7 @@ function stubAgent(ctx: Context, id: string): { agent: Agent; session: Session }
     send: () => {},
     followup: () => {},
     steer: () => {},
-    inject(input) { inbox.append('next-step', input) },
+    inject(input) { this.inbox.append('next-step', input) },
     cancel() { status = 'idle' },
     runMaintenance: task => task(new AbortController().signal),
     whenIdle() { return Promise.resolve() },
@@ -45,9 +46,9 @@ function stubAgent(ctx: Context, id: string): { agent: Agent; session: Session }
 async function harness(): Promise<Harness> {
   const ctx = new Context()
   await ctx.plugin(SessionStore)
+  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(CommandRuntime)
   await ctx.plugin(AgentRegistry)
-  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(GoalService)
   const plugin = await ctx.plugin(commandGoal)
   const { agent, session } = stubAgent(ctx, `command-goal-${Math.random()}`)

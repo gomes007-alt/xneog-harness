@@ -5,9 +5,9 @@ import Loader from '@xneog/cordis-plugin-loader'
 import Include from '@xneog/cordis-plugin-include'
 import LlmRuntime from '@xneog/dsh-llm'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
+import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import SystemPrompt from '@xneog/dsh-system-prompt'
 import ToolRuntime from '@xneog/dsh-tools'
-import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import AgentRegistry, { assembleContextFor } from '@xneog/dsh-agent'
 import AgentLoop from '@xneog/dsh-agent-loop'
 import InvariantRegistry from '@xneog/dsh-invariants'
@@ -28,10 +28,10 @@ async function harness(roster: Partial<Config> = {}): Promise<Context> {
   ctx.loader.builtins.include = Include
   await ctx.plugin(LlmRuntime)
   await ctx.plugin(SessionStore)
-  await ctx.plugin(SystemPrompt, { persona: '' })
+  await ctx.plugin(SessionProjectionRegistry)
+  await ctx.plugin(SystemPrompt, { personaPrefix: '' })
   await ctx.plugin(ToolRuntime)
   await ctx.plugin(AgentRegistry)
-  await ctx.plugin(SessionProjectionRegistry)
   await ctx.plugin(AgentLoop, { agents: [] })
   await ctx.plugin(AgentPresets, { default: 'standard', roots: ROOTS, includeShippedRoot: false, includeUserRoot: false, ...roster })
   await ctx.plugin(InvariantRegistry)

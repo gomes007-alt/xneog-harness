@@ -1,5 +1,5 @@
 import { Context } from '@xneog/cordis'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import type { JobOutcome } from '@xneog/dsh-jobs'
 import LocalJobRegistry from '@xneog/dsh-jobs-local'
@@ -9,6 +9,7 @@ import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { describe, expect, it } from 'vitest'
 import { SessionControlController } from '../src/control.ts'
 import type { SessionControlFrame } from '../src/types.ts'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 type BaselineFrame = Extract<SessionControlFrame, { type: 'baseline' }>
 type JobFrame = Extract<SessionControlFrame, { type: 'jobs' }>
@@ -36,20 +37,28 @@ async function harness(withJobs: boolean): Promise<{
 }> {
   const ctx = new Context()
   await ctx.plugin(SessionStore)
-  await ctx.plugin(AgentRegistry)
   await ctx.plugin(SessionProjectionRegistry)
+  await ctx.plugin(AgentRegistry)
   if (withJobs) {
     await ctx.plugin(LocalJobRegistry)
     ctx.jobs.attachController('session-controller-test')
   }
   const session = ctx.sessions.create()
-  const agent = {
+  const agent: Agent = {
     id: session.id,
+    options: {},
     session,
-    inbox: new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+    inbox: unsupportedInbox(),
     status: 'idle',
     ctx,
-  } as Agent
+    send: () => {},
+    followup: () => {},
+    steer: () => {},
+    inject: () => {},
+    cancel: () => {},
+    runMaintenance: task => task(new AbortController().signal),
+    whenIdle: () => Promise.resolve(),
+  }
   ctx.agents.register(agent)
   const control = new SessionControlController(ctx)
   await new Promise(resolve => setTimeout(resolve, 0))

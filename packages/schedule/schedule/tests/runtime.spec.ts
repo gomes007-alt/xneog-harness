@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent, AgentCancelCause, InboxTarget } from '@xneog/dsh-agent'
 import type { UserMessage } from '@xneog/dsh-llm'
 import SessionStore, { SessionId } from '@xneog/dsh-session'
@@ -11,6 +11,7 @@ import {
   foldScheduleEvents,
 } from '../src/domain.ts'
 import { MAX_TIMER_DELAY_MS, ScheduleRuntime } from '../src/runtime.ts'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const contexts: Context[] = []
 const runtimes: ScheduleRuntime[] = []
@@ -57,12 +58,11 @@ async function harness(): Promise<RuntimeHarness> {
     onFollowup: undefined as (() => void) | undefined,
     idle: Promise.withResolvers<undefined>(),
   }
-  const inbox = new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} })
   const agent: Agent = {
     id: session.id,
     options: {},
     session,
-    inbox,
+    inbox: unsupportedInbox(),
     status: 'idle',
     ctx: new Context(),
     send(_message: UserMessage, _target: InboxTarget, _wakeup: boolean) {},

@@ -10,6 +10,7 @@ export const PLATFORM_MODULES = [
   '@xneog/dsh-client-store',
   '@xneog/dsh-client-ui-slots',
   '@xneog/dsh-client-ui-primitives',
+  '@xneog/dsh-client-ui-dockkit',
 ] as const
 
 /** Client-bundle specifiers whose factories the parser preloads before the shell starts. */

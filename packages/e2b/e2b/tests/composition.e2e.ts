@@ -3,7 +3,6 @@ import { join, posix } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Context } from '@xneog/cordis'
 import { describe, expect, it } from 'vitest'
-import { Inbox } from '@xneog/dsh-agent'
 import type { Agent } from '@xneog/dsh-agent'
 import { runLoaderSmoke } from '@xneog/dsh-loader-smoke'
 import {
@@ -17,6 +16,7 @@ import SandboxPolicyService from '@xneog/dsh-sandbox-policy'
 import SessionProjectionRegistry from '@xneog/dsh-session-projection'
 import { Session, SessionId } from '@xneog/dsh-session'
 import E2BSubprocessRuntime from '@xneog/dsh-subprocess-e2b'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const fixtureRoot = fileURLToPath(new URL('./fixtures/composition/', import.meta.url))
 const binScript = join(fixtureRoot, 'bin.ts')
@@ -87,7 +87,7 @@ describe.skipIf(!process.env.E2B_API_KEY)('E2B live Loader composition', () => {
         id: ownerId,
         options: {},
         session: ownerSession,
-        inbox: new Inbox(ownerSession, { inserted: () => {}, discarded: () => {}, claimed: () => {} }),
+        inbox: unsupportedInbox(),
         status: 'idle',
         ctx,
         send() {},

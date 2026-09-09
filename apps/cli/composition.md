@@ -156,8 +156,6 @@ flowchart LR
   cfg --> plugin_dsh_base_tool_goal
   plugin_dsh_base_tool_ralph["tool-ralph<br/>@xneog/dsh-tool-ralph"]
   cfg --> plugin_dsh_base_tool_ralph
-  plugin_dsh_base_tool_str_replace_editor["tool-str-replace-editor<br/>@xneog/dsh-tool-str-replace-editor"]
-  cfg --> plugin_dsh_base_tool_str_replace_editor
   plugin_dsh_base_repeat_tool_reminder["repeat-tool-reminder<br/>@xneog/dsh-repeat-tool-reminder"]
   cfg --> plugin_dsh_base_repeat_tool_reminder
   plugin_dsh_base_web["web<br/>@xneog/dsh-web"]
@@ -256,7 +254,6 @@ flowchart LR
 | `tool-todo` | `@xneog/dsh-tool-todo` |
 | `tool-goal` | `@xneog/dsh-tool-goal` |
 | `tool-ralph` | `@xneog/dsh-tool-ralph` |
-| `tool-str-replace-editor` | `@xneog/dsh-tool-str-replace-editor` |
 | `repeat-tool-reminder` | `@xneog/dsh-repeat-tool-reminder` |
 | `web` | `@xneog/dsh-web` |
 | `web-search-deepseek` | `@xneog/dsh-web-search-deepseek` |

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@xneog/cordis'
-import AgentRegistry, { Inbox } from '@xneog/dsh-agent'
+import AgentRegistry from '@xneog/dsh-agent'
 import type { Agent, AgentCancelCause, InboxTarget } from '@xneog/dsh-agent'
 import { ToolCallId } from '@xneog/dsh-llm'
 import type { UserMessage } from '@xneog/dsh-llm'
@@ -10,6 +10,7 @@ import ToolRuntime from '@xneog/dsh-tools'
 import type { ToolExecutionResult } from '@xneog/dsh-tools'
 import { registerScheduleTools } from '../src/tools.ts'
 import { runScheduleTransaction } from '../src/transaction.ts'
+import { unsupportedInbox } from '@xneog/dsh-agent-loop-testkit'
 
 const signal = new AbortController().signal
 const contexts: Context[] = []
@@ -24,12 +25,11 @@ interface ToolHarness {
 
 function stubAgent(ctx: Context, id: string): Agent {
   const session = ctx.sessions.create(SessionId(id))
-  const inbox = new Inbox(session, { inserted: () => {}, discarded: () => {}, claimed: () => {} })
-  return {
+  const agent: Agent = {
     id: session.id,
     options: {},
     session,
-    inbox,
+    inbox: unsupportedInbox(),
     status: 'idle',
     ctx: new Context(),
     send(_message: UserMessage, _target: InboxTarget, _wakeup: boolean) {},
@@ -40,6 +40,7 @@ function stubAgent(ctx: Context, id: string): Agent {
     steer(_message: UserMessage) {},
     inject(_message: UserMessage) {},
   }
+  return agent
 }
 
 async function harness(withPersistence = true): Promise<ToolHarness> {

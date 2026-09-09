@@ -1,7 +1,7 @@
 {
   "name": "@xneog/dsh-tmux-context",
   "description": "Opt-in durable per-step context with this agent's tmux pane and window location",
-  "version": "0.1.3-alpha.1",
+  "version": "0.1.5-alpha.2",
   "publishConfig": {
     "access": "public"
   },
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@xneog/dsh-agent": "workspace:^",
+    "@xneog/dsh-agent-loop-testkit": "workspace:^",
     "@xneog/dsh-shell": "workspace:^",
     "@xneog/dsh-llm": "workspace:^",
     "@xneog/dsh-session": "workspace:^",

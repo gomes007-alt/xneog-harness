@@ -4,4 +4,4 @@ export { releasedV1SessionFormatCodec } from '@xneog/dsh-session-format-v0-to-v1
 export * from './codec.ts'
 export * from './dispositions.ts'
 export * from './migration.ts'
-export * from './validation.ts'
+export { assertReleasedV2Header, restoreReleasedV2Artifact } from './validation.ts'

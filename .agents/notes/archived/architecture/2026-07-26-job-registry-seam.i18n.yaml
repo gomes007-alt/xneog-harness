@@ -1,0 +1,6 @@
+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
+# side as of the last confirmed-consistent state. Both languages carry equal authority;
+# after editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/archived/architecture/2026-07-26-job-registry-seam.md
+2026-07-26-job-registry-seam.md: 9028f3a25d801930f1e8aefc653aab27a977067d
+2026-07-26-job-registry-seam.zh.md: f0cf071b05358cd8aca248e6facf35ee43a4a63d

@@ -14,6 +14,7 @@ import * as Cordis from '@xneog/cordis'
 import * as ClientStore from '@xneog/dsh-client-store'
 import * as UiSlots from '@xneog/dsh-client-ui-slots'
 import * as UiPrimitives from '@xneog/dsh-client-ui-primitives'
+import * as UiDockkit from '@xneog/dsh-client-ui-dockkit'
 import type { PlatformModule } from './platform.ts'
 
 /**
@@ -33,5 +34,6 @@ export function getStaticModules(): Record<string, unknown> {
     '@xneog/dsh-client-store': ClientStore,
     '@xneog/dsh-client-ui-slots': UiSlots,
     '@xneog/dsh-client-ui-primitives': UiPrimitives,
+    '@xneog/dsh-client-ui-dockkit': UiDockkit,
   } satisfies Record<PlatformModule, unknown>
 }
