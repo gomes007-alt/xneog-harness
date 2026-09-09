@@ -56,6 +56,15 @@ describe('Client UI i18n source check', () => {
     `)).toEqual([])
   })
 
+  it('accepts brand logotype runs that must never be localized', () => {
+    expect(messages(`
+      const Wordmark = () => <svg>
+        <text>xneog</text>
+        <text>HARNESS</text>
+      </svg>
+    `)).toEqual([])
+  })
+
   it('does not inspect locale dictionary owners', () => {
     expect(findUiI18nViolations(
       'packages/client/ui-example/src/client/locales.ts',

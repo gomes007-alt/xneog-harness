@@ -34,6 +34,15 @@ const COPY_ATTRIBUTE_SUFFIX = /(?:Aria|Copy|Description|Heading|Label|Message|Pl
 
 const COPY_NAME = /(?:^|_)(?:aria|copy|description|empty|heading|label|message|placeholder|summary|text|title|tooltip)(?:s|_.*)?$/i
 const COPY_SUFFIX = /(?:aria|copy|description|empty|heading|label|labels|message|placeholder|summary|text|title|tooltip|tabs)$/i
+/**
+ * Brand logotype runs: fixed marks that must never be localized, so brand
+ * artwork may render them as JSX text. Drop each entry when the artwork ships
+ * as letterform paths instead.
+ */
+const IMMUTABLE_BRAND_TOKENS = new Set([
+  'HARNESS',
+  'xneog',
+])
 const IMMUTABLE_LANGUAGE_TOKENS = new Set([
   'B',
   'Function',
@@ -78,6 +87,7 @@ function containsProductText(text: string): boolean {
   const normalized = text.replace(/\s+/g, ' ').trim()
   return normalized !== ''
     && !IMMUTABLE_LANGUAGE_TOKENS.has(normalized)
+    && !IMMUTABLE_BRAND_TOKENS.has(normalized)
     && !LOCALE_KEY.test(normalized)
     && /\p{L}/u.test(normalized)
 }
