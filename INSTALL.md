@@ -97,7 +97,7 @@ Override it with the `DSH_HOME` environment variable (kept for compatibility).
 
 - Architecture and composition: `docs/architecture.md` (read before changing `packages/`).
 - Contributor workflow and checks: `AGENTS.md` and `docs/development.md`.
-- Planned work: `.agents/notes/proposed/` is the roadmap home; there is no separate ROADMAP file.
+- Planned work: `.agents/notes/proposed/` is the roadmap home; there is no separate ROADMAP file. The distribution and deployment plan is [`.agents/notes/proposed/process/2026-09-09-xneog-distribution-and-deployment-plan.md`](.agents/notes/proposed/process/2026-09-09-xneog-distribution-and-deployment-plan.md).
 - Release history: git tags (`git tag --list 'dsh-v*'`); there is no separate CHANGELOG file.
 - Native-client protocol map: `~/Documents/Untitled Project/docs/native-client-protocol-map.md`.
 
