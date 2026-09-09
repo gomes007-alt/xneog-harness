@@ -33,7 +33,7 @@ jobs:
       ${{ vars.DSH_CI_FAILOVER_LINUX == 'selfhosted'
         && github.repository == 'xneog-harness/xneog-harness'
         && github.actor != 'dependabot[bot]'
-        && ((github.event_name == 'push' && github.ref == 'refs/heads/master')
+        && ((github.event_name == 'push' && github.ref == 'refs/heads/main')
           || (github.event_name == 'pull_request'
             && github.event.pull_request.head.repo.full_name == github.repository
             && github.event.pull_request.head.repo.fork == false
@@ -93,7 +93,7 @@ jobs:
       ${{ vars.DSH_CI_FAILOVER_LINUX == 'selfhosted'
         && github.repository == 'xneog-harness/xneog-harness'
         && github.actor != 'dependabot[bot]'
-        && ((github.event_name == 'push' && github.ref == 'refs/heads/master')
+        && ((github.event_name == 'push' && github.ref == 'refs/heads/main')
           || (github.event_name == 'pull_request'
             && github.event.pull_request.head.repo.full_name == github.repository
             && github.event.pull_request.head.repo.fork == false
