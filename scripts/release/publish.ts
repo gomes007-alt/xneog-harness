@@ -106,7 +106,9 @@ async function publishTarball(
     // No --access: every release member declares its own publishConfig, and
     // a command-line flag would override it. check-workspace-constraints
     // requires a public access level on every release member.
-    const result = attemptEchoed('npm', ['publish', tarball, ...tagArgs])
+    // --provenance binds the published bytes to this workflow run's OIDC
+    // identity; the publish job grants id-token: write for it.
+    const result = attemptEchoed('npm', ['publish', tarball, '--provenance', ...tagArgs])
     const output = `${result.stdout}${result.stderr}`
     if (result.status === 0) return
 

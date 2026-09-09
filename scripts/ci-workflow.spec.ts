@@ -31,7 +31,7 @@ describe('CI workflow', () => {
       const publish = workflowJob(loadWorkflow('.github/workflows/' + name), 'publish')
       expect(publish.concurrency).toMatchObject({ 'cancel-in-progress': false })
     }
-    for (const name of ['python-release.yml', 'node-addon-system-release.yml', 'docs-pages.yml']) {
+    for (const name of ['python-release.yml', 'node-addon-system-release.yml', 'docs-pages.yml', 'desktop-release.yml']) {
       expect(loadWorkflow('.github/workflows/' + name).concurrency).toMatchObject({ 'cancel-in-progress': false })
     }
   })

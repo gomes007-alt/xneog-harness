@@ -109,7 +109,9 @@ async function publishTarball(tarball, name, version) {
   for (let tries = 1; tries <= PUBLISH_ATTEMPTS; tries += 1) {
     // No --access: publishConfig.access in each manifest decides, and a
     // command-line flag would override it.
-    const result = spawnSync('npm', ['publish', tarball, ...tagArgs], { encoding: 'utf8' });
+    // --provenance binds the published bytes to this workflow run's OIDC
+    // identity; the publish job grants id-token: write for it.
+    const result = spawnSync('npm', ['publish', tarball, '--provenance', ...tagArgs], { encoding: 'utf8' });
     const output = `${result.stdout}${result.stderr}`;
     if (result.status === 0) return;
 

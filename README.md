@@ -8,6 +8,8 @@ It is built on an **everything-is-a-plugin** architecture and powered by [Cordis
 
 Documentation: [https://xneog-harness.github.io/xneog-harness/](https://xneog-harness.github.io/xneog-harness/)
 
+Project page: [https://xneog-harness.github.io/xneog-harness/landing/](https://xneog-harness.github.io/xneog-harness/landing/)
+
 ## Developer preview
 
 xneog is in _developer preview_ and iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**

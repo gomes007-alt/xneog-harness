@@ -9,6 +9,7 @@ import type { DesktopPackageTargetName } from '../scripts/package-target.ts'
 
 const temporaryDirectories: string[] = []
 const TEST_ORIGIN = 'https://desktop-updates.example.com'
+const PRODUCTION_ORIGIN = 'https://download.example.com'
 const TEST_BUCKET = 'test-download-bucket'
 const PRODUCTION_BUCKET = 'production-download-bucket'
 
@@ -41,7 +42,7 @@ async function fixture(
   const base = `xneog-harness-${version}-${os}-${arch}`
   const origin = environment === 'test'
     ? TEST_ORIGIN
-    : 'https://download.deepseek.com'
+    : PRODUCTION_ORIGIN
   await writeFile(join(artifactsRoot, `${target}-release.json`), `${JSON.stringify({
     schemaVersion: 1,
     target,
@@ -85,6 +86,7 @@ async function fixture(
       }
       : {
         DSH_DESKTOP_AUTO_UPDATE_ENV: 'production',
+        DOWNLOAD_PROD_ORIGIN: PRODUCTION_ORIGIN,
         DOWNLOAD_PROD_COS_BUCKET: PRODUCTION_BUCKET,
       },
   }
@@ -138,7 +140,7 @@ describe('desktop upload plan', () => {
       'latest.yml',
     ])
     expect(plan).toMatchObject({
-      publicUrl: 'https://download.deepseek.com/_/harness/desktop/stable/win-x64/',
+      publicUrl: 'https://download.example.com/_/harness/desktop/stable/win-x64/',
       bucket: PRODUCTION_BUCKET,
     })
   })

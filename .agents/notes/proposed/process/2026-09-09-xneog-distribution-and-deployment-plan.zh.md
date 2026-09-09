@@ -10,7 +10,7 @@ fork 现在承载带 xneog 改名后的上游 dsh 0.1.5-alpha.2，每套发布�
 
 **fork 的公开身份只接了一半。** npm scope 是 `@xneog`，仓库是 `gomes007-alt/xneog-harness`，默认分支是 `main`，文档站点预期位于 `https://xneog-harness.github.io/xneog-harness/`。文档 workflow 仍把投影源码链接固定为 `DOCS_REPOSITORY_REF: master`，而网站 base 路径默认是 `/`，除非设置 `DOCS_BASE`（[config.ts](../../../../website/.vitepress/config.ts)）。
 
-**两个 workflow 部署同一个 GitHub Pages 站点。** [docs-pages.yml](../../../../.github/workflows/docs-pages.yml) 从 `dsh-v*` tag 部署文档站点，并发组为 `github-pages`；而 fork 的 [pages.yml](../../../../.github/workflows/pages.yml) 在每次 `main` push 时部署 `landing/`，并发组不同。GitHub 每个仓库只提供一个 Pages 站点，因此后部署的那次会覆盖另一次。
+**两个 workflow 曾部署同一个 GitHub Pages 站点。** [docs-pages.yml](../../../../.github/workflows/docs-pages.yml) 从 `dsh-v*` tag 部署文档站点，并发组为 `github-pages`；而一个独立的 fork workflow 在每次 `main` push 时部署 `landing/`，并发组不同。GitHub 每个仓库只提供一个 Pages 站点，因此后部署的那次会覆盖另一次；进展一节记录了单站点方案的落地。
 
 **上游端点仍作为默认值随产品发布。** 当 `DSH_TELEMETRY_OTLP_URL` 未设置时，base bundle 把遥测指向 `https://harness-telemetry.deepseeksvc.com/v1/logs`（[cordis.patch.yml](../../../../packages/bundle/base/cordis.patch.yml)），而桌面更新器把生产 origin 固定为 `https://download.deepseek.com`（[desktop-auto-update-environment.mjs](../../../../apps/desktop/scripts/desktop-auto-update-environment.mjs)）。两者都是 fork 的分发决策，而不是实现细节。
 
@@ -29,7 +29,7 @@ fork 现在承载带 xneog 改名后的上游 dsh 0.1.5-alpha.2，每套发布�
 | native npm | `native/system/packages/*` | 族版本，`node-addon-system-v<version>` | [node-addon-system-release.yml](../../../../.github/workflows/node-addon-system-release.yml) | npmjs.com | 可选的平台依赖 |
 | Python SDK | `deepseek-harness-sdk` 加五个运行时 wheel | `python-v<version>` | [python-release.yml](../../../../.github/workflows/python-release.yml) | 公共 PyPI，受下文决策约束 | `pip install deepseek-harness-sdk` |
 | 文档站点 | `docs/` 的 VitePress 投影 | 来自 `dsh-v*` 的已发布快照 | [docs-pages.yml](../../../../.github/workflows/docs-pages.yml) | GitHub Pages | 浏览器 |
-| 落地页 | `landing/` | `main` | 并入下文唯一的 Pages 部署 | 同一个 GitHub Pages 站点 | 浏览器 |
+| 落地页 | `website/public/landing/` | `main` | 并入下文唯一的 Pages 部署 | 同一个 GitHub Pages 站点 | 浏览器 |
 | 桌面 | 已签名安装包加更新元数据 | dsh 族版本 | 手工 `package:*` 与 `upload:*` 目标，外加下文 CI 通道 | fork 的下载 origin 与对象存储桶 | 从站点下载 |
 | 源码 | git 仓库 | `main` | 无 | GitHub | `git clone` 后 `pnpm dsh web` |
 
@@ -50,15 +50,27 @@ fork 现在承载带 xneog 改名后的上游 dsh 0.1.5-alpha.2，每套发布�
 
 **npm。** 创建 `@xneog` scope，并为三个发布 workflow 配置 Trusted Publishing（OIDC），或把本地 [publish-npm-baseline.ts](../../../../scripts/publish-npm-baseline.ts) 路径记录为受支持的兜底方案。仓库中不应存在长期 registry token。
 
-**Pages。** 把 `landing/` 并入文档构建，使恰好一个 workflow 部署一个站点：根是落地页，文档子树是 VitePress 输出；或者把落地页放到独立仓库或域名。项目页需设置 `DOCS_BASE=/xneog-harness/`，并删除第二个 Pages workflow。
+**Pages。** 只交付一个 workflow 和一个站点：落地页现在位于 `website/public/landing/index.html`，因此文档构建会把它输出到 VitePress 产物旁的 `/landing/`，独立的落地页 workflow 已删除。`docs-pages.yml` 从 `actions/configure-pages` 推导项目页 base，不再需要固定的 `DOCS_BASE` 值。
 
-**端点。** 把遥测行指向 fork 自己的收集端，或默认关闭；用 fork 的取值替换桌面生产 origin 与 `DSH_DESKTOP_APP_ID`。开源分发不应向用户从未配置过的上游主机打电话。
+**端点。** 把遥测行指向 fork 自己的收集端，或默认关闭；桌面生产 origin 改为由 fork 控制。开源分发不应向用户从未配置过的上游主机打电话。
 
 **Python。** 要么保留上游分发包名且不发布它们，要么改名为 `xneog-harness-sdk` 与 `xneog-harness-runtime-bin`，并在同一改动中更新 import 模块、协议身份 `serverInfo.name`、锁定同版本的运行时依赖，以及所有已记录的命令。只有当 fork 把 Python SDK 作为一等表面维护时，改名才是正确的终局。
 
-**桌面。** 确定通道策略（stable 加 alpha）、下载主机和 CI runner 方案：macOS arm64、macOS x64 与 Windows x64 各需自己的机器和签名材料，缺少时打包代码已经会显式失败。
+**桌面。** 手工目标命令仍是打包接口，[desktop-release.yml](../../../../.github/workflows/desktop-release.yml) 是 CI 通道：它在各目标的原生 runner 上打包，拒绝 npm 尚未发布的 dsh 版本，并把上传限制在 `desktop-release` 环境之后。剩余决策是通道策略（stable 加 alpha）以及由哪台 runner 持有 Windows EV token。
 
-### 4. 校验、来源证明与回滚
+### 4. 进展
+
+不依赖凭据的事项已于 2026-09-09 交付：
+
+- **Pages：** 落地页移到 `website/public/landing/`，第二个 Pages workflow 已删除；`docs-pages.yml` 是唯一部署，文档构建会输出 `/landing/`。
+- **遥测：** base bundle 默认 `DISABLED`，不再携带上游 OTLP 兜底；开启需同时设置 `DSH_TELEMETRY_MODE=FEEDBACK_ONLY` 与 `DSH_TELEMETRY_OTLP_URL`。
+- **桌面 origin：** 打包与上传读取 `DOWNLOAD_PROD_ORIGIN`；固定的上游主机已从解析器和 README 中移除。
+- **来源证明：** dsh 与 vendor 的发布脚本传入 `--provenance`，native 发布脚本同样如此，dsh 与 vendor 的 publish job 授予 `id-token: write`。
+- **桌面通道：** [desktop-release.yml](../../../../.github/workflows/desktop-release.yml) 与 [desktop-release.spec.ts](../../../../scripts/tests/desktop-release.spec.ts) 固定了手工触发、三个目标、版本门禁与受控上传。
+
+剩余事项：`@xneog` scope 与 OIDC 注册、Python 改名决策、GitHub Release 账本 workflow，以及桌面签名密钥。
+
+### 5. 校验、来源证明与回滚
 
 每个表面在上传前都已校验。`release:verify` 拒绝并非来自该族 tag 的触发，`release:verify-packed-install` 驱动已安装的可执行文件，Python workflow 校验文件名、元数据、体积上限和 SHA-256 摘要，桌面上传要求完成记录与环境、目标、公开 URL 和版本一致。本计划保留这些，并增加三项。
 

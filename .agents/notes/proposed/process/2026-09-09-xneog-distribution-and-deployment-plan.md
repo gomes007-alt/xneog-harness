@@ -10,7 +10,7 @@ The fork now carries upstream dsh 0.1.5-alpha.2 with the xneog rebrand, and ever
 
 **The fork's public identity is only half wired.** The npm scope is `@xneog`, the repository is `gomes007-alt/xneog-harness`, the default branch is `main`, and the documentation site is expected at `https://xneog-harness.github.io/xneog-harness/`. The docs workflow still fixes `DOCS_REPOSITORY_REF: master` for projected source links, and the website base path defaults to `/` unless `DOCS_BASE` is set ([config.ts](../../../../website/.vitepress/config.ts)).
 
-**Two workflows deploy the same GitHub Pages site.** [docs-pages.yml](../../../../.github/workflows/docs-pages.yml) deploys the documentation site from a `dsh-v*` tag under the `github-pages` concurrency group, while the fork's [pages.yml](../../../../.github/workflows/pages.yml) deploys `landing/` on every `main` push under a different group. GitHub serves one Pages site per repository, so the later deploy erases the other.
+**Two workflows deployed the same GitHub Pages site.** [docs-pages.yml](../../../../.github/workflows/docs-pages.yml) deploys the documentation site from a `dsh-v*` tag under the `github-pages` concurrency group, while a separate fork workflow deployed `landing/` on every `main` push under a different group. GitHub serves one Pages site per repository, so the later deploy erased the other; the Progress section records the single-site resolution.
 
 **Upstream endpoints are still shipped as defaults.** The base bundle points telemetry at `https://harness-telemetry.deepseeksvc.com/v1/logs` when `DSH_TELEMETRY_OTLP_URL` is unset ([cordis.patch.yml](../../../../packages/bundle/base/cordis.patch.yml)), and the desktop updater fixes its production origin at `https://download.deepseek.com` ([desktop-auto-update-environment.mjs](../../../../apps/desktop/scripts/desktop-auto-update-environment.mjs)). Both are distribution decisions for a fork, not implementation details.
 
@@ -29,7 +29,7 @@ The fork now carries upstream dsh 0.1.5-alpha.2 with the xneog rebrand, and ever
 | native npm | `native/system/packages/*` | family version, `node-addon-system-v<version>` | [node-addon-system-release.yml](../../../../.github/workflows/node-addon-system-release.yml) | npmjs.com | optional platform dependency |
 | Python SDK | `deepseek-harness-sdk` plus five runtime wheels | `python-v<version>` | [python-release.yml](../../../../.github/workflows/python-release.yml) | public PyPI, gated by the decision below | `pip install deepseek-harness-sdk` |
 | documentation site | VitePress projection of `docs/` | released snapshot from `dsh-v*` | [docs-pages.yml](../../../../.github/workflows/docs-pages.yml) | GitHub Pages | browser |
-| landing page | `landing/` | `main` | folded into the single Pages deploy below | the same GitHub Pages site | browser |
+| landing page | `website/public/landing/` | `main` | folded into the single Pages deploy below | the same GitHub Pages site | browser |
 | desktop | signed installers plus update metadata | the dsh family version | manual `package:*` and `upload:*` targets, with the CI lane below | the fork's download origin and object-storage bucket | download from the site |
 | source | the git repository | `main` | none | GitHub | `git clone` then `pnpm dsh web` |
 
@@ -50,15 +50,27 @@ Each family keeps its own bump, pack, and publish. The plan fixes the cross-fami
 
 **npm.** Create the `@xneog` scope and configure Trusted Publishing (OIDC) for the three publish workflows, or document the local [publish-npm-baseline.ts](../../../../scripts/publish-npm-baseline.ts) path as the supported fallback. No long-lived registry token belongs in the repository.
 
-**Pages.** Fold `landing/` into the documentation build so exactly one workflow deploys one site whose root is the landing page and whose documentation subtree is the VitePress output, or host the landing in a separate repository or domain. Set `DOCS_BASE=/xneog-harness/` for the project page and delete the second Pages workflow.
+**Pages.** Ship one workflow and one site: the landing page now lives at `website/public/landing/index.html`, so the documentation build emits it at `/landing/` beside the VitePress output, and the separate landing workflow is gone. `docs-pages.yml` derives the project-page base from `actions/configure-pages`, so no fixed `DOCS_BASE` value is needed.
 
-**Endpoints.** Point the telemetry row at the fork's own collector or disable it by default, and replace the desktop production origin and `DSH_DESKTOP_APP_ID` with the fork's values. An open-source distribution must not phone an upstream host the user never configured.
+**Endpoints.** Point the telemetry row at the fork's own collector or disable it by default, and make the desktop production origin fork-controlled. An open-source distribution must not phone an upstream host the user never configured.
 
 **Python.** Either keep the upstream distribution names and do not publish them, or rename to `xneog-harness-sdk` and `xneog-harness-runtime-bin` and update the import module, the wire identity `serverInfo.name`, the lockstep runtime pin, and every documented command in the same change. The rename is the right end state only if the fork maintains the Python SDK as a first-class surface.
 
-**Desktop.** Decide the channel policy (stable plus alpha), the download host, and the CI runner story: macOS arm64, macOS x64, and Windows x64 each need their own machine and signing material, and the packaging code already fails loud when they are absent.
+**Desktop.** The manual target commands remain the packaging interface, and [desktop-release.yml](../../../../.github/workflows/desktop-release.yml) is the CI lane: it packages each target on its native runner, refuses a dsh version npm has not published, and gates the upload on the `desktop-release` environment. The remaining decision is the channel policy (stable plus alpha) and which runner holds the Windows EV token.
 
-### 4. Verification, provenance, and rollback
+### 4. Progress
+
+The credential-free items shipped on 2026-09-09:
+
+- **Pages:** the landing page moved under `website/public/landing/` and the second Pages workflow was deleted; `docs-pages.yml` is the only deployment, and the docs build emits `/landing/`.
+- **Telemetry:** the base bundle defaults to `DISABLED` and carries no upstream OTLP fallback; opting in requires both `DSH_TELEMETRY_MODE=FEEDBACK_ONLY` and `DSH_TELEMETRY_OTLP_URL`.
+- **Desktop origin:** packaging and upload read `DOWNLOAD_PROD_ORIGIN`; the fixed upstream host is gone from the resolver and the README.
+- **Provenance:** the dsh and vendor publish scripts pass `--provenance`, the native publish script does the same, and the dsh and vendor publish jobs grant `id-token: write`.
+- **Desktop lane:** [desktop-release.yml](../../../../.github/workflows/desktop-release.yml) plus [desktop-release.spec.ts](../../../../scripts/tests/desktop-release.spec.ts) pin the manual trigger, the three targets, the version gate, and the gated upload.
+
+Remaining: the `@xneog` scope and OIDC registration, the Python rename decision, the GitHub Release ledger workflow, and the desktop signing secrets.
+
+### 5. Verification, provenance, and rollback
 
 Every surface already verifies before upload. `release:verify` rejects a dispatch that is not from the family's tag, `release:verify-packed-install` drives the installed executable, the Python workflow verifies filenames, metadata, size limits, and SHA-256 sums, and the desktop upload requires a completion record matching environment, target, public URL, and version. The plan keeps those and adds three things.
 

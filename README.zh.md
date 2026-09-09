@@ -8,6 +8,8 @@ xneog（`dsh`）是一个开源 agent harness——[deepseek-harness](https://gi
 
 文档：[https://xneog-harness.github.io/xneog-harness/](https://xneog-harness.github.io/xneog-harness/)
 
+项目主页：[https://xneog-harness.github.io/xneog-harness/landing/](https://xneog-harness.github.io/xneog-harness/landing/)
+
 ## 开发者预览
 
 xneog 处于 _开发者预览_ 阶段，正在快速迭代。**未来将出现破坏兼容性的变更。**

@@ -184,10 +184,14 @@
     - id: session-telemetry-otel
       name: '@xneog/dsh-session-telemetry-otel'
       config:
-        mode: !!js process.env.DSH_TELEMETRY_MODE || 'FEEDBACK_ONLY'
+        # xneog ships no telemetry collector: the shipped default is DISABLED,
+        # and an operator who wants feedback upload sets both
+        # DSH_TELEMETRY_MODE=FEEDBACK_ONLY and DSH_TELEMETRY_OTLP_URL. An
+        # uploading mode without a URL fails loud at load.
+        mode: !!js process.env.DSH_TELEMETRY_MODE || 'DISABLED'
         shutdownTimeoutMillis: 3000
         exporter:
-          url: !!js process.env.DSH_TELEMETRY_OTLP_URL ?? 'https://harness-telemetry.deepseeksvc.com/v1/logs'
+          url: !!js process.env.DSH_TELEMETRY_OTLP_URL
           compression: gzip
           timeoutMillis: 1000
         processor:

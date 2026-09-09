@@ -101,6 +101,9 @@ jobs:
       cancel-in-progress: false
     permissions:
       contents: read
+      # npm provenance attestation signs the published bytes with this run's
+      # OIDC identity; no long-lived registry credential is used for it.
+      id-token: write
     steps:
       # Checkout and install carry the release scripts only. There is no build
       # step: publication uploads the bytes the pack job produced.

@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/proposed/process/2026-09-09-xneog-distribution-and-deployment-plan.md
-2026-09-09-xneog-distribution-and-deployment-plan.md: 8e81b38c40bd6e68e49c32c37b1231996ce1c1ea
-2026-09-09-xneog-distribution-and-deployment-plan.zh.md: a7426e8841091a50e8b5e98479313f6ea0edb59c
+2026-09-09-xneog-distribution-and-deployment-plan.md: 944b5fd959c50658dcc12b57bf6a678712c9e1e1
+2026-09-09-xneog-distribution-and-deployment-plan.zh.md: ccd450dfe9775bd52646626ec0eb1a8deb4940d4

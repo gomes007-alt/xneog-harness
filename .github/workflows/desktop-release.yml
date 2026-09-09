@@ -1,0 +1,114 @@
+# Build, sign, notarize, and upload one Desktop target per platform. This
+# workflow is manual-only: a Desktop release needs paid signing identities and
+# dedicated machines, and its channel metadata must never advertise a version
+# the dsh npm family has not published. A rehearsal (upload=false) packages and
+# verifies without touching the production origin; the upload step is gated on
+# the input and on the `desktop-release` environment's reviewers.
+name: Release (desktop)
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: Upload the packaged artifacts to the production update origin.
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  # One Desktop release at a time: channel metadata is shared registry-like
+  # state, so two runs must not race the final assignment.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PRIMARY_NODE_VERSION: '24'
+  DSH_TELEMETRY_DISABLED: '1'
+  DSH_DESKTOP_AUTO_UPDATE_ENV: production
+
+jobs:
+  package:
+    name: Package ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    # Reviewer approval and the production origin live on the environment; this
+    # is the only place a signed artifact can reach the update destination.
+    environment: desktop-release
+    strategy:
+      # A failed target must not cancel the other platforms' packaging.
+      fail-fast: false
+      matrix:
+        include:
+          # macos-latest is Apple Silicon; macos-15-intel is native x64. The
+          # Windows EV certificate needs a runner holding the SafeNet token;
+          # replace this label with the self-hosted runner that owns it.
+          - target: mac-arm64
+            runner: macos-latest
+          - target: mac-x64
+            runner: macos-15-intel
+          - target: win-x64
+            runner: windows-2025
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.PRIMARY_NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install (immutable)
+        run: pnpm install --frozen-lockfile
+
+      # The updater must never advertise a version consumers cannot install.
+      - name: Require the dsh version on npm
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          npm view "@xneog/dsh@${version}" version >/dev/null \
+            || { echo "desktop release: @xneog/dsh@${version} is not published yet" >&2; exit 1; }
+
+      - name: Write App Store Connect API key
+        if: runner.os == 'macOS'
+        env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+        run: |
+          key_path="$RUNNER_TEMP/apple_api_key.p8"
+          printf '%s' "$APPLE_API_KEY_P8" > "$key_path"
+          echo "APPLE_API_KEY=$key_path" >> "$GITHUB_ENV"
+
+      - name: Package target
+        env:
+          DSH_DESKTOP_APP_ID: ${{ vars.DSH_DESKTOP_APP_ID }}
+          DOWNLOAD_PROD_ORIGIN: ${{ vars.DOWNLOAD_PROD_ORIGIN }}
+          DSH_DESKTOP_MACOS_SIGNING_IDENTITY: ${{ secrets.DSH_DESKTOP_MACOS_SIGNING_IDENTITY }}
+          DSH_DESKTOP_MACOS_TEAM_ID: ${{ secrets.DSH_DESKTOP_MACOS_TEAM_ID }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          DSH_DESKTOP_WINDOWS_CER_FILE: ${{ secrets.DSH_DESKTOP_WINDOWS_CER_FILE }}
+          DSH_DESKTOP_WINDOWS_SIGNTOOL: ${{ secrets.DSH_DESKTOP_WINDOWS_SIGNTOOL }}
+          DSH_DESKTOP_WINDOWS_KEY_CONTAINER: ${{ secrets.DSH_DESKTOP_WINDOWS_KEY_CONTAINER }}
+          DSH_DESKTOP_WINDOWS_TOKEN_PIN: ${{ secrets.DSH_DESKTOP_WINDOWS_TOKEN_PIN }}
+        run: pnpm run package:desktop:${{ matrix.target }}
+
+      - name: Upload target to the update origin
+        if: inputs.upload
+        env:
+          DOWNLOAD_PROD_ORIGIN: ${{ vars.DOWNLOAD_PROD_ORIGIN }}
+          DOWNLOAD_PROD_COS_BUCKET: ${{ secrets.DOWNLOAD_PROD_COS_BUCKET }}
+          DOWNLOAD_PROD_COS_SECRET_ID: ${{ secrets.DOWNLOAD_PROD_COS_SECRET_ID }}
+          DOWNLOAD_PROD_COS_SECRET_KEY: ${{ secrets.DOWNLOAD_PROD_COS_SECRET_KEY }}
+        run: pnpm run upload:${{ matrix.target }}
+
+      - name: Retain target artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.target }}
+          path: apps/desktop/.desktop-build/targets/${{ matrix.target }}/
+          if-no-files-found: error
+          retention-days: 7
